@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "./components/header";
 
 
@@ -11,12 +12,12 @@ export default function Home() {
           <div className="self-stretch text-black text-[40px] font-bold font-['Roboto'] leading-[48px]">Build worlds FASTER</div>
           <div className="self-stretch text-black text-base font-normal font-['Roboto'] leading-normal">Create engaging stories for your game with YOUR creativity powered by AI</div>
           <div className="justify-start items-start gap-3 inline-flex">
-            <div className="w-60 p-3 rounded-lg border border-black flex-col justify-center items-center inline-flex">
+            <Link className="w-60 p-3 rounded-lg border border-black flex-col justify-center items-center inline-flex" href="/login">
               <div className="text-black text-base font-medium font-['Roboto'] leading-normal">Sign Up</div>
-            </div>
-            <div className="w-60 p-3 bg-black rounded-lg flex-col justify-center items-center inline-flex">
+            </Link>
+            <Link className="w-60 p-3 bg-black rounded-lg flex-col justify-center items-center inline-flex" href="/login">
               <div className="text-white text-base font-medium font-['Roboto'] leading-normal">Login</div>
-            </div>
+            </Link>
           </div>
         </div>
         
