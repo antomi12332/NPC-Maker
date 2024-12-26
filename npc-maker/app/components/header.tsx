@@ -1,38 +1,39 @@
 'use client';
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Header(props: { titleText: string }) {
   const currentPath = usePathname();
   return (
-    <header className="w-full h-20 p-5 bg-white shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] justify-center items-center gap-5 inline-flex overflow-hidden">
-      <div className="w-10 h-10 bg-black/10 rounded-[100px]" />
-      <div className="grow shrink basis-0 text-black text-[28px] font-medium font-['Roboto'] leading-9">{props.titleText}</div>
+    <header className="w-full h-20 p-5 bg-white shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] justify-center items-center gap-5 inline-flex">
+      <Link className="w-10 h-10 bg-black/10 rounded-[100px]" href='/'> </Link>
+      <div className="grow shrink basis-0 text-black text-[28px] font-medium leading-9">{props.titleText}</div>
       <div className="bg-white justify-center items-center gap-10 flex">
         {currentPath === '/' && (
           <>
-            <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Login</button>
-            <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Sign Up</button>
+            <Link className="text-black text-base font-normal leading-normal" href="/login">Login</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/login">Sign Up</Link>
           </>
         )}
         {currentPath === '/dashboard' && (
           <>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Dashboard</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Projects</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Account</button>
+            <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/projects">Projects</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
           </>
         )}
-        {currentPath !== '/' && currentPath !== '/dashboard' && (
+        {currentPath !== '/' && currentPath !== '/dashboard' && currentPath !== '/login' && (
           <>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Dashboard</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Projects</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Account</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Locations</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">NPCs</button>
-          <button className="text-black text-base font-normal font-['Roboto'] leading-normal">Quests</button>
+            <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/projects">Projects</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/locations">Locations</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/npcs">NPCs</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/quests">Quests</Link>
           </>
         )}
-        
-        </div>
+
+      </div>
     </header>
   )
 }
