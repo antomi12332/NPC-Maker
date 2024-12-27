@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-      <body className={`${roboto} overflow-hidden`}>
+      <body className={`${roboto} overflow-y-auto container mx-auto px-4`}>
         {children}
         <Footer />
       </body>

@@ -11,12 +11,18 @@ export default function Login() {
   const supabase = createClient()
 
   useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        router.push('/dashboard')
+      }
+    }
+    checkSession()
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         router.push('/dashboard')
       }
     })
-
     return () => {
       subscription?.unsubscribe()
     }
