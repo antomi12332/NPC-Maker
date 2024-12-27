@@ -1,19 +1,15 @@
 import Header from "@/app/components/header";
+import Banner from "../components/banner";
 
 
 export default function Quests() {
   return (
     <div>
       <Header titleText="Quests" />
+      <Banner bannerText="Create and Manage Quests" bannerDescription="Create quests tied to specific projects/locations and link NPCs for quest-related dialog" />
 
       <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
 
-        <div className="self-stretch px-[170px] py-[60px] bg-black/60 justify-center items-center gap-[60px] inline-flex">
-          <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
-            <div className="w-[520px] text-center text-white text-[40px] font-bold leading-[48px]">Create and Manage Quests</div>
-            <div className="w-[520px] text-center text-white text-base font-normal leading-normal">Create quests tied to specific projects/locations and link NPCs for quest-related dialog</div>
-          </div>
-        </div>
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-10 inline-flex">
           <div className="w-[100px] h-[100px] relative bg-[#d8d8d8]/50 rounded-[50px]" />
           <div className="grow shrink basis-0 flex-col justify-start items-center gap-3 inline-flex">

@@ -1,22 +1,15 @@
 import Header from "@/app/components/header";
+import Banner from "../components/banner";
 
 
 export default function NpcDialog() {
   return (
     <div>
       <Header titleText="NPC Dialog" />
+      <Banner bannerText="NPC Dialog" bannerDescription="Generate dialog for NPCs in your game" />
 
       <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
 
-        <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
-          <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
-            <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">NPC Dialog Page</div>
-            <div className="self-stretch text-black text-base font-normal leading-normal">Generate NPC dialog using AI</div>
-          </div>
-          <div className="grow shrink basis-0 h-[400px] justify-start items-start flex">
-            <div className="h-[400px] relative bg-[#d8d8d8]/50" />
-          </div>
-        </div>
         <div className="self-stretch h-[400px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch h-12 flex-col justify-start items-center gap-6 flex">
             <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Locations</div>

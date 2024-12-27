@@ -1,20 +1,17 @@
 import Header from "@/app/components/header";
+import Banner from "../components/banner";
 
 
 export default function Dashboard() {
   return (
     <div>
       <Header titleText="Dashboard" />
+      <Banner bannerText="Your Game Projects" bannerDescription="Manage and create game projects for NPC dialog generation" />
 
 
+      
       <div className="w-full h-full pt-20 bg-white flex-col justify-start items-end inline-flex">
 
-        <div className="self-stretch px-[170px] py-[60px] bg-black/60 justify-center items-center gap-[60px] inline-flex">
-          <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
-            <div className="w-[520px] text-center text-white text-[40px] font-bold leading-[48px]">Your Game Projects</div>
-            <div className="w-[520px] text-center text-white text-base font-normal leading-normal">Manage and create game projects for NPC dialog generation</div>
-          </div>
-        </div>
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Your Projects</div>

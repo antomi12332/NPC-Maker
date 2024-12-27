@@ -1,17 +1,17 @@
 import Header from "@/app/components/header";
+import Banner from "../components/banner";
 
 
 export default function Locations() {
   return (
     <div>
       <Header titleText="Locations" />
+      <Banner bannerText="Manage Locations" bannerDescription="Create and edit locations to place your NPCs" />
 
       <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
 
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
           <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
-            <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Manage Locations</div>
-            <div className="w-[520px] text-center text-black text-base font-normal leading-normal">Add/edit locations and specify NPCs</div>
             <div className="h-9 flex-col justify-center items-start gap-1 flex">
               <div className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex">
                 <div className="grow shrink basis-0 h-5 text-black/50 text-sm font-normal leading-tight">Search Locations</div>

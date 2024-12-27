@@ -1,11 +1,15 @@
 import Header from "@/app/components/header";
+import Banner from "../components/banner";
 
 
 export default function Projects() {
   return (
     <div>
       <Header titleText="Projects" />
+      <Banner bannerText="Project Details" bannerDescription="Add project details including backgrounds, cultures, and histories"/>
 
+
+      
       <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
