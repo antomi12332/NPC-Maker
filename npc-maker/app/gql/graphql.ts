@@ -1,0 +1,1308 @@
+/* eslint-disable */
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  /** A high precision floating point value represented as a string */
+  BigFloat: { input: string; output: string; }
+  /** An arbitrary size integer represented as a string */
+  BigInt: { input: string; output: string; }
+  /** An opaque string using for tracking a position in results during pagination */
+  Cursor: { input: any; output: any; }
+  /** A date wihout time information */
+  Date: { input: string; output: string; }
+  /** A date and time */
+  Datetime: { input: string; output: string; }
+  /** A Javascript Object Notation value serialized as a string */
+  JSON: { input: string; output: string; }
+  /** Any type not handled by the type system */
+  Opaque: { input: any; output: any; }
+  /** A time without date information */
+  Time: { input: string; output: string; }
+  /** A universally unique identifier */
+  UUID: { input: string; output: string; }
+};
+
+/** Boolean expression comparing fields on type "BigFloat" */
+export type BigFloatFilter = {
+  eq?: InputMaybe<Scalars['BigFloat']['input']>;
+  gt?: InputMaybe<Scalars['BigFloat']['input']>;
+  gte?: InputMaybe<Scalars['BigFloat']['input']>;
+  in?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['BigFloat']['input']>;
+  lte?: InputMaybe<Scalars['BigFloat']['input']>;
+  neq?: InputMaybe<Scalars['BigFloat']['input']>;
+};
+
+/** Boolean expression comparing fields on type "BigFloatList" */
+export type BigFloatListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  contains?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  eq?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "BigInt" */
+export type BigIntFilter = {
+  eq?: InputMaybe<Scalars['BigInt']['input']>;
+  gt?: InputMaybe<Scalars['BigInt']['input']>;
+  gte?: InputMaybe<Scalars['BigInt']['input']>;
+  in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['BigInt']['input']>;
+  lte?: InputMaybe<Scalars['BigInt']['input']>;
+  neq?: InputMaybe<Scalars['BigInt']['input']>;
+};
+
+/** Boolean expression comparing fields on type "BigIntList" */
+export type BigIntListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  contains?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  eq?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "Boolean" */
+export type BooleanFilter = {
+  eq?: InputMaybe<Scalars['Boolean']['input']>;
+  is?: InputMaybe<FilterIs>;
+};
+
+/** Boolean expression comparing fields on type "BooleanList" */
+export type BooleanListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "Date" */
+export type DateFilter = {
+  eq?: InputMaybe<Scalars['Date']['input']>;
+  gt?: InputMaybe<Scalars['Date']['input']>;
+  gte?: InputMaybe<Scalars['Date']['input']>;
+  in?: InputMaybe<Array<Scalars['Date']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['Date']['input']>;
+  lte?: InputMaybe<Scalars['Date']['input']>;
+  neq?: InputMaybe<Scalars['Date']['input']>;
+};
+
+/** Boolean expression comparing fields on type "DateList" */
+export type DateListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Date']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Date']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Date']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Date']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "Datetime" */
+export type DatetimeFilter = {
+  eq?: InputMaybe<Scalars['Datetime']['input']>;
+  gt?: InputMaybe<Scalars['Datetime']['input']>;
+  gte?: InputMaybe<Scalars['Datetime']['input']>;
+  in?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['Datetime']['input']>;
+  lte?: InputMaybe<Scalars['Datetime']['input']>;
+  neq?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** Boolean expression comparing fields on type "DatetimeList" */
+export type DatetimeListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+};
+
+export enum FilterIs {
+  NotNull = 'NOT_NULL',
+  Null = 'NULL'
+}
+
+/** Boolean expression comparing fields on type "Float" */
+export type FloatFilter = {
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  in?: InputMaybe<Array<Scalars['Float']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  neq?: InputMaybe<Scalars['Float']['input']>;
+};
+
+/** Boolean expression comparing fields on type "FloatList" */
+export type FloatListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Float']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Float']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Float']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Float']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "ID" */
+export type IdFilter = {
+  eq?: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Boolean expression comparing fields on type "Int" */
+export type IntFilter = {
+  eq?: InputMaybe<Scalars['Int']['input']>;
+  gt?: InputMaybe<Scalars['Int']['input']>;
+  gte?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['Int']['input']>;
+  lte?: InputMaybe<Scalars['Int']['input']>;
+  neq?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Boolean expression comparing fields on type "IntList" */
+export type IntListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Int']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Int']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Int']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+/** The root type for creating and mutating data */
+export type Mutation = {
+  __typename?: 'Mutation';
+  /** Deletes zero or more records from the `dialog` collection */
+  deleteFromdialogCollection: DialogDeleteResponse;
+  /** Deletes zero or more records from the `location` collection */
+  deleteFromlocationCollection: LocationDeleteResponse;
+  /** Deletes zero or more records from the `npcs` collection */
+  deleteFromnpcsCollection: NpcsDeleteResponse;
+  /** Deletes zero or more records from the `order_history` collection */
+  deleteFromorder_historyCollection: Order_HistoryDeleteResponse;
+  /** Deletes zero or more records from the `project` collection */
+  deleteFromprojectCollection: ProjectDeleteResponse;
+  /** Deletes zero or more records from the `quests` collection */
+  deleteFromquestsCollection: QuestsDeleteResponse;
+  /** Deletes zero or more records from the `user_account` collection */
+  deleteFromuser_accountCollection: User_AccountDeleteResponse;
+  /** Adds one or more `dialog` records to the collection */
+  insertIntodialogCollection?: Maybe<DialogInsertResponse>;
+  /** Adds one or more `location` records to the collection */
+  insertIntolocationCollection?: Maybe<LocationInsertResponse>;
+  /** Adds one or more `npcs` records to the collection */
+  insertIntonpcsCollection?: Maybe<NpcsInsertResponse>;
+  /** Adds one or more `order_history` records to the collection */
+  insertIntoorder_historyCollection?: Maybe<Order_HistoryInsertResponse>;
+  /** Adds one or more `project` records to the collection */
+  insertIntoprojectCollection?: Maybe<ProjectInsertResponse>;
+  /** Adds one or more `quests` records to the collection */
+  insertIntoquestsCollection?: Maybe<QuestsInsertResponse>;
+  /** Adds one or more `user_account` records to the collection */
+  insertIntouser_accountCollection?: Maybe<User_AccountInsertResponse>;
+  /** Updates zero or more records in the `dialog` collection */
+  updatedialogCollection: DialogUpdateResponse;
+  /** Updates zero or more records in the `location` collection */
+  updatelocationCollection: LocationUpdateResponse;
+  /** Updates zero or more records in the `npcs` collection */
+  updatenpcsCollection: NpcsUpdateResponse;
+  /** Updates zero or more records in the `order_history` collection */
+  updateorder_historyCollection: Order_HistoryUpdateResponse;
+  /** Updates zero or more records in the `project` collection */
+  updateprojectCollection: ProjectUpdateResponse;
+  /** Updates zero or more records in the `quests` collection */
+  updatequestsCollection: QuestsUpdateResponse;
+  /** Updates zero or more records in the `user_account` collection */
+  updateuser_accountCollection: User_AccountUpdateResponse;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromdialogCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<DialogFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromlocationCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<LocationFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromnpcsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<NpcsFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromorder_HistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Order_HistoryFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromprojectCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ProjectFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromquestsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<QuestsFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromuser_AccountCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<User_AccountFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntodialogCollectionArgs = {
+  objects: Array<DialogInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntolocationCollectionArgs = {
+  objects: Array<LocationInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntonpcsCollectionArgs = {
+  objects: Array<NpcsInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntoorder_HistoryCollectionArgs = {
+  objects: Array<Order_HistoryInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntoprojectCollectionArgs = {
+  objects: Array<ProjectInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntoquestsCollectionArgs = {
+  objects: Array<QuestsInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntouser_AccountCollectionArgs = {
+  objects: Array<User_AccountInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdatedialogCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<DialogFilter>;
+  set: DialogUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdatelocationCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<LocationFilter>;
+  set: LocationUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdatenpcsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<NpcsFilter>;
+  set: NpcsUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdateorder_HistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Order_HistoryFilter>;
+  set: Order_HistoryUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdateprojectCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ProjectFilter>;
+  set: ProjectUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdatequestsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<QuestsFilter>;
+  set: QuestsUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdateuser_AccountCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<User_AccountFilter>;
+  set: User_AccountUpdateInput;
+};
+
+export type Node = {
+  /** Retrieves a record by `ID` */
+  nodeId: Scalars['ID']['output'];
+};
+
+/** Boolean expression comparing fields on type "Opaque" */
+export type OpaqueFilter = {
+  eq?: InputMaybe<Scalars['Opaque']['input']>;
+  is?: InputMaybe<FilterIs>;
+};
+
+/** Defines a per-field sorting order */
+export enum OrderByDirection {
+  /** Ascending order, nulls first */
+  AscNullsFirst = 'AscNullsFirst',
+  /** Ascending order, nulls last */
+  AscNullsLast = 'AscNullsLast',
+  /** Descending order, nulls first */
+  DescNullsFirst = 'DescNullsFirst',
+  /** Descending order, nulls last */
+  DescNullsLast = 'DescNullsLast'
+}
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+/** The root type for querying data */
+export type Query = {
+  __typename?: 'Query';
+  /** A pagable collection of type `dialog` */
+  dialogCollection?: Maybe<DialogConnection>;
+  /** A pagable collection of type `location` */
+  locationCollection?: Maybe<LocationConnection>;
+  /** Retrieve a record by its `ID` */
+  node?: Maybe<Node>;
+  /** A pagable collection of type `npcs` */
+  npcsCollection?: Maybe<NpcsConnection>;
+  /** A pagable collection of type `order_history` */
+  order_historyCollection?: Maybe<Order_HistoryConnection>;
+  /** A pagable collection of type `project` */
+  projectCollection?: Maybe<ProjectConnection>;
+  /** A pagable collection of type `quests` */
+  questsCollection?: Maybe<QuestsConnection>;
+  /** A pagable collection of type `user_account` */
+  user_accountCollection?: Maybe<User_AccountConnection>;
+};
+
+
+/** The root type for querying data */
+export type QueryDialogCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<DialogFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<DialogOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryLocationCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<LocationFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<LocationOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryNodeArgs = {
+  nodeId: Scalars['ID']['input'];
+};
+
+
+/** The root type for querying data */
+export type QueryNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryOrder_HistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Order_HistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Order_HistoryOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryProjectCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ProjectFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ProjectOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryQuestsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<QuestsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<QuestsOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryUser_AccountCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<User_AccountFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<User_AccountOrderBy>>;
+};
+
+/** Boolean expression comparing fields on type "String" */
+export type StringFilter = {
+  eq?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  ilike?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  iregex?: InputMaybe<Scalars['String']['input']>;
+  is?: InputMaybe<FilterIs>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  neq?: InputMaybe<Scalars['String']['input']>;
+  regex?: InputMaybe<Scalars['String']['input']>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Boolean expression comparing fields on type "StringList" */
+export type StringListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['String']['input']>>;
+  contains?: InputMaybe<Array<Scalars['String']['input']>>;
+  eq?: InputMaybe<Array<Scalars['String']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "Time" */
+export type TimeFilter = {
+  eq?: InputMaybe<Scalars['Time']['input']>;
+  gt?: InputMaybe<Scalars['Time']['input']>;
+  gte?: InputMaybe<Scalars['Time']['input']>;
+  in?: InputMaybe<Array<Scalars['Time']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  lt?: InputMaybe<Scalars['Time']['input']>;
+  lte?: InputMaybe<Scalars['Time']['input']>;
+  neq?: InputMaybe<Scalars['Time']['input']>;
+};
+
+/** Boolean expression comparing fields on type "TimeList" */
+export type TimeListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['Time']['input']>>;
+  contains?: InputMaybe<Array<Scalars['Time']['input']>>;
+  eq?: InputMaybe<Array<Scalars['Time']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['Time']['input']>>;
+};
+
+/** Boolean expression comparing fields on type "UUID" */
+export type UuidFilter = {
+  eq?: InputMaybe<Scalars['UUID']['input']>;
+  in?: InputMaybe<Array<Scalars['UUID']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+/** Boolean expression comparing fields on type "UUIDList" */
+export type UuidListFilter = {
+  containedBy?: InputMaybe<Array<Scalars['UUID']['input']>>;
+  contains?: InputMaybe<Array<Scalars['UUID']['input']>>;
+  eq?: InputMaybe<Array<Scalars['UUID']['input']>>;
+  is?: InputMaybe<FilterIs>;
+  overlaps?: InputMaybe<Array<Scalars['UUID']['input']>>;
+};
+
+export type Dialog = Node & {
+  __typename?: 'dialog';
+  created_at: Scalars['Datetime']['output'];
+  dialog_text?: Maybe<Scalars['String']['output']>;
+  id: Scalars['BigInt']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  npc_id: Scalars['BigInt']['output'];
+  npcs?: Maybe<Npcs>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type DialogConnection = {
+  __typename?: 'dialogConnection';
+  edges: Array<DialogEdge>;
+  pageInfo: PageInfo;
+};
+
+export type DialogDeleteResponse = {
+  __typename?: 'dialogDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Dialog>;
+};
+
+export type DialogEdge = {
+  __typename?: 'dialogEdge';
+  cursor: Scalars['String']['output'];
+  node: Dialog;
+};
+
+export type DialogFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<DialogFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  dialog_text?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<DialogFilter>;
+  npc_id?: InputMaybe<BigIntFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<DialogFilter>>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type DialogInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  dialog_text?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  npc_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type DialogInsertResponse = {
+  __typename?: 'dialogInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Dialog>;
+};
+
+export type DialogOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  dialog_text?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  npc_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type DialogUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  dialog_text?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  npc_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type DialogUpdateResponse = {
+  __typename?: 'dialogUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Dialog>;
+};
+
+export type Location = Node & {
+  __typename?: 'location';
+  created_at: Scalars['Datetime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['BigInt']['output'];
+  location_name: Scalars['String']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  npcsCollection?: Maybe<NpcsConnection>;
+  project?: Maybe<Project>;
+  project_id: Scalars['BigInt']['output'];
+  user_id: Scalars['UUID']['output'];
+};
+
+
+export type LocationNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
+};
+
+export type LocationConnection = {
+  __typename?: 'locationConnection';
+  edges: Array<LocationEdge>;
+  pageInfo: PageInfo;
+};
+
+export type LocationDeleteResponse = {
+  __typename?: 'locationDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Location>;
+};
+
+export type LocationEdge = {
+  __typename?: 'locationEdge';
+  cursor: Scalars['String']['output'];
+  node: Location;
+};
+
+export type LocationFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<LocationFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  location_name?: InputMaybe<StringFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<LocationFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<LocationFilter>>;
+  project_id?: InputMaybe<BigIntFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type LocationInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  location_name?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type LocationInsertResponse = {
+  __typename?: 'locationInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Location>;
+};
+
+export type LocationOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  description?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  location_name?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  project_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type LocationUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  location_name?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type LocationUpdateResponse = {
+  __typename?: 'locationUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Location>;
+};
+
+export type Npcs = Node & {
+  __typename?: 'npcs';
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['Datetime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  dialogCollection?: Maybe<DialogConnection>;
+  id: Scalars['BigInt']['output'];
+  location?: Maybe<Location>;
+  location_id: Scalars['BigInt']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  npc_name: Scalars['String']['output'];
+  quest_id?: Maybe<Scalars['BigInt']['output']>;
+  quests?: Maybe<Quests>;
+  user_id: Scalars['UUID']['output'];
+};
+
+
+export type NpcsDialogCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<DialogFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<DialogOrderBy>>;
+};
+
+export type NpcsConnection = {
+  __typename?: 'npcsConnection';
+  edges: Array<NpcsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NpcsDeleteResponse = {
+  __typename?: 'npcsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Npcs>;
+};
+
+export type NpcsEdge = {
+  __typename?: 'npcsEdge';
+  cursor: Scalars['String']['output'];
+  node: Npcs;
+};
+
+export type NpcsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<NpcsFilter>>;
+  avatar_url?: InputMaybe<StringFilter>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  location_id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<NpcsFilter>;
+  npc_name?: InputMaybe<StringFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<NpcsFilter>>;
+  quest_id?: InputMaybe<BigIntFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type NpcsInsertInput = {
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  location_id?: InputMaybe<Scalars['BigInt']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  npc_name?: InputMaybe<Scalars['String']['input']>;
+  quest_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type NpcsInsertResponse = {
+  __typename?: 'npcsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Npcs>;
+};
+
+export type NpcsOrderBy = {
+  avatar_url?: InputMaybe<OrderByDirection>;
+  created_at?: InputMaybe<OrderByDirection>;
+  description?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  location_id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  npc_name?: InputMaybe<OrderByDirection>;
+  quest_id?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type NpcsUpdateInput = {
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  location_id?: InputMaybe<Scalars['BigInt']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  npc_name?: InputMaybe<Scalars['String']['input']>;
+  quest_id?: InputMaybe<Scalars['BigInt']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type NpcsUpdateResponse = {
+  __typename?: 'npcsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Npcs>;
+};
+
+export type Order_History = Node & {
+  __typename?: 'order_history';
+  amount: Scalars['Float']['output'];
+  created_at: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  product_description: Scalars['String']['output'];
+  user_id: Scalars['UUID']['output'];
+};
+
+export type Order_HistoryConnection = {
+  __typename?: 'order_historyConnection';
+  edges: Array<Order_HistoryEdge>;
+  pageInfo: PageInfo;
+};
+
+export type Order_HistoryDeleteResponse = {
+  __typename?: 'order_historyDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Order_History>;
+};
+
+export type Order_HistoryEdge = {
+  __typename?: 'order_historyEdge';
+  cursor: Scalars['String']['output'];
+  node: Order_History;
+};
+
+export type Order_HistoryFilter = {
+  amount?: InputMaybe<FloatFilter>;
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Order_HistoryFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<Order_HistoryFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Order_HistoryFilter>>;
+  product_description?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type Order_HistoryInsertInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  product_description?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Order_HistoryInsertResponse = {
+  __typename?: 'order_historyInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Order_History>;
+};
+
+export type Order_HistoryOrderBy = {
+  amount?: InputMaybe<OrderByDirection>;
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  product_description?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type Order_HistoryUpdateInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  product_description?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type Order_HistoryUpdateResponse = {
+  __typename?: 'order_historyUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Order_History>;
+};
+
+export type Project = Node & {
+  __typename?: 'project';
+  created_at: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  locationCollection?: Maybe<LocationConnection>;
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  project_name: Scalars['String']['output'];
+  questsCollection?: Maybe<QuestsConnection>;
+  short_description?: Maybe<Scalars['String']['output']>;
+  user_id: Scalars['UUID']['output'];
+};
+
+
+export type ProjectLocationCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<LocationFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<LocationOrderBy>>;
+};
+
+
+export type ProjectQuestsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<QuestsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<QuestsOrderBy>>;
+};
+
+export type ProjectConnection = {
+  __typename?: 'projectConnection';
+  edges: Array<ProjectEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ProjectDeleteResponse = {
+  __typename?: 'projectDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Project>;
+};
+
+export type ProjectEdge = {
+  __typename?: 'projectEdge';
+  cursor: Scalars['String']['output'];
+  node: Project;
+};
+
+export type ProjectFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ProjectFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ProjectFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ProjectFilter>>;
+  project_name?: InputMaybe<StringFilter>;
+  short_description?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type ProjectInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_name?: InputMaybe<Scalars['String']['input']>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ProjectInsertResponse = {
+  __typename?: 'projectInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Project>;
+};
+
+export type ProjectOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  project_name?: InputMaybe<OrderByDirection>;
+  short_description?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type ProjectUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_name?: InputMaybe<Scalars['String']['input']>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ProjectUpdateResponse = {
+  __typename?: 'projectUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Project>;
+};
+
+export type Quests = Node & {
+  __typename?: 'quests';
+  created_at: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  npcsCollection?: Maybe<NpcsConnection>;
+  objective?: Maybe<Scalars['String']['output']>;
+  project?: Maybe<Project>;
+  project_id: Scalars['BigInt']['output'];
+  quest_name: Scalars['String']['output'];
+  reward?: Maybe<Scalars['String']['output']>;
+  user_id: Scalars['UUID']['output'];
+};
+
+
+export type QuestsNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
+};
+
+export type QuestsConnection = {
+  __typename?: 'questsConnection';
+  edges: Array<QuestsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type QuestsDeleteResponse = {
+  __typename?: 'questsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Quests>;
+};
+
+export type QuestsEdge = {
+  __typename?: 'questsEdge';
+  cursor: Scalars['String']['output'];
+  node: Quests;
+};
+
+export type QuestsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<QuestsFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<QuestsFilter>;
+  objective?: InputMaybe<StringFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<QuestsFilter>>;
+  project_id?: InputMaybe<BigIntFilter>;
+  quest_name?: InputMaybe<StringFilter>;
+  reward?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type QuestsInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  objective?: InputMaybe<Scalars['String']['input']>;
+  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  quest_name?: InputMaybe<Scalars['String']['input']>;
+  reward?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type QuestsInsertResponse = {
+  __typename?: 'questsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Quests>;
+};
+
+export type QuestsOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  objective?: InputMaybe<OrderByDirection>;
+  project_id?: InputMaybe<OrderByDirection>;
+  quest_name?: InputMaybe<OrderByDirection>;
+  reward?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type QuestsUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  objective?: InputMaybe<Scalars['String']['input']>;
+  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  quest_name?: InputMaybe<Scalars['String']['input']>;
+  reward?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type QuestsUpdateResponse = {
+  __typename?: 'questsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Quests>;
+};
+
+export type User_Account = Node & {
+  __typename?: 'user_account';
+  created_at: Scalars['Datetime']['output'];
+  display_name?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id: Scalars['BigInt']['output'];
+  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  tokens: Scalars['BigFloat']['output'];
+  user_id: Scalars['UUID']['output'];
+};
+
+export type User_AccountConnection = {
+  __typename?: 'user_accountConnection';
+  edges: Array<User_AccountEdge>;
+  pageInfo: PageInfo;
+};
+
+export type User_AccountDeleteResponse = {
+  __typename?: 'user_accountDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Account>;
+};
+
+export type User_AccountEdge = {
+  __typename?: 'user_accountEdge';
+  cursor: Scalars['String']['output'];
+  node: User_Account;
+};
+
+export type User_AccountFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<User_AccountFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  display_name?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<User_AccountFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<User_AccountFilter>>;
+  tokens?: InputMaybe<BigFloatFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type User_AccountInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  tokens?: InputMaybe<Scalars['BigFloat']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type User_AccountInsertResponse = {
+  __typename?: 'user_accountInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Account>;
+};
+
+export type User_AccountOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  display_name?: InputMaybe<OrderByDirection>;
+  email?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  tokens?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type User_AccountUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  tokens?: InputMaybe<Scalars['BigFloat']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type User_AccountUpdateResponse = {
+  __typename?: 'user_accountUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<User_Account>;
+};

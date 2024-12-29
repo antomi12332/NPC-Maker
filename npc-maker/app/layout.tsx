@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/footer";
 import { NextFont } from "next/dist/compiled/@next/font";
+import { Roboto } from "next/font/google";
+import Footer from "./components/footer";
+import type { Metadata } from "next";
+import Providers from "./_apollo/provider";
 
 const roboto: NextFont = Roboto({
   weight: "500",
@@ -17,7 +18,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
     <html lang="en">
       <body className={`${roboto} overflow-y-auto container mx-auto px-4`}>
-        {children}
+        <Providers>{children}</Providers>
         <Footer />
       </body>
     </html>

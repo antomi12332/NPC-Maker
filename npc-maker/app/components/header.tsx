@@ -40,10 +40,10 @@ export default function Header(props: { titleText: string }) {
             <div className="text-black text-base font-normal leading-normal">project name placeholder</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/locations">Locations</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/quests">Quests</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/npcs">NPCs</Link>
+            <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <button className="text-black text-base font-normal leading-normal" onClick={signOut}>Logout</button>
           </>
         )}
