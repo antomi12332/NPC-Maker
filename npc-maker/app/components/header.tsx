@@ -2,11 +2,14 @@
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function Header(props: { titleText: string }) {
   const currentPath = usePathname();
   const router = useRouter()
   const supabase = createClient();
+  const projectID = useSelector((state: any) => state.project.id);
+  const projectName = useSelector((state: any) => state.project.project_name);
 
   async function signOut() {
     const { error } = await supabase.auth.signOut()
@@ -28,21 +31,21 @@ export default function Header(props: { titleText: string }) {
         )}
         {currentPath === '/dashboard' && (
           <>
-            <div className="text-black text-base font-normal leading-normal">project name placeholder</div>
+            <div className="text-black text-base font-normal leading-normal">{projectName}</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link>
+            {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
             <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <button className="text-black text-base font-normal leading-normal" onClick={signOut}>Logout</button>
           </>
         )}
         {currentPath !== '/' && currentPath !== '/dashboard' && currentPath !== '/login' && (
           <>
-            <div className="text-black text-base font-normal leading-normal">project name placeholder</div>
+            <div className="text-black text-base font-normal leading-normal">{projectName}</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/locations">Locations</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/quests">Quests</Link>
-            <Link className="text-black text-base font-normal leading-normal" href="/npcs">NPCs</Link>
+            {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
+            <Link className="text-black text-base font-normal leading-normal" href={`/locations/${projectID}`}>Locations</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/quests/${projectID}`}>Quests</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/npcs/${projectID}`}>NPCs</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <button className="text-black text-base font-normal leading-normal" onClick={signOut}>Logout</button>
           </>
