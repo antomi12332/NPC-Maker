@@ -1,4 +1,5 @@
 'use client';
+import { ProjectState } from "@/store/projectSlice";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,8 +9,8 @@ export default function Header(props: { titleText: string }) {
   const currentPath = usePathname();
   const router = useRouter()
   const supabase = createClient();
-  const projectID = useSelector((state: any) => state.project.id);
-  const projectName = useSelector((state: any) => state.project.project_name);
+  const projectID = useSelector((state: ProjectState) => state.id);
+  const projectName = useSelector((state: ProjectState) => state.project_name);
 
   async function signOut() {
     const { error } = await supabase.auth.signOut()
@@ -31,7 +32,7 @@ export default function Header(props: { titleText: string }) {
         )}
         {currentPath === '/dashboard' && (
           <>
-            <div className="text-black text-base font-normal leading-normal">{projectName}</div>
+            <div className="text-black text-base font-bold leading-normal">{projectName}</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
             {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
             <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
@@ -40,7 +41,7 @@ export default function Header(props: { titleText: string }) {
         )}
         {currentPath !== '/' && currentPath !== '/dashboard' && currentPath !== '/login' && (
           <>
-            <div className="text-black text-base font-normal leading-normal">{projectName}</div>
+            <div className="text-black text-base font-bold leading-normal">{projectName}</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
             {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
             <Link className="text-black text-base font-normal leading-normal" href={`/locations/${projectID}`}>Locations</Link>

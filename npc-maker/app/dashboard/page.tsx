@@ -1,11 +1,51 @@
 'use client'
-import Header from "@/app/components/header";
-import ProjectCard from "../components/dashboard/projectcard";
-import { Input } from "../components/input";
-import Banner from "../components/banner";
+import { useMutation } from "@apollo/client";
+import { Input } from "../../components/input";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import Banner from "../../components/banner";
+import Header from "@/components/header";
+import ProjectCard from "../../components/dashboard/projectcard";
+import { CREATE_PROJECT_MUTATION } from "../_apollo/gql/projectsgql";
+
+
+
 
 
 export default function Dashboard() {
+  const { toast } = useToast()
+  const [projectName, setProjectName] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
+  const [createProject] = useMutation(CREATE_PROJECT_MUTATION);
+
+  const handleCreateProject = async () => {
+    if (!projectName.trim() || !projectDescription.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Enter a name and description to your project.",
+        duration: 3000,
+      })
+      return;
+    }
+    try {
+      await createProject({
+        variables: {
+          name: projectName,
+          description: projectDescription,
+        },
+      });
+      toast({
+        title: "Project Created",
+        description: projectName,
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
+  };
+
+
+
   return (
     <div>
       <Header titleText="Dashboard" />
@@ -15,7 +55,7 @@ export default function Dashboard() {
 
         <div className="self-stretch px-[170px] py-[60px] justify-start items-center gap-[60px] inline-flex">
           <div className="shrink basis-0 flex-col justify-start items-start gap-6 inline-flex pe-96">
-            <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Your Projects</div>
+            <div className="shrink w-1 text-black text-[40px] font-bold leading-[48px]">Your Projects</div>
           </div>
           <div className="grid grid-flow-col grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
             <ProjectCard />
@@ -27,7 +67,7 @@ export default function Dashboard() {
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Create New Project</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Start a new project to design your game world</div>
             <div className="flex-col justify-start items-start gap-3 flex">
-              <button className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
+              <button className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex" onClick={handleCreateProject}>
                 <div className="text-white text-base font-medium leading-normal">Create Project</div>
               </button>
             </div>
@@ -39,7 +79,13 @@ export default function Dashboard() {
                   <div className="h-[100px] relative bg-[#d8d8d8]/50" />
                 </div>
                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                  <Input type="text" placeholder="Project Name" />
+                  <Input
+                    type="text"
+                    placeholder="Project Name"
+                    value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)}
+                    maxLength={40}
+                  />
                   <div className="self-stretch text-black text-base font-normal leading-normal">Enter the name of your new project</div>
                 </div>
               </div>
@@ -50,7 +96,13 @@ export default function Dashboard() {
                   <div className="h-[100px] relative bg-[#d8d8d8]/50" />
                 </div>
                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                  <Input type="text" placeholder="Project Description" />
+                  <Input
+                    type="text"
+                    placeholder="Project Description"
+                    value={projectDescription}
+                    onChange={(e) => setProjectDescription(e.target.value)}
+                    maxLength={40}
+                  />
                   <div className="self-stretch text-black text-base font-normal leading-normal">Briefly describe your new project</div>
                 </div>
               </div>

@@ -2,7 +2,7 @@
 import { Auth } from '@supabase/auth-ui-react'
 import { createClient } from '@/utils/supabase/client'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
-import Header from '../components/header'
+import Header from '../../components/header'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 

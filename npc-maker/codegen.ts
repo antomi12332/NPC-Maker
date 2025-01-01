@@ -18,7 +18,7 @@ const config: CodegenConfig = {
   overwrite: true,
   ignoreNoDocuments: true,
   generates: {
-    'app/gql/': {
+    'gql/': {
       preset: 'client',
       documentTransforms: [addTypenameSelectionDocumentTransform],
       plugins: [],

@@ -1,0 +1,62 @@
+import { gql } from "@apollo/client";
+
+// Mutations
+export const CREATE_PROJECT_MUTATION = gql`
+  mutation CreateProject($name: String!, $description: String!) {
+    insertIntoprojectsCollection(objects: [{ project_name: $name, short_description: $description }]) {
+      records { project_name }
+    }
+  }
+`;
+
+export const SAVE_BACKGROUND_MUTATION = gql`
+mutation UpdateBackground {
+  updateprojectsCollection(
+    set: {background: $background}
+    filter: {id: {eq: $id}}
+    atMost: 1
+  ) {
+    records {
+      background
+    }
+  }
+}
+`;
+
+
+
+// Queries
+export const ALL_PROJECTS_QUERY = gql`
+  query GetProjects {
+      projectsCollection(orderBy: {project_id: AscNullsLast}) {
+      edges {
+        node {
+          id,
+          project_id,
+          project_name,
+          short_description,
+          background
+        }
+      }
+    }
+  }
+`;
+
+export const CURRENT_PROJECT = gql`
+  query CurrentProject {
+    projectsCollection (filter: {id: {eq: $id}}) {
+    edges {
+      node {
+        id
+        project_id
+        created_at
+        short_description
+        user_id
+        modified_at
+        background
+        culture
+        history
+      }
+    }
+  }
+}`

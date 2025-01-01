@@ -195,8 +195,8 @@ export type Mutation = {
   deleteFromnpcsCollection: NpcsDeleteResponse;
   /** Deletes zero or more records from the `order_history` collection */
   deleteFromorder_historyCollection: Order_HistoryDeleteResponse;
-  /** Deletes zero or more records from the `project` collection */
-  deleteFromprojectCollection: ProjectDeleteResponse;
+  /** Deletes zero or more records from the `projects` collection */
+  deleteFromprojectsCollection: ProjectsDeleteResponse;
   /** Deletes zero or more records from the `quests` collection */
   deleteFromquestsCollection: QuestsDeleteResponse;
   /** Deletes zero or more records from the `user_account` collection */
@@ -209,8 +209,8 @@ export type Mutation = {
   insertIntonpcsCollection?: Maybe<NpcsInsertResponse>;
   /** Adds one or more `order_history` records to the collection */
   insertIntoorder_historyCollection?: Maybe<Order_HistoryInsertResponse>;
-  /** Adds one or more `project` records to the collection */
-  insertIntoprojectCollection?: Maybe<ProjectInsertResponse>;
+  /** Adds one or more `projects` records to the collection */
+  insertIntoprojectsCollection?: Maybe<ProjectsInsertResponse>;
   /** Adds one or more `quests` records to the collection */
   insertIntoquestsCollection?: Maybe<QuestsInsertResponse>;
   /** Adds one or more `user_account` records to the collection */
@@ -223,8 +223,8 @@ export type Mutation = {
   updatenpcsCollection: NpcsUpdateResponse;
   /** Updates zero or more records in the `order_history` collection */
   updateorder_historyCollection: Order_HistoryUpdateResponse;
-  /** Updates zero or more records in the `project` collection */
-  updateprojectCollection: ProjectUpdateResponse;
+  /** Updates zero or more records in the `projects` collection */
+  updateprojectsCollection: ProjectsUpdateResponse;
   /** Updates zero or more records in the `quests` collection */
   updatequestsCollection: QuestsUpdateResponse;
   /** Updates zero or more records in the `user_account` collection */
@@ -261,9 +261,9 @@ export type MutationDeleteFromorder_HistoryCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFromprojectCollectionArgs = {
+export type MutationDeleteFromprojectsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<ProjectFilter>;
+  filter?: InputMaybe<ProjectsFilter>;
 };
 
 
@@ -306,8 +306,8 @@ export type MutationInsertIntoorder_HistoryCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoprojectCollectionArgs = {
-  objects: Array<ProjectInsertInput>;
+export type MutationInsertIntoprojectsCollectionArgs = {
+  objects: Array<ProjectsInsertInput>;
 };
 
 
@@ -356,10 +356,10 @@ export type MutationUpdateorder_HistoryCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationUpdateprojectCollectionArgs = {
+export type MutationUpdateprojectsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<ProjectFilter>;
-  set: ProjectUpdateInput;
+  filter?: InputMaybe<ProjectsFilter>;
+  set: ProjectsUpdateInput;
 };
 
 
@@ -422,8 +422,8 @@ export type Query = {
   npcsCollection?: Maybe<NpcsConnection>;
   /** A pagable collection of type `order_history` */
   order_historyCollection?: Maybe<Order_HistoryConnection>;
-  /** A pagable collection of type `project` */
-  projectCollection?: Maybe<ProjectConnection>;
+  /** A pagable collection of type `projects` */
+  projectsCollection?: Maybe<ProjectsConnection>;
   /** A pagable collection of type `quests` */
   questsCollection?: Maybe<QuestsConnection>;
   /** A pagable collection of type `user_account` */
@@ -486,14 +486,14 @@ export type QueryOrder_HistoryCollectionArgs = {
 
 
 /** The root type for querying data */
-export type QueryProjectCollectionArgs = {
+export type QueryProjectsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<ProjectFilter>;
+  filter?: InputMaybe<ProjectsFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<ProjectOrderBy>>;
+  orderBy?: InputMaybe<Array<ProjectsOrderBy>>;
 };
 
 
@@ -684,8 +684,8 @@ export type Location = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   npcsCollection?: Maybe<NpcsConnection>;
-  project?: Maybe<Project>;
-  project_id: Scalars['BigInt']['output'];
+  project_id?: Maybe<Scalars['UUID']['output']>;
+  projects?: Maybe<Projects>;
   user_id: Scalars['UUID']['output'];
 };
 
@@ -733,7 +733,7 @@ export type LocationFilter = {
   not?: InputMaybe<LocationFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<LocationFilter>>;
-  project_id?: InputMaybe<BigIntFilter>;
+  project_id?: InputMaybe<UuidFilter>;
   user_id?: InputMaybe<UuidFilter>;
 };
 
@@ -742,7 +742,7 @@ export type LocationInsertInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   location_name?: InputMaybe<Scalars['String']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
-  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
@@ -769,7 +769,7 @@ export type LocationUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   location_name?: InputMaybe<Scalars['String']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
-  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
@@ -903,8 +903,8 @@ export type Order_History = Node & {
   __typename?: 'order_history';
   amount: Scalars['Float']['output'];
   created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
-  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  modified_at: Scalars['Datetime']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   product_description: Scalars['String']['output'];
@@ -936,7 +936,7 @@ export type Order_HistoryFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<Order_HistoryFilter>>;
   created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
+  id?: InputMaybe<UuidFilter>;
   modified_at?: InputMaybe<DatetimeFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -950,6 +950,7 @@ export type Order_HistoryFilter = {
 export type Order_HistoryInsertInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   product_description?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -975,6 +976,7 @@ export type Order_HistoryOrderBy = {
 export type Order_HistoryUpdateInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   product_description?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -988,22 +990,26 @@ export type Order_HistoryUpdateResponse = {
   records: Array<Order_History>;
 };
 
-export type Project = Node & {
-  __typename?: 'project';
+export type Projects = Node & {
+  __typename?: 'projects';
+  background?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
+  culture?: Maybe<Scalars['JSON']['output']>;
+  history?: Maybe<Scalars['JSON']['output']>;
+  id: Scalars['UUID']['output'];
   locationCollection?: Maybe<LocationConnection>;
-  modified_at?: Maybe<Scalars['Datetime']['output']>;
+  modified_at: Scalars['Datetime']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  project_id: Scalars['BigInt']['output'];
   project_name: Scalars['String']['output'];
   questsCollection?: Maybe<QuestsConnection>;
-  short_description?: Maybe<Scalars['String']['output']>;
+  short_description: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
 };
 
 
-export type ProjectLocationCollectionArgs = {
+export type ProjectsLocationCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   filter?: InputMaybe<LocationFilter>;
@@ -1014,7 +1020,7 @@ export type ProjectLocationCollectionArgs = {
 };
 
 
-export type ProjectQuestsCollectionArgs = {
+export type ProjectsQuestsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   filter?: InputMaybe<QuestsFilter>;
@@ -1024,81 +1030,93 @@ export type ProjectQuestsCollectionArgs = {
   orderBy?: InputMaybe<Array<QuestsOrderBy>>;
 };
 
-export type ProjectConnection = {
-  __typename?: 'projectConnection';
-  edges: Array<ProjectEdge>;
+export type ProjectsConnection = {
+  __typename?: 'projectsConnection';
+  edges: Array<ProjectsEdge>;
   pageInfo: PageInfo;
 };
 
-export type ProjectDeleteResponse = {
-  __typename?: 'projectDeleteResponse';
+export type ProjectsDeleteResponse = {
+  __typename?: 'projectsDeleteResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Project>;
+  records: Array<Projects>;
 };
 
-export type ProjectEdge = {
-  __typename?: 'projectEdge';
+export type ProjectsEdge = {
+  __typename?: 'projectsEdge';
   cursor: Scalars['String']['output'];
-  node: Project;
+  node: Projects;
 };
 
-export type ProjectFilter = {
+export type ProjectsFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ProjectFilter>>;
+  and?: InputMaybe<Array<ProjectsFilter>>;
+  background?: InputMaybe<StringFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
+  id?: InputMaybe<UuidFilter>;
   modified_at?: InputMaybe<DatetimeFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
-  not?: InputMaybe<ProjectFilter>;
+  not?: InputMaybe<ProjectsFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ProjectFilter>>;
+  or?: InputMaybe<Array<ProjectsFilter>>;
+  project_id?: InputMaybe<BigIntFilter>;
   project_name?: InputMaybe<StringFilter>;
   short_description?: InputMaybe<StringFilter>;
   user_id?: InputMaybe<UuidFilter>;
 };
 
-export type ProjectInsertInput = {
+export type ProjectsInsertInput = {
+  background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  culture?: InputMaybe<Scalars['JSON']['input']>;
+  history?: InputMaybe<Scalars['JSON']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   project_name?: InputMaybe<Scalars['String']['input']>;
   short_description?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type ProjectInsertResponse = {
-  __typename?: 'projectInsertResponse';
+export type ProjectsInsertResponse = {
+  __typename?: 'projectsInsertResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Project>;
+  records: Array<Projects>;
 };
 
-export type ProjectOrderBy = {
+export type ProjectsOrderBy = {
+  background?: InputMaybe<OrderByDirection>;
   created_at?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   modified_at?: InputMaybe<OrderByDirection>;
+  project_id?: InputMaybe<OrderByDirection>;
   project_name?: InputMaybe<OrderByDirection>;
   short_description?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
 };
 
-export type ProjectUpdateInput = {
+export type ProjectsUpdateInput = {
+  background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  culture?: InputMaybe<Scalars['JSON']['input']>;
+  history?: InputMaybe<Scalars['JSON']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   project_name?: InputMaybe<Scalars['String']['input']>;
   short_description?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type ProjectUpdateResponse = {
-  __typename?: 'projectUpdateResponse';
+export type ProjectsUpdateResponse = {
+  __typename?: 'projectsUpdateResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Project>;
+  records: Array<Projects>;
 };
 
 export type Quests = Node & {
@@ -1110,8 +1128,8 @@ export type Quests = Node & {
   nodeId: Scalars['ID']['output'];
   npcsCollection?: Maybe<NpcsConnection>;
   objective?: Maybe<Scalars['String']['output']>;
-  project?: Maybe<Project>;
-  project_id: Scalars['BigInt']['output'];
+  project_id?: Maybe<Scalars['UUID']['output']>;
+  projects?: Maybe<Projects>;
   quest_name: Scalars['String']['output'];
   reward?: Maybe<Scalars['String']['output']>;
   user_id: Scalars['UUID']['output'];
@@ -1160,7 +1178,7 @@ export type QuestsFilter = {
   objective?: InputMaybe<StringFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<QuestsFilter>>;
-  project_id?: InputMaybe<BigIntFilter>;
+  project_id?: InputMaybe<UuidFilter>;
   quest_name?: InputMaybe<StringFilter>;
   reward?: InputMaybe<StringFilter>;
   user_id?: InputMaybe<UuidFilter>;
@@ -1170,7 +1188,7 @@ export type QuestsInsertInput = {
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   objective?: InputMaybe<Scalars['String']['input']>;
-  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
   quest_name?: InputMaybe<Scalars['String']['input']>;
   reward?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1199,7 +1217,7 @@ export type QuestsUpdateInput = {
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   objective?: InputMaybe<Scalars['String']['input']>;
-  project_id?: InputMaybe<Scalars['BigInt']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
   quest_name?: InputMaybe<Scalars['String']['input']>;
   reward?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1218,7 +1236,6 @@ export type User_Account = Node & {
   created_at: Scalars['Datetime']['output'];
   display_name?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  id: Scalars['BigInt']['output'];
   modified_at?: Maybe<Scalars['Datetime']['output']>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -1252,7 +1269,6 @@ export type User_AccountFilter = {
   created_at?: InputMaybe<DatetimeFilter>;
   display_name?: InputMaybe<StringFilter>;
   email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<BigIntFilter>;
   modified_at?: InputMaybe<DatetimeFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -1284,7 +1300,6 @@ export type User_AccountOrderBy = {
   created_at?: InputMaybe<OrderByDirection>;
   display_name?: InputMaybe<OrderByDirection>;
   email?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
   modified_at?: InputMaybe<OrderByDirection>;
   tokens?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
