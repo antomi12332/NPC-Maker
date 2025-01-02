@@ -37,7 +37,7 @@ export default function Dashboard() {
       toast({
         title: "Project Created",
         description: projectName,
-        duration: 3000,
+        duration: 2000,
       });
     } catch (error) {
       console.error('Error creating project:', error);

@@ -9,6 +9,20 @@ export const CREATE_PROJECT_MUTATION = gql`
   }
 `;
 
+export const DELETE_PROJECT_MUTATION = gql`
+  mutation DeleteProject($id: ID!) {
+    deleteFromprojectsCollection(
+      filter: { id: { eq: $id } }
+      atMost: 1
+      ) {
+      records {
+        id
+        project_name
+      }
+    }
+  }
+`;
+
 export const SAVE_BACKGROUND_MUTATION = gql`
 mutation UpdateBackground {
   updateprojectsCollection(
@@ -49,6 +63,7 @@ export const CURRENT_PROJECT = gql`
       node {
         id
         project_id
+        project_name
         created_at
         short_description
         user_id

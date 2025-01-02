@@ -1,21 +1,47 @@
 'use client';
-import { ProjectState } from "@/store/projectSlice";
+import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
-import Link from "next/link";
+import { CURRENT_PROJECT } from "@/app/_apollo/gql/projectsgql";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { ProjectState } from "@/store/projectSlice";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
+import Link from "next/link";
+import ProjectSelector from "./projectSelector";
 
 export default function Header(props: { titleText: string }) {
+  const [projectData, setProjectData] = useState<{ project_name: string }>(() => {
+    const savedProjectData = localStorage.getItem('projectData');
+    return savedProjectData ? JSON.parse(savedProjectData) : { project_name: '' };
+  });
   const currentPath = usePathname();
   const router = useRouter()
   const supabase = createClient();
-  const projectID = useSelector((state: ProjectState) => state.id);
-  const projectName = useSelector((state: ProjectState) => state.project_name);
+  const projectID = useSelector((state: { project: ProjectState }) => state.project.id);
+  const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectID } });
+  const allProjects = useQuery(CURRENT_PROJECT);
+
+
+
+
+  // ensures background is loaded before rendering Textarea
+  useEffect(() => {
+    if (currentProject.data && currentProject.data.projectsCollection.edges.length >= 0) {
+      const project = currentProject.data.projectsCollection.edges[0].node;
+      setProjectData(project);
+      // Save projectData to local storage
+      localStorage.setItem('projectData', JSON.stringify(project));
+    }
+  }, [currentProject]);
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut()
+    await supabase.auth.signOut()
     router.push('/')
   }
+
+
 
   return (
     <header className="w-full h-20 p-5 bg-white shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] justify-center items-center gap-5 inline-flex">
@@ -32,18 +58,26 @@ export default function Header(props: { titleText: string }) {
         )}
         {currentPath === '/dashboard' && (
           <>
-            <div className="text-black text-base font-bold leading-normal">{projectName}</div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
-            {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
             <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <button className="text-black text-base font-normal leading-normal" onClick={signOut}>Logout</button>
           </>
         )}
         {currentPath !== '/' && currentPath !== '/dashboard' && currentPath !== '/login' && (
           <>
-            <div className="text-black text-base font-bold leading-normal">{projectName}</div>
+            <div className="text-black text-base font-bold leading-normal">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="text-lg" variant="outline">{projectData.project_name}</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuSeparator />
+                  <ProjectSelector projectData={allProjects} />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
-            {/* <Link className="text-black text-base font-normal leading-normal" href="/projectdetail">Project</Link> */}
+            <Link className="text-black text-base font-normal leading-normal" href={`/projectdetail/${projectID}`}>Project</Link>
             <Link className="text-black text-base font-normal leading-normal" href={`/locations/${projectID}`}>Locations</Link>
             <Link className="text-black text-base font-normal leading-normal" href={`/quests/${projectID}`}>Quests</Link>
             <Link className="text-black text-base font-normal leading-normal" href={`/npcs/${projectID}`}>NPCs</Link>
