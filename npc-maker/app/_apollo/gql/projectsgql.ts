@@ -41,6 +41,20 @@ mutation UpdateBackground($id: ID!, $background: String!) {
 }
 `;
 
+export const SAVE_NAME_MUTATION = gql`
+mutation UpdateProjectName($id: ID!, $project_name: String!) {
+  updateprojectsCollection(
+    set: {project_name: $project_name}
+    filter: {id: {eq: $id}}
+    atMost: 1
+  ) {
+    records {
+      project_name
+    }
+  }
+}
+`;
+
 
 
 // Queries

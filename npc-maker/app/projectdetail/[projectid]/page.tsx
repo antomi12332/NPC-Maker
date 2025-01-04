@@ -3,17 +3,18 @@ import { Button } from "@/components/ui/button";
 import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
 import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
 import { Culture } from "@/gql/graphql";
-import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION } from "@/app/_apollo/gql/projectsgql";
+import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION, SAVE_NAME_MUTATION } from "@/app/_apollo/gql/projectsgql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "@/components/banner";
 import CultureCard from "@/components/pages/projectdetail/culturecard";
 import Header from "@/components/header";
 import HistoryCard from "@/components/pages/projectdetail/historycard";
+import { MdEdit } from "react-icons/md";
 
 
 
@@ -23,6 +24,7 @@ export default function Projects() {
   const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const { data: cultureData, loading: cultureLoading, error: cultureError } = useQuery(GET_CULTURES, { variables: { id: projectUUID } });
   const { data: historyData, loading: historyLoading, error: historyError } = useQuery(GET_HISTORIES, { variables: { id: projectUUID } });
+  const [saveProjectName] = useMutation(SAVE_NAME_MUTATION);
   const [saveBackground] = useMutation(SAVE_BACKGROUND_MUTATION);
   const [createCulture] = useMutation(CREATE_CULTURE_MUTATION);
   const [createHistory] = useMutation(CREATE_HISTORY_MUTATION);
@@ -33,11 +35,14 @@ export default function Projects() {
   const [projectBackground, setProjectBackground] = useState('');
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [projectTitle, setProjectTitle] = useState('');
 
   // preload project data
   useEffect(() => {
     if (projectData && projectData.projectsCollection.edges.length > 0) {
       setProjectBackground(projectData.projectsCollection.edges[0].node.background);
+      setProjectTitle(projectData.projectsCollection.edges[0].node.project_name);
     }
   }, [projectData]);
   useEffect(() => {
@@ -53,6 +58,30 @@ export default function Projects() {
 
   if (projectLoading || cultureLoading || historyLoading) return <p>Loading...</p>;
   if (projectError || cultureError || historyError) return <p>Error loading project details</p>;
+
+  const handleEditProjectName = () => {
+    setIsEditing(true);
+  };
+
+  const handleTitleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setProjectTitle(e.target.value);
+  };
+
+  const handleTitleSave = () => {
+    // Add logic to save the new title
+    saveProjectName({
+      variables: {
+        id: projectUUID,
+        project_name: projectTitle,
+      },
+    });
+    setIsEditing(false);
+    toast({
+      title: "Project Name Updated",
+      description: projectTitle,
+      duration: 2000,
+    });
+  };
 
   const handleSaveBackground = async () => {
     try {
@@ -134,12 +163,29 @@ export default function Projects() {
     }
   }
 
-
-
   return (
     <div>
       <Header titleText="Projects" />
       <Banner bannerText="Project Details" bannerDescription="Add project details including backgrounds, cultures, and histories" />
+
+      <div className="w-full h-full pt-20 bg-white flex-row justify-center items-center place-items-center inline-flex">
+        <div className="self-stretch text-black text-[40px] font-bold leading-[48px] px-2">
+          {/* project title */}
+          {isEditing ? (
+            <input
+              type="text"
+              value={projectTitle}
+              onChange={handleTitleChange}
+              onBlur={handleTitleSave}
+              className="text-[40px] font-bold leading-[48px] px-2"
+            />
+          ) : (
+            projectTitle
+          )}
+        </div>
+        <MdEdit className="w-auto h-auto text-2xl" onClick={handleEditProjectName} />
+      </div>
+
 
 
 
