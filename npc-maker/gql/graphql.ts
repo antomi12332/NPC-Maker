@@ -187,8 +187,12 @@ export type IntListFilter = {
 /** The root type for creating and mutating data */
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Deletes zero or more records from the `culture` collection */
+  deleteFromcultureCollection: CultureDeleteResponse;
   /** Deletes zero or more records from the `dialog` collection */
   deleteFromdialogCollection: DialogDeleteResponse;
+  /** Deletes zero or more records from the `history` collection */
+  deleteFromhistoryCollection: HistoryDeleteResponse;
   /** Deletes zero or more records from the `location` collection */
   deleteFromlocationCollection: LocationDeleteResponse;
   /** Deletes zero or more records from the `npcs` collection */
@@ -201,8 +205,12 @@ export type Mutation = {
   deleteFromquestsCollection: QuestsDeleteResponse;
   /** Deletes zero or more records from the `user_account` collection */
   deleteFromuser_accountCollection: User_AccountDeleteResponse;
+  /** Adds one or more `culture` records to the collection */
+  insertIntocultureCollection?: Maybe<CultureInsertResponse>;
   /** Adds one or more `dialog` records to the collection */
   insertIntodialogCollection?: Maybe<DialogInsertResponse>;
+  /** Adds one or more `history` records to the collection */
+  insertIntohistoryCollection?: Maybe<HistoryInsertResponse>;
   /** Adds one or more `location` records to the collection */
   insertIntolocationCollection?: Maybe<LocationInsertResponse>;
   /** Adds one or more `npcs` records to the collection */
@@ -215,8 +223,12 @@ export type Mutation = {
   insertIntoquestsCollection?: Maybe<QuestsInsertResponse>;
   /** Adds one or more `user_account` records to the collection */
   insertIntouser_accountCollection?: Maybe<User_AccountInsertResponse>;
+  /** Updates zero or more records in the `culture` collection */
+  updatecultureCollection: CultureUpdateResponse;
   /** Updates zero or more records in the `dialog` collection */
   updatedialogCollection: DialogUpdateResponse;
+  /** Updates zero or more records in the `history` collection */
+  updatehistoryCollection: HistoryUpdateResponse;
   /** Updates zero or more records in the `location` collection */
   updatelocationCollection: LocationUpdateResponse;
   /** Updates zero or more records in the `npcs` collection */
@@ -233,9 +245,23 @@ export type Mutation = {
 
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromcultureCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<CultureFilter>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromdialogCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<DialogFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromhistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<HistoryFilter>;
 };
 
 
@@ -282,8 +308,20 @@ export type MutationDeleteFromuser_AccountCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntocultureCollectionArgs = {
+  objects: Array<CultureInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntodialogCollectionArgs = {
   objects: Array<DialogInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntohistoryCollectionArgs = {
+  objects: Array<HistoryInsertInput>;
 };
 
 
@@ -324,10 +362,26 @@ export type MutationInsertIntouser_AccountCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdatecultureCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<CultureFilter>;
+  set: CultureUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdatedialogCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<DialogFilter>;
   set: DialogUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdatehistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<HistoryFilter>;
+  set: HistoryUpdateInput;
 };
 
 
@@ -412,8 +466,12 @@ export type PageInfo = {
 /** The root type for querying data */
 export type Query = {
   __typename?: 'Query';
+  /** A pagable collection of type `culture` */
+  cultureCollection?: Maybe<CultureConnection>;
   /** A pagable collection of type `dialog` */
   dialogCollection?: Maybe<DialogConnection>;
+  /** A pagable collection of type `history` */
+  historyCollection?: Maybe<HistoryConnection>;
   /** A pagable collection of type `location` */
   locationCollection?: Maybe<LocationConnection>;
   /** Retrieve a record by its `ID` */
@@ -432,6 +490,18 @@ export type Query = {
 
 
 /** The root type for querying data */
+export type QueryCultureCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<CultureFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<CultureOrderBy>>;
+};
+
+
+/** The root type for querying data */
 export type QueryDialogCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -440,6 +510,18 @@ export type QueryDialogCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DialogOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryHistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<HistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<HistoryOrderBy>>;
 };
 
 
@@ -584,6 +666,101 @@ export type UuidListFilter = {
   overlaps?: InputMaybe<Array<Scalars['UUID']['input']>>;
 };
 
+export type Culture = Node & {
+  __typename?: 'culture';
+  created_at: Scalars['Datetime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['BigInt']['output'];
+  modified_at: Scalars['Datetime']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  project_id: Scalars['UUID']['output'];
+  projects?: Maybe<Projects>;
+  title?: Maybe<Scalars['String']['output']>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type CultureConnection = {
+  __typename?: 'cultureConnection';
+  edges: Array<CultureEdge>;
+  pageInfo: PageInfo;
+};
+
+export type CultureDeleteResponse = {
+  __typename?: 'cultureDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Culture>;
+};
+
+export type CultureEdge = {
+  __typename?: 'cultureEdge';
+  cursor: Scalars['String']['output'];
+  node: Culture;
+};
+
+export type CultureFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<CultureFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<CultureFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<CultureFilter>>;
+  project_id?: InputMaybe<UuidFilter>;
+  title?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type CultureInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type CultureInsertResponse = {
+  __typename?: 'cultureInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Culture>;
+};
+
+export type CultureOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  description?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  project_id?: InputMaybe<OrderByDirection>;
+  title?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type CultureUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type CultureUpdateResponse = {
+  __typename?: 'cultureUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Culture>;
+};
+
 export type Dialog = Node & {
   __typename?: 'dialog';
   created_at: Scalars['Datetime']['output'];
@@ -672,6 +849,101 @@ export type DialogUpdateResponse = {
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
   records: Array<Dialog>;
+};
+
+export type History = Node & {
+  __typename?: 'history';
+  created_at: Scalars['Datetime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['BigInt']['output'];
+  modified_at: Scalars['Datetime']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  project_id: Scalars['UUID']['output'];
+  projects?: Maybe<Projects>;
+  title?: Maybe<Scalars['String']['output']>;
+  user_id: Scalars['UUID']['output'];
+};
+
+export type HistoryConnection = {
+  __typename?: 'historyConnection';
+  edges: Array<HistoryEdge>;
+  pageInfo: PageInfo;
+};
+
+export type HistoryDeleteResponse = {
+  __typename?: 'historyDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<History>;
+};
+
+export type HistoryEdge = {
+  __typename?: 'historyEdge';
+  cursor: Scalars['String']['output'];
+  node: History;
+};
+
+export type HistoryFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<HistoryFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  modified_at?: InputMaybe<DatetimeFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<HistoryFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<HistoryFilter>>;
+  project_id?: InputMaybe<UuidFilter>;
+  title?: InputMaybe<StringFilter>;
+  user_id?: InputMaybe<UuidFilter>;
+};
+
+export type HistoryInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type HistoryInsertResponse = {
+  __typename?: 'historyInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<History>;
+};
+
+export type HistoryOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  description?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  modified_at?: InputMaybe<OrderByDirection>;
+  project_id?: InputMaybe<OrderByDirection>;
+  title?: InputMaybe<OrderByDirection>;
+  user_id?: InputMaybe<OrderByDirection>;
+};
+
+export type HistoryUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
+  project_id?: InputMaybe<Scalars['UUID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type HistoryUpdateResponse = {
+  __typename?: 'historyUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<History>;
 };
 
 export type Location = Node & {
@@ -995,7 +1267,9 @@ export type Projects = Node & {
   background?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['Datetime']['output'];
   culture?: Maybe<Scalars['JSON']['output']>;
+  cultureCollection?: Maybe<CultureConnection>;
   history?: Maybe<Scalars['JSON']['output']>;
+  historyCollection?: Maybe<HistoryConnection>;
   id: Scalars['UUID']['output'];
   locationCollection?: Maybe<LocationConnection>;
   modified_at: Scalars['Datetime']['output'];
@@ -1006,6 +1280,28 @@ export type Projects = Node & {
   questsCollection?: Maybe<QuestsConnection>;
   short_description: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
+};
+
+
+export type ProjectsCultureCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<CultureFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<CultureOrderBy>>;
+};
+
+
+export type ProjectsHistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<HistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<HistoryOrderBy>>;
 };
 
 

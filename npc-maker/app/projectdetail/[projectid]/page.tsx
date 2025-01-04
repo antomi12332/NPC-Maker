@@ -3,28 +3,43 @@ import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION } from "@/app/_apollo/gql/pro
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
-import { Input } from "@/components/input";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import CultureCard from "@/components/culturecard";
+import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
+import { Culture } from "@/gql/graphql";
 
 
 
 export default function Projects() {
-  const [projectBackground, setProjectBackground] = useState('');
-  const [saveBackground] = useMutation(SAVE_BACKGROUND_MUTATION);
   const { toast } = useToast()
-  const path = usePathname()
-  const projectUUID = path.split('/').pop();
-  const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
+  const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
+  const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
+  const { data: cultureData, loading: cultureLoading, error: cultureError } = useQuery(GET_CULTURES, { variables: { id: projectUUID } });
+  const [saveBackground] = useMutation(SAVE_BACKGROUND_MUTATION);
+  const [createCulture] = useMutation(CREATE_CULTURE_MUTATION);
+  const [cultureName, setCultureName] = useState('');
+  const [cultureDescription, setCultureDescription] = useState('');
+  const [projectBackground, setProjectBackground] = useState('');
+  const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
 
-  // ensures background is loaded before rendering Textarea
+  // preload project data
   useEffect(() => {
-    if (currentProject.data && currentProject.data.projectsCollection.edges.length > 0) {
-      setProjectBackground(currentProject.data.projectsCollection.edges[0].node.background);
+    if (projectData && projectData.projectsCollection.edges.length > 0) {
+      setProjectBackground(projectData.projectsCollection.edges[0].node.background);
     }
-  }, [currentProject.data]);
+  }, [projectData]);
+  useEffect(() => {
+    if (cultureData && cultureData.projectsCollection.edges.length > 0) {
+      setCultures(cultureData.projectsCollection.edges[0].node.cultureCollection.edges);
+    }
+  }, [cultureData]);
+
+  if (projectLoading || cultureLoading) return <p>Loading...</p>;
+  if (projectError || cultureError) return <p>Error loading project details</p>;
 
   const handleSaveBackground = async () => {
     try {
@@ -42,6 +57,38 @@ export default function Projects() {
       console.error('Error creating project:', error);
     }
   };
+
+
+  const handleCreateCulture = async () => {
+    if (!cultureName.trim() || !cultureDescription.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Enter a name and description to your culture.",
+        duration: 3000,
+      });
+      return;
+    }
+    try {
+      const { data } = await createCulture({
+        variables: {
+          project_id: projectUUID,
+          title: cultureName,
+          description: cultureDescription,
+        },
+      });
+      const newCulture = data.insertIntocultureCollection.records[0];
+      toast({
+        title: "Culture Created",
+        description: cultureName,
+        duration: 2000,
+      });
+      setCultures([...cultures, { node: newCulture }]);
+    } catch (error) {
+      console.error('Error creating culture:', error);
+    }
+  };
+
+
 
   return (
     <div>
@@ -70,9 +117,9 @@ export default function Projects() {
               </div>
               <div className="flex-col justify-start items-start gap-3 flex">
                 <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                  <div className="text-white text-base font-medium leading-normal"
+                  <Button className="text-white text-base font-medium leading-normal"
                     onClick={handleSaveBackground}>
-                    Save</div>
+                    Save</Button>
                 </div>
               </div>
             </div>
@@ -85,6 +132,13 @@ export default function Projects() {
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Cultures</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe a culture to add to your game world</div>
+
+            <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
+              {cultures.map(({ node }) => (
+                <CultureCard key={node.id} cultures={node} setCultures={setCultures} />
+              ))}
+            </div>
+
           </div>
           <div className="flex flex-col">
             <div className="grow shrink basis-0 flex-col justify-center items-start gap-10 inline-flex">
@@ -93,6 +147,9 @@ export default function Projects() {
                   <div className="self-stretch text-black text-sm font-medium leading-tight">Culture Title</div>
                   <Input className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                     placeholder="Enter culture title"
+                    value={cultureName}
+                    onChange={(e) => setCultureName(e.target.value)}
+                    maxLength={40}
                   />
                 </div>
               </div>
@@ -105,12 +162,14 @@ export default function Projects() {
                   <div className="self-stretch text-black text-sm font-medium leading-tight">Culture Description</div>
                   <Textarea className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                     placeholder="Enter culture description"
+                    value={cultureDescription}
+                    onChange={(e) => setCultureDescription(e.target.value)}
                   />
                 </div>
               </div>
               <div className="flex-col justify-start items-start gap-3 flex">
                 <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                  <div className="text-white text-base font-medium leading-normal">Add</div>
+                  <Button className="text-white text-base font-medium leading-normal" onClick={handleCreateCulture}>Add</Button>
                 </div>
               </div>
             </div>
@@ -123,6 +182,7 @@ export default function Projects() {
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">History</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe history to add to your game world</div>
+            <div>test</div>
           </div>
           <div className="flex flex-col">
             <div className="grow shrink basis-0 flex-col justify-center items-start gap-10 inline-flex">
@@ -131,6 +191,7 @@ export default function Projects() {
                   <div className="self-stretch text-black text-sm font-medium leading-tight">History Title</div>
                   <Input className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                     placeholder="Enter history title"
+                    maxLength={40}
                   />
                 </div>
               </div>
@@ -148,7 +209,7 @@ export default function Projects() {
               </div>
               <div className="flex-col justify-start items-start gap-3 flex">
                 <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                  <div className="text-white text-base font-medium leading-normal">Add</div>
+                  <Button className="text-white text-base font-medium leading-normal">Add</Button>
                 </div>
               </div>
             </div>

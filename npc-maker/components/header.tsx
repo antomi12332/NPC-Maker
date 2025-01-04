@@ -3,36 +3,41 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { CURRENT_PROJECT } from "@/app/_apollo/gql/projectsgql";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { ProjectState } from "@/store/projectSlice";
+import { ProjectState, setProject } from "@/store/projectSlice";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import ProjectSelector from "./projectSelector";
 
 export default function Header(props: { titleText: string }) {
-  const [projectData, setProjectData] = useState<{ project_name: string }>(() => {
-    const savedProjectData = localStorage.getItem('projectData');
-    return savedProjectData ? JSON.parse(savedProjectData) : { project_name: '' };
-  });
+  const dispatch = useDispatch();
   const currentPath = usePathname();
   const router = useRouter()
   const supabase = createClient();
-  const projectID = useSelector((state: { project: ProjectState }) => state.project.id);
-  const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectID } });
+  const projectUUID = useSelector((state: { project: ProjectState }) => state.project.id);
+  const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const allProjects = useQuery(CURRENT_PROJECT);
+  const [projectData, setProjectData] = useState(() => {
+    const savedProjectData = localStorage.getItem('projectData');
+    if (savedProjectData) {
+      dispatch(setProject(JSON.parse(savedProjectData)));
+      return savedProjectData ? JSON.parse(savedProjectData) : null;
+    }
+  });
 
 
 
 
-  // ensures background is loaded before rendering Textarea
   useEffect(() => {
     if (currentProject.data && currentProject.data.projectsCollection.edges.length >= 0) {
       const project = currentProject.data.projectsCollection.edges[0].node;
       setProjectData(project);
       // Save projectData to local storage
-      localStorage.setItem('projectData', JSON.stringify(project));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('projectData', JSON.stringify(project));
+      }
     }
   }, [currentProject]);
 
@@ -68,7 +73,7 @@ export default function Header(props: { titleText: string }) {
             <div className="text-black text-base font-bold leading-normal">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="text-lg" variant="outline">{projectData.project_name}</Button>
+                  <Button className="text-lg" variant="outline">{projectData?.project_name}</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuSeparator />
@@ -77,10 +82,10 @@ export default function Header(props: { titleText: string }) {
               </DropdownMenu>
             </div>
             <Link className="text-black text-base font-normal leading-normal" href="/dashboard">Dashboard</Link>
-            <Link className="text-black text-base font-normal leading-normal" href={`/projectdetail/${projectID}`}>Project</Link>
-            <Link className="text-black text-base font-normal leading-normal" href={`/locations/${projectID}`}>Locations</Link>
-            <Link className="text-black text-base font-normal leading-normal" href={`/quests/${projectID}`}>Quests</Link>
-            <Link className="text-black text-base font-normal leading-normal" href={`/npcs/${projectID}`}>NPCs</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/projectdetail/${projectUUID}`}>Project</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/locations/${projectUUID}`}>Locations</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/quests/${projectUUID}`}>Quests</Link>
+            <Link className="text-black text-base font-normal leading-normal" href={`/npcs/${projectUUID}`}>NPCs</Link>
             <Link className="text-black text-base font-normal leading-normal" href="/account">Account</Link>
             <button className="text-black text-base font-normal leading-normal" onClick={signOut}>Logout</button>
           </>

@@ -1,12 +1,13 @@
 'use client'
-import { useMutation } from "@apollo/client";
-import { Input } from "../../components/input";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "../../components/banner";
 import Header from "@/components/header";
-import ProjectCard from "../../components/dashboard/projectcard";
-import { CREATE_PROJECT_MUTATION } from "../_apollo/gql/projectsgql";
+import { ALL_PROJECTS_QUERY, CREATE_PROJECT_MUTATION } from "../_apollo/gql/projectsgql";
+import ProjectCard from "@/components/projectcard";
+import { Input } from "@/components/ui/input";
+import { useQuery, useMutation } from "@apollo/client";
+import { useEffect } from "react";
 
 
 
@@ -17,6 +18,14 @@ export default function Dashboard() {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [createProject] = useMutation(CREATE_PROJECT_MUTATION);
+  const { loading, error, data } = useQuery(ALL_PROJECTS_QUERY);
+  const [projects, setProjects] = useState<{ node: { id: string; name: string; description: string } }[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setProjects(data.projectsCollection.edges);
+    }
+  }, [data]);
 
   const handleCreateProject = async () => {
     if (!projectName.trim() || !projectDescription.trim()) {
@@ -24,27 +33,30 @@ export default function Dashboard() {
         variant: "destructive",
         title: "Enter a name and description to your project.",
         duration: 3000,
-      })
+      });
       return;
     }
     try {
-      await createProject({
+      const { data } = await createProject({
         variables: {
           name: projectName,
           description: projectDescription,
         },
       });
+      const newProject = data.insertIntoprojectsCollection.records[0];
       toast({
         title: "Project Created",
         description: projectName,
         duration: 2000,
       });
+      setProjects([...projects, { node: newProject }]);
     } catch (error) {
       console.error('Error creating project:', error);
     }
   };
 
-
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
@@ -58,7 +70,9 @@ export default function Dashboard() {
             <div className="shrink w-1 text-black text-[40px] font-bold leading-[48px]">Your Projects</div>
           </div>
           <div className="grid grid-flow-col grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
-            <ProjectCard />
+            {projects.map(({ node }) => (
+              <ProjectCard key={node.id} project={node} setProjects={setProjects} />
+            ))}
           </div>
         </div>
 

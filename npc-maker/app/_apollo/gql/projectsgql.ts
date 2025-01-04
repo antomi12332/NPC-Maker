@@ -4,7 +4,11 @@ import { gql } from "@apollo/client";
 export const CREATE_PROJECT_MUTATION = gql`
   mutation CreateProject($name: String!, $description: String!) {
     insertIntoprojectsCollection(objects: [{ project_name: $name, short_description: $description }]) {
-      records { project_name }
+      records { 
+        id
+        project_name
+        short_description
+        }
     }
   }
 `;
