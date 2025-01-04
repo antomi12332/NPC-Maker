@@ -50,6 +50,8 @@ export default function Dashboard() {
         duration: 2000,
       });
       setProjects([...projects, { node: newProject }]);
+      setProjectName('');
+      setProjectDescription('');
     } catch (error) {
       console.error('Error creating project:', error);
     }

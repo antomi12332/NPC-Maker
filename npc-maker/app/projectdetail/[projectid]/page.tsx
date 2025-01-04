@@ -83,6 +83,8 @@ export default function Projects() {
         duration: 2000,
       });
       setCultures([...cultures, { node: newCulture }]);
+      setCultureName('');
+      setCultureDescription('');
     } catch (error) {
       console.error('Error creating culture:', error);
     }

@@ -13,7 +13,6 @@ import { Textarea } from "./ui/textarea"
 import { useMutation } from "@apollo/client"
 import { DELETE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql"
 import { toast } from "@/hooks/use-toast"
-import { Culture } from "@/gql/graphql"
 
 
 
@@ -27,7 +26,7 @@ export default function CultureCard({ cultures, setCultures }) {
         title: "Culture Deleted",
         duration: 2000,
       });
-      setCultures((prevCulture: Culture[]) => prevCulture.filter(p => p.id !== id));
+      setCultures(prevCulture => prevCulture.filter(p => p.node.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);
