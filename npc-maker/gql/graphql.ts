@@ -1266,9 +1266,7 @@ export type Projects = Node & {
   __typename?: 'projects';
   background?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['Datetime']['output'];
-  culture?: Maybe<Scalars['JSON']['output']>;
   cultureCollection?: Maybe<CultureConnection>;
-  history?: Maybe<Scalars['JSON']['output']>;
   historyCollection?: Maybe<HistoryConnection>;
   id: Scalars['UUID']['output'];
   locationCollection?: Maybe<LocationConnection>;
@@ -1367,8 +1365,6 @@ export type ProjectsFilter = {
 export type ProjectsInsertInput = {
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  culture?: InputMaybe<Scalars['JSON']['input']>;
-  history?: InputMaybe<Scalars['JSON']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   project_name?: InputMaybe<Scalars['String']['input']>;
@@ -1398,8 +1394,6 @@ export type ProjectsOrderBy = {
 export type ProjectsUpdateInput = {
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  culture?: InputMaybe<Scalars['JSON']['input']>;
-  history?: InputMaybe<Scalars['JSON']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   project_name?: InputMaybe<Scalars['String']['input']>;
@@ -1426,8 +1420,8 @@ export type Quests = Node & {
   objective?: Maybe<Scalars['String']['output']>;
   project_id?: Maybe<Scalars['UUID']['output']>;
   projects?: Maybe<Projects>;
-  quest_name: Scalars['String']['output'];
   reward?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
 };
 
@@ -1475,8 +1469,8 @@ export type QuestsFilter = {
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<QuestsFilter>>;
   project_id?: InputMaybe<UuidFilter>;
-  quest_name?: InputMaybe<StringFilter>;
   reward?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
   user_id?: InputMaybe<UuidFilter>;
 };
 
@@ -1485,8 +1479,8 @@ export type QuestsInsertInput = {
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   objective?: InputMaybe<Scalars['String']['input']>;
   project_id?: InputMaybe<Scalars['UUID']['input']>;
-  quest_name?: InputMaybe<Scalars['String']['input']>;
   reward?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
@@ -1504,8 +1498,8 @@ export type QuestsOrderBy = {
   modified_at?: InputMaybe<OrderByDirection>;
   objective?: InputMaybe<OrderByDirection>;
   project_id?: InputMaybe<OrderByDirection>;
-  quest_name?: InputMaybe<OrderByDirection>;
   reward?: InputMaybe<OrderByDirection>;
+  title?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
 };
 
@@ -1514,8 +1508,8 @@ export type QuestsUpdateInput = {
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   objective?: InputMaybe<Scalars['String']['input']>;
   project_id?: InputMaybe<Scalars['UUID']['input']>;
-  quest_name?: InputMaybe<Scalars['String']['input']>;
   reward?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 

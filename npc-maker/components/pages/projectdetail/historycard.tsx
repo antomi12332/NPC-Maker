@@ -7,13 +7,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
-import { Textarea } from "./ui/textarea"
+import { Input } from "../../ui/input"
+import { Label } from "../../ui/label"
+import { Textarea } from "../../ui/textarea"
 import { useMutation } from "@apollo/client"
 import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
 import { DELETE_HISTORY_MUTATION, UPDATE_HISTORY_MUTATION } from "@/app/_apollo/gql/historygql"
+import { FaTrash } from "react-icons/fa"
 
 
 
@@ -86,7 +87,7 @@ export default function HistoryCard({ histories, setHistories }) {
           </div>
         </div>
         <DialogFooter>
-          <Button className="bg-red-500" variant="outline" onClick={() => handleDelete(id)}>Delete</Button>
+          <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
           <Button onClick={handleUpdate} type="submit">Save changes</Button>
         </DialogFooter>
       </DialogContent>

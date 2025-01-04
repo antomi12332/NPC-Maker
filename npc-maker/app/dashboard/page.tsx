@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import Banner from "../../components/banner";
 import Header from "@/components/header";
 import { ALL_PROJECTS_QUERY, CREATE_PROJECT_MUTATION } from "../_apollo/gql/projectsgql";
-import ProjectCard from "@/components/projectcard";
+import ProjectCard from "@/components/pages/dashboard/projectcard";
 import { Input } from "@/components/ui/input";
 import { useQuery, useMutation } from "@apollo/client";
 import { useEffect } from "react";

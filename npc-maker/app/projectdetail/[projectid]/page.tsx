@@ -4,21 +4,22 @@ import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culture
 import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
 import { Culture } from "@/gql/graphql";
 import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION } from "@/app/_apollo/gql/projectsgql";
+import { getLocalStorageItem } from "@/utils/cache";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "@/components/banner";
-import CultureCard from "@/components/culturecard";
+import CultureCard from "@/components/pages/projectdetail/culturecard";
 import Header from "@/components/header";
-import HistoryCard from "@/components/historycard";
+import HistoryCard from "@/components/pages/projectdetail/historycard";
 
 
 
 export default function Projects() {
   const { toast } = useToast()
-  const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
+  const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
   const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const { data: cultureData, loading: cultureLoading, error: cultureError } = useQuery(GET_CULTURES, { variables: { id: projectUUID } });
   const { data: historyData, loading: historyLoading, error: historyError } = useQuery(GET_HISTORIES, { variables: { id: projectUUID } });
@@ -76,7 +77,7 @@ export default function Projects() {
       toast({
         variant: "destructive",
         title: "Enter a name and description to your culture.",
-        duration: 3000,
+        duration: 2000,
       });
       return;
     }
@@ -107,7 +108,7 @@ export default function Projects() {
       toast({
         variant: "destructive",
         title: "Enter a name and description to your history.",
-        duration: 3000,
+        duration: 2000,
       });
       return;
     }

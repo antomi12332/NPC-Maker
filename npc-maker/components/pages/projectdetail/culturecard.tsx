@@ -7,13 +7,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
-import { Textarea } from "./ui/textarea"
+import { Input } from "../../ui/input"
+import { Label } from "../../ui/label"
+import { Textarea } from "../../ui/textarea"
 import { useMutation } from "@apollo/client"
 import { DELETE_CULTURE_MUTATION, UPDATE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql"
 import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
+import { FaTrash } from "react-icons/fa"
 
 
 
@@ -82,11 +83,11 @@ export default function CultureCard({ cultures, setCultures }) {
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Textarea id="username" className="col-span-3 h-40" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
+            <Textarea id="description" className="col-span-3 h-40" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
           </div>
         </div>
         <DialogFooter>
-          <Button className="bg-red-500" variant="outline" onClick={() => handleDelete(id)}>Delete</Button>
+          <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
           <Button onClick={handleUpdate} type="submit">Save changes</Button>
         </DialogFooter>
       </DialogContent>
