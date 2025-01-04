@@ -3,11 +3,11 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { CURRENT_PROJECT } from "@/app/_apollo/gql/projectsgql";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { ProjectState, setProject } from "@/store/projectSlice";
+import { setProject } from "@/store/projectSlice";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 import ProjectSelector from "./projectSelector";
 
@@ -16,7 +16,7 @@ export default function Header(props: { titleText: string }) {
   const currentPath = usePathname();
   const router = useRouter()
   const supabase = createClient();
-  const projectUUID = useSelector((state: { project: ProjectState }) => state.project.id);
+  const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
   const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const allProjects = useQuery(CURRENT_PROJECT);
   const [projectData, setProjectData] = useState(() => {

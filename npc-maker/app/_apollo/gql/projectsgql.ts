@@ -28,7 +28,7 @@ export const DELETE_PROJECT_MUTATION = gql`
 `;
 
 export const SAVE_BACKGROUND_MUTATION = gql`
-mutation UpdateBackground {
+mutation UpdateBackground($id: ID!, $background: String!) {
   updateprojectsCollection(
     set: {background: $background}
     filter: {id: {eq: $id}}
@@ -45,7 +45,7 @@ mutation UpdateBackground {
 
 // Queries
 export const ALL_PROJECTS_QUERY = gql`
-  query GetProjects {
+  query GetProjects($id: String!) {
       projectsCollection(orderBy: {project_id: AscNullsLast}) {
       edges {
         node {
@@ -61,7 +61,7 @@ export const ALL_PROJECTS_QUERY = gql`
 `;
 
 export const CURRENT_PROJECT = gql`
-  query CurrentProject {
+  query CurrentProject($id: String!) {
     projectsCollection (filter: {id: {eq: $id}}) {
     edges {
       node {

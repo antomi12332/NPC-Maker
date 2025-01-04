@@ -11,27 +11,27 @@ import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { Textarea } from "./ui/textarea"
 import { useMutation } from "@apollo/client"
-import { DELETE_CULTURE_MUTATION, UPDATE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql"
 import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
+import { DELETE_HISTORY_MUTATION, UPDATE_HISTORY_MUTATION } from "@/app/_apollo/gql/historygql"
 
 
 
-export default function CultureCard({ cultures, setCultures }) {
-  const [deleteCulture] = useMutation(DELETE_CULTURE_MUTATION);
-  const [updateCulture] = useMutation(UPDATE_CULTURE_MUTATION);
-  const [cultureTitle, setCultureTitle] = useState(cultures.title);
-  const [cultureDescription, setCultureDescription] = useState(cultures.description);
-  const { id } = cultures;
+export default function HistoryCard({ histories, setHistories }) {
+  const [deleteHistory] = useMutation(DELETE_HISTORY_MUTATION);
+  const [updateHistory] = useMutation(UPDATE_HISTORY_MUTATION);
+  const [historyTitle, sethistoryTitle] = useState(histories.title);
+  const [historyDescription, sethistoryDescription] = useState(histories.description);
+  const { id } = histories;
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteCulture({ variables: { id } });
+      await deleteHistory({ variables: { id } });
       toast({
-        title: "Culture Deleted",
+        title: "History Deleted",
         duration: 2000,
       });
-      setCultures(prevCulture => prevCulture.filter(p => p.node.id !== id));
+      setHistories(prevHistory => prevHistory.filter(p => p.node.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);
@@ -44,9 +44,9 @@ export default function CultureCard({ cultures, setCultures }) {
 
   const handleUpdate = async () => {
     try {
-      await updateCulture({ variables: { id, cultureTitle, cultureDescription } });
+      await updateHistory({ variables: { id, historyTitle, historyDescription } });
       toast({
-        title: "Culture Updated",
+        title: "History Updated",
         duration: 2000,
       });
     }
@@ -65,24 +65,24 @@ export default function CultureCard({ cultures, setCultures }) {
   return (
     <Dialog key={id}>
       <DialogTrigger asChild>
-        <Button variant="outline">{cultureTitle}</Button>
+        <Button variant="outline">{historyTitle}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Culture</DialogTitle>
+          <DialogTitle>Edit History</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Title
             </Label>
-            <Input id="name" defaultValue={cultureTitle!} className="col-span-3" onChange={(e) => setCultureTitle(e.target.value)} />
+            <Input id="name" defaultValue={historyTitle!} className="col-span-3" onChange={(e) => sethistoryTitle(e.target.value)} />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Textarea id="username" className="col-span-3" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
+            <Textarea id="username" className="col-span-3" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
           </div>
         </div>
         <DialogFooter>

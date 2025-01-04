@@ -1,16 +1,18 @@
 'use client'
+import { Button } from "@/components/ui/button";
+import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
+import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
+import { Culture } from "@/gql/graphql";
 import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION } from "@/app/_apollo/gql/projectsgql";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "@/components/banner";
-import Header from "@/components/header";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import CultureCard from "@/components/culturecard";
-import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
-import { Culture } from "@/gql/graphql";
+import Header from "@/components/header";
+import HistoryCard from "@/components/historycard";
 
 
 
@@ -19,12 +21,17 @@ export default function Projects() {
   const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
   const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const { data: cultureData, loading: cultureLoading, error: cultureError } = useQuery(GET_CULTURES, { variables: { id: projectUUID } });
+  const { data: historyData, loading: historyLoading, error: historyError } = useQuery(GET_HISTORIES, { variables: { id: projectUUID } });
   const [saveBackground] = useMutation(SAVE_BACKGROUND_MUTATION);
   const [createCulture] = useMutation(CREATE_CULTURE_MUTATION);
+  const [createHistory] = useMutation(CREATE_HISTORY_MUTATION);
   const [cultureName, setCultureName] = useState('');
   const [cultureDescription, setCultureDescription] = useState('');
+  const [historyName, setHistoryName] = useState('');
+  const [historyDescription, setHistoryDescription] = useState('');
   const [projectBackground, setProjectBackground] = useState('');
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
+  const [histories, setHistories] = useState<{ node: History }[]>([]);
 
   // preload project data
   useEffect(() => {
@@ -37,9 +44,14 @@ export default function Projects() {
       setCultures(cultureData.projectsCollection.edges[0].node.cultureCollection.edges);
     }
   }, [cultureData]);
+  useEffect(() => {
+    if (historyData && historyData.projectsCollection.edges.length > 0) {
+      setHistories(historyData.projectsCollection.edges[0].node.historyCollection.edges);
+    }
+  }, [historyData]);
 
-  if (projectLoading || cultureLoading) return <p>Loading...</p>;
-  if (projectError || cultureError) return <p>Error loading project details</p>;
+  if (projectLoading || cultureLoading || historyLoading) return <p>Loading...</p>;
+  if (projectError || cultureError || historyError) return <p>Error loading project details</p>;
 
   const handleSaveBackground = async () => {
     try {
@@ -90,6 +102,37 @@ export default function Projects() {
     }
   };
 
+  const handleCreateHistory = async () => {
+    if (!historyName.trim() || !historyDescription.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Enter a name and description to your history.",
+        duration: 3000,
+      });
+      return;
+    }
+    try {
+      const { data } = await createHistory({
+        variables: {
+          project_id: projectUUID,
+          title: historyName,
+          description: historyDescription,
+        },
+      });
+      const newHistory = data.insertIntohistoryCollection.records[0];
+      toast({
+        title: "History Created",
+        description: historyName,
+        duration: 2000,
+      });
+      setHistories([...histories, { node: newHistory }]);
+      setHistoryName('');
+      setHistoryDescription('');
+    } catch (error) {
+      console.error('Error creating history:', error);
+    }
+  }
+
 
 
   return (
@@ -104,6 +147,8 @@ export default function Projects() {
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Game World Background</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Add description of your game world</div>
+            <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
+            </div>
           </div>
           <div>
             <div className="grow shrink basis-0 flex-col justify-center items-start gap-10 inline-flex">
@@ -134,7 +179,6 @@ export default function Projects() {
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Cultures</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe a culture to add to your game world</div>
-
             <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
               {cultures.map(({ node }) => (
                 <CultureCard key={node.id} cultures={node} setCultures={setCultures} />
@@ -184,7 +228,12 @@ export default function Projects() {
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">History</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe history to add to your game world</div>
-            <div>test</div>
+            <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
+              {histories.map(({ node }) => (
+                <HistoryCard key={node.id} histories={node} setHistories={setHistories} />
+              ))}
+            </div>
+
           </div>
           <div className="flex flex-col">
             <div className="grow shrink basis-0 flex-col justify-center items-start gap-10 inline-flex">
@@ -193,6 +242,8 @@ export default function Projects() {
                   <div className="self-stretch text-black text-sm font-medium leading-tight">History Title</div>
                   <Input className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                     placeholder="Enter history title"
+                    value={historyName}
+                    onChange={(e) => setHistoryName(e.target.value)}
                     maxLength={40}
                   />
                 </div>
@@ -206,12 +257,14 @@ export default function Projects() {
                   <div className="self-stretch text-black text-sm font-medium leading-tight">History Description</div>
                   <Textarea className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                     placeholder="Enter history description"
+                    value={historyDescription}
+                    onChange={(e) => setHistoryDescription(e.target.value)}
                   />
                 </div>
               </div>
               <div className="flex-col justify-start items-start gap-3 flex">
                 <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                  <Button className="text-white text-base font-medium leading-normal">Add</Button>
+                  <Button className="text-white text-base font-medium leading-normal" onClick={handleCreateHistory}>Add</Button>
                 </div>
               </div>
             </div>
