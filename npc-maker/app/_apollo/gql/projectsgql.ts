@@ -73,8 +73,6 @@ export const CURRENT_PROJECT = gql`
         user_id
         modified_at
         background
-        culture
-        history
       }
     }
   }
