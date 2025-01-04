@@ -82,7 +82,7 @@ export default function CultureCard({ cultures, setCultures }) {
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Textarea id="username" className="col-span-3" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
+            <Textarea id="username" className="col-span-3 h-40" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
           </div>
         </div>
         <DialogFooter>

@@ -82,7 +82,7 @@ export default function HistoryCard({ histories, setHistories }) {
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Textarea id="username" className="col-span-3" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
+            <Textarea id="username" className="col-span-3 h-40" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
           </div>
         </div>
         <DialogFooter>
