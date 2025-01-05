@@ -6,17 +6,17 @@ mutation DeleteLocation($id: String!) {
   deleteFromlocationCollection(filter: {id: {eq:$id}} atMost: 1){
     records {
       id
-      title
+      location_name
     }
   }}
 `;
 
 export const UPDATE_LOCATION_MUTATION = gql`
-mutation UpdateLocation($id: String!, $title: String!, $description: String!) {
-  updatelocationCollection(filter: {id: {eq: $id}}, set: {title: $locationTitle, description: $locationDescription}) {
+mutation UpdateLocation($id: String!, $location_name: String!, $description: String!) {
+  updatelocationCollection(filter: {id: {eq: $id}}, set: {location_name: $locationlocation_name, description: $locationDescription}) {
     records {
       id
-      title
+      location_name
       description
     }
   }
@@ -24,11 +24,11 @@ mutation UpdateLocation($id: String!, $title: String!, $description: String!) {
 `;
 
 export const CREATE_LOCATION_MUTATION = gql`
-mutation CreateLocation($title: String!, $description: String!) {
-  insertIntolocationCollection(objects: [{project_id: $project_id title: $title description: $description}]){
+mutation CreateLocation($location_name: String!, $description: String!) {
+  insertIntolocationCollection(objects: [{project_id: $project_id location_name: $location_name description: $description}]){
     records {
       id
-      title
+      location_name
       description
     }
   }
@@ -47,7 +47,7 @@ query GetLocation($id: String!) {
           edges {
             node {
               id
-              title
+              location_name
               description
             }
           }
