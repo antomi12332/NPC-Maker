@@ -1,9 +1,9 @@
-import 'dotenv/config'
-import type { CodegenConfig } from '@graphql-codegen/cli'
-import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset'
+import 'dotenv/config';
+import type { CodegenConfig } from '@graphql-codegen/cli';
+import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset';
 
-const gqlEndpoint: string = process.env.NEXT_PUBLIC_SUPABASE_GRAPHQL_URL!
-const anonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const gqlEndpoint: string = process.env.NEXT_PUBLIC_SUPABASE_GRAPHQL_URL!;
+const anonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 
 const config: CodegenConfig = {
@@ -39,6 +39,6 @@ const config: CodegenConfig = {
   // hooks: {
   //   afterAllFileWrite: ['npm run prettier'], // optional
   // },
-}
+};
 
-export default config
+export default config;

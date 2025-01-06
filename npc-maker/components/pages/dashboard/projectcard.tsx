@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog";
 import { DELETE_PROJECT_MUTATION } from "@/app/_apollo/gql/projectsgql";

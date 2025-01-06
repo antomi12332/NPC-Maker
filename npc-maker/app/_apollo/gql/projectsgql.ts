@@ -90,4 +90,4 @@ export const CURRENT_PROJECT = gql`
       }
     }
   }
-}`
+}`;

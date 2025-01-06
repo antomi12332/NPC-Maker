@@ -38,7 +38,7 @@ export default function LocationsCard({ locations, setLocations }: LocationsCard
         duration: 2000,
       });
     }
-  }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -60,7 +60,7 @@ export default function LocationsCard({ locations, setLocations }: LocationsCard
         duration: 2000,
       });
     }
-  }
+  };
   return (
     <Dialog>
       <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
@@ -101,5 +101,5 @@ export default function LocationsCard({ locations, setLocations }: LocationsCard
       </DialogContent>
 
     </Dialog>
-  )
+  );
 }

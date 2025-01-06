@@ -6,5 +6,5 @@ export default function Banner(props: { bannerText: string, bannerDescription: s
         <div className="w-[520px] text-center text-white text-base font-normal leading-normal">{props.bannerDescription}</div>
       </div>
     </div>
-  )
+  );
 }

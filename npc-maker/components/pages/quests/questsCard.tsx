@@ -36,7 +36,7 @@ export default function QuestCard({ questData, setquestData }: QuestCardProps) {
         duration: 2000,
       });
     }
-  }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -59,7 +59,7 @@ export default function QuestCard({ questData, setquestData }: QuestCardProps) {
         duration: 2000,
       });
     }
-  }
+  };
 
 
   return (
@@ -105,5 +105,5 @@ export default function QuestCard({ questData, setquestData }: QuestCardProps) {
         <Button onClick={handleUpdate}>Save</Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

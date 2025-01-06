@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { CREATE_LOCATION_MUTATION, GET_LOCATION } from "@/app/_apollo/gql/locationsgql";
 import Banner from "@/components/banner";
 import Header from "@/components/header";

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useDispatch } from "react-redux";
 import { DropdownMenuRadioItem } from "./ui/dropdown-menu";
 import { ProjectState, setProject } from "@/store/projectSlice";
@@ -18,10 +18,10 @@ export default function ProjectSelector(props: { projectData: OperationVariables
       localStorage.setItem('projectData', JSON.stringify(node));
     }
     dispatch(setProject(node));
-    const path = currentPath.split('/')
+    const path = currentPath.split('/');
     path.pop();
-    const newPath = `${path.join('/')}/${node.id}`
-    router.push(newPath)
+    const newPath = `${path.join('/')}/${node.id}`;
+    router.push(newPath);
   };
 
 
@@ -35,5 +35,5 @@ export default function ProjectSelector(props: { projectData: OperationVariables
         {project_name}
       </DropdownMenuRadioItem>
     );
-  })
+  });
 }

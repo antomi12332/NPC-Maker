@@ -3,19 +3,19 @@ import {
   InMemoryCache,
   createHttpLink,
   defaultDataIdFromObject
-} from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-import { relayStylePagination } from '@apollo/client/utilities'
-import { createClient } from './supabase/client'
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { relayStylePagination } from '@apollo/client/utilities';
+import { createClient } from './supabase/client';
 
-const supabase = createClient()
+const supabase = createClient();
 const cache = new InMemoryCache({
   dataIdFromObject(responseObject) {
     if ('nodeId' in responseObject) {
-      return `${responseObject.nodeId}`
+      return `${responseObject.nodeId}`;
     }
 
-    return defaultDataIdFromObject(responseObject)
+    return defaultDataIdFromObject(responseObject);
   },
   typePolicies: {
     Query: {
@@ -25,33 +25,33 @@ const cache = new InMemoryCache({
           read(_, { args, toReference }) {
             const ref = toReference({
               nodeId: args?.nodeId,
-            })
+            });
 
-            return ref
+            return ref;
           },
         },
       },
     },
   },
-})
+});
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_SUPABASE_GRAPHQL_URL,
-})
+});
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = (await supabase.auth.getSession()).data.session?.access_token
+  const token = (await supabase.auth.getSession()).data.session?.access_token;
   return {
     headers: {
       ...headers,
       Authorization: token ? `Bearer ${token}` : '',
       apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     },
-  }
-})
+  };
+});
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
-})
+});
 
-export default client
+export default client;

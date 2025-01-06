@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "../../components/banner";
@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 
 export default function Dashboard() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [createProject] = useMutation(CREATE_PROJECT_MUTATION);

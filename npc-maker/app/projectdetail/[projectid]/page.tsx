@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Button } from "@/components/ui/button";
 import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
 import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
@@ -24,7 +24,7 @@ const useProjectData = (projectUUID: string) => {
 };
 
 export default function Projects() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
   const { projectData, cultureData, historyData } = useProjectData(projectUUID);
   const [saveProjectName] = useMutation(SAVE_NAME_MUTATION);
@@ -166,7 +166,7 @@ export default function Projects() {
     } catch (error) {
       console.error('Error creating history:', error);
     }
-  }
+  };
 
 
 

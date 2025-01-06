@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,16 +6,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "../../ui/input"
-import { Label } from "../../ui/label"
-import { Textarea } from "../../ui/textarea"
-import { useMutation } from "@apollo/client"
-import { DELETE_CULTURE_MUTATION, UPDATE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql"
-import { toast } from "@/hooks/use-toast"
-import { useState } from "react"
-import { FaTrash } from "react-icons/fa"
-import { CultureCardProps } from "@/typings"
+} from "@/components/ui/dialog";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import { Textarea } from "../../ui/textarea";
+import { useMutation } from "@apollo/client";
+import { DELETE_CULTURE_MUTATION, UPDATE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { FaTrash } from "react-icons/fa";
+import { CultureCardProps } from "@/typings";
 
 
 
@@ -59,7 +59,7 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
         duration: 2000,
       });
     }
-  }
+  };
 
 
 
@@ -93,5 +93,5 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

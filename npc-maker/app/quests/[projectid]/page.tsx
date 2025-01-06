@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Banner from "@/components/banner";
 import Header from "@/components/header";
 import { Input } from "@/components/ui/input";
@@ -67,7 +67,7 @@ export default function QuestsPage() {
         duration: 2000,
       });
     }
-  }
+  };
 
 
 

@@ -14,7 +14,7 @@ import ProjectSelector from "./projectSelector";
 export default function Header(props: { titleText: string }) {
   const dispatch = useDispatch();
   const currentPath = usePathname();
-  const router = useRouter()
+  const router = useRouter();
   const supabase = createClient();
   const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
   const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
@@ -42,8 +42,8 @@ export default function Header(props: { titleText: string }) {
   }, [currentProject]);
 
   async function signOut() {
-    await supabase.auth.signOut()
-    router.push('/')
+    await supabase.auth.signOut();
+    router.push('/');
   }
 
 
@@ -93,5 +93,5 @@ export default function Header(props: { titleText: string }) {
 
       </div>
     </header>
-  )
+  );
 }
