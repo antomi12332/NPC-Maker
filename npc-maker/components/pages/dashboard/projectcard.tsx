@@ -3,13 +3,16 @@ import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog";
 import { DELETE_PROJECT_MUTATION } from "@/app/_apollo/gql/projectsgql";
 import { FaTrash } from "react-icons/fa";
+import { ProjectCardProps } from "@/typings";
 import { setProject } from '@/store/projectSlice';
 import { toast } from "@/hooks/use-toast";
 import { useDispatch } from 'react-redux';
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
 
-export default function ProjectCard({ project, setProjects }) {
+
+
+export default function ProjectCard({ project, setProjects }: ProjectCardProps) {
   const dispatch = useDispatch();
   const [deleteProject] = useMutation(DELETE_PROJECT_MUTATION);
 

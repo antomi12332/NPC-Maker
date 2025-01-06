@@ -15,10 +15,11 @@ import { DELETE_CULTURE_MUTATION, UPDATE_CULTURE_MUTATION } from "@/app/_apollo/
 import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
 import { FaTrash } from "react-icons/fa"
+import { CultureCardProps } from "@/typings"
 
 
 
-export default function CultureCard({ cultures, setCultures }) {
+export default function CultureCard({ cultures, setCultures }: CultureCardProps) {
   const [deleteCulture] = useMutation(DELETE_CULTURE_MUTATION);
   const [updateCulture] = useMutation(UPDATE_CULTURE_MUTATION);
   const [cultureTitle, setCultureTitle] = useState(cultures.title);

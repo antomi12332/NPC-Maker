@@ -4,11 +4,12 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import { QuestCardProps } from "@/typings";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
-export default function QuestCard({ questData, setquestData }) {
+export default function QuestCard({ questData, setquestData }: QuestCardProps) {
   const [deleteQuest] = useMutation(DELETE_QUESTS_MUTATION);
   const [updateQuest] = useMutation(UPDATE_QUESTS_MUTATION);
   const [questName, setQuestName] = useState(questData.title);

@@ -13,7 +13,7 @@ mutation DeleteLocation($id: String!) {
 
 export const UPDATE_LOCATION_MUTATION = gql`
 mutation UpdateLocation($id: String!, $location_name: String!, $description: String!) {
-  updatelocationCollection(filter: {id: {eq: $id}}, set: {location_name: $locationlocation_name, description: $locationDescription}) {
+  updatelocationCollection(filter: {id: {eq: $id}}, set: {location_name: $location_name, description: $description}) {
     records {
       id
       location_name

@@ -15,10 +15,11 @@ import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
 import { DELETE_HISTORY_MUTATION, UPDATE_HISTORY_MUTATION } from "@/app/_apollo/gql/historygql"
 import { FaTrash } from "react-icons/fa"
+import { HistoryCardProps } from "@/typings"
 
 
 
-export default function HistoryCard({ histories, setHistories }) {
+export default function HistoryCard({ histories, setHistories }: HistoryCardProps) {
   const [deleteHistory] = useMutation(DELETE_HISTORY_MUTATION);
   const [updateHistory] = useMutation(UPDATE_HISTORY_MUTATION);
   const [historyTitle, sethistoryTitle] = useState(histories.title);
