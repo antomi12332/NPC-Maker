@@ -189,8 +189,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Deletes zero or more records from the `culture` collection */
   deleteFromcultureCollection: CultureDeleteResponse;
-  /** Deletes zero or more records from the `dialog` collection */
-  deleteFromdialogCollection: DialogDeleteResponse;
   /** Deletes zero or more records from the `history` collection */
   deleteFromhistoryCollection: HistoryDeleteResponse;
   /** Deletes zero or more records from the `location` collection */
@@ -207,8 +205,6 @@ export type Mutation = {
   deleteFromuser_accountCollection: User_AccountDeleteResponse;
   /** Adds one or more `culture` records to the collection */
   insertIntocultureCollection?: Maybe<CultureInsertResponse>;
-  /** Adds one or more `dialog` records to the collection */
-  insertIntodialogCollection?: Maybe<DialogInsertResponse>;
   /** Adds one or more `history` records to the collection */
   insertIntohistoryCollection?: Maybe<HistoryInsertResponse>;
   /** Adds one or more `location` records to the collection */
@@ -225,8 +221,6 @@ export type Mutation = {
   insertIntouser_accountCollection?: Maybe<User_AccountInsertResponse>;
   /** Updates zero or more records in the `culture` collection */
   updatecultureCollection: CultureUpdateResponse;
-  /** Updates zero or more records in the `dialog` collection */
-  updatedialogCollection: DialogUpdateResponse;
   /** Updates zero or more records in the `history` collection */
   updatehistoryCollection: HistoryUpdateResponse;
   /** Updates zero or more records in the `location` collection */
@@ -248,13 +242,6 @@ export type Mutation = {
 export type MutationDeleteFromcultureCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<CultureFilter>;
-};
-
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromdialogCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<DialogFilter>;
 };
 
 
@@ -314,12 +301,6 @@ export type MutationInsertIntocultureCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntodialogCollectionArgs = {
-  objects: Array<DialogInsertInput>;
-};
-
-
-/** The root type for creating and mutating data */
 export type MutationInsertIntohistoryCollectionArgs = {
   objects: Array<HistoryInsertInput>;
 };
@@ -366,14 +347,6 @@ export type MutationUpdatecultureCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<CultureFilter>;
   set: CultureUpdateInput;
-};
-
-
-/** The root type for creating and mutating data */
-export type MutationUpdatedialogCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<DialogFilter>;
-  set: DialogUpdateInput;
 };
 
 
@@ -468,8 +441,6 @@ export type Query = {
   __typename?: 'Query';
   /** A pagable collection of type `culture` */
   cultureCollection?: Maybe<CultureConnection>;
-  /** A pagable collection of type `dialog` */
-  dialogCollection?: Maybe<DialogConnection>;
   /** A pagable collection of type `history` */
   historyCollection?: Maybe<HistoryConnection>;
   /** A pagable collection of type `location` */
@@ -498,18 +469,6 @@ export type QueryCultureCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CultureOrderBy>>;
-};
-
-
-/** The root type for querying data */
-export type QueryDialogCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<DialogFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<DialogOrderBy>>;
 };
 
 
@@ -761,96 +720,6 @@ export type CultureUpdateResponse = {
   records: Array<Culture>;
 };
 
-export type Dialog = Node & {
-  __typename?: 'dialog';
-  created_at: Scalars['Datetime']['output'];
-  dialog_text?: Maybe<Scalars['String']['output']>;
-  id: Scalars['BigInt']['output'];
-  modified_at?: Maybe<Scalars['Datetime']['output']>;
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  npc_id: Scalars['BigInt']['output'];
-  npcs?: Maybe<Npcs>;
-  user_id: Scalars['UUID']['output'];
-};
-
-export type DialogConnection = {
-  __typename?: 'dialogConnection';
-  edges: Array<DialogEdge>;
-  pageInfo: PageInfo;
-};
-
-export type DialogDeleteResponse = {
-  __typename?: 'dialogDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Dialog>;
-};
-
-export type DialogEdge = {
-  __typename?: 'dialogEdge';
-  cursor: Scalars['String']['output'];
-  node: Dialog;
-};
-
-export type DialogFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<DialogFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  dialog_text?: InputMaybe<StringFilter>;
-  id?: InputMaybe<BigIntFilter>;
-  modified_at?: InputMaybe<DatetimeFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<DialogFilter>;
-  npc_id?: InputMaybe<BigIntFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<DialogFilter>>;
-  user_id?: InputMaybe<UuidFilter>;
-};
-
-export type DialogInsertInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  dialog_text?: InputMaybe<Scalars['String']['input']>;
-  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
-  npc_id?: InputMaybe<Scalars['BigInt']['input']>;
-  user_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type DialogInsertResponse = {
-  __typename?: 'dialogInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Dialog>;
-};
-
-export type DialogOrderBy = {
-  created_at?: InputMaybe<OrderByDirection>;
-  dialog_text?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  modified_at?: InputMaybe<OrderByDirection>;
-  npc_id?: InputMaybe<OrderByDirection>;
-  user_id?: InputMaybe<OrderByDirection>;
-};
-
-export type DialogUpdateInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  dialog_text?: InputMaybe<Scalars['String']['input']>;
-  modified_at?: InputMaybe<Scalars['Datetime']['input']>;
-  npc_id?: InputMaybe<Scalars['BigInt']['input']>;
-  user_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type DialogUpdateResponse = {
-  __typename?: 'dialogUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Dialog>;
-};
-
 export type History = Node & {
   __typename?: 'history';
   created_at: Scalars['Datetime']['output'];
@@ -956,7 +825,7 @@ export type Location = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   npcsCollection?: Maybe<NpcsConnection>;
-  project_id?: Maybe<Scalars['UUID']['output']>;
+  project_id: Scalars['UUID']['output'];
   projects?: Maybe<Projects>;
   user_id: Scalars['UUID']['output'];
 };
@@ -1058,28 +927,17 @@ export type Npcs = Node & {
   avatar_url?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['Datetime']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  dialogCollection?: Maybe<DialogConnection>;
+  dialog?: Maybe<Scalars['String']['output']>;
   id: Scalars['BigInt']['output'];
   location?: Maybe<Location>;
   location_id: Scalars['BigInt']['output'];
   modified_at?: Maybe<Scalars['Datetime']['output']>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  npc_name: Scalars['String']['output'];
+  npc_name?: Maybe<Scalars['String']['output']>;
   quest_id?: Maybe<Scalars['BigInt']['output']>;
   quests?: Maybe<Quests>;
   user_id: Scalars['UUID']['output'];
-};
-
-
-export type NpcsDialogCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<DialogFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<DialogOrderBy>>;
 };
 
 export type NpcsConnection = {
@@ -1108,6 +966,7 @@ export type NpcsFilter = {
   avatar_url?: InputMaybe<StringFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
   description?: InputMaybe<StringFilter>;
+  dialog?: InputMaybe<StringFilter>;
   id?: InputMaybe<BigIntFilter>;
   location_id?: InputMaybe<BigIntFilter>;
   modified_at?: InputMaybe<DatetimeFilter>;
@@ -1125,6 +984,7 @@ export type NpcsInsertInput = {
   avatar_url?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  dialog?: InputMaybe<Scalars['String']['input']>;
   location_id?: InputMaybe<Scalars['BigInt']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   npc_name?: InputMaybe<Scalars['String']['input']>;
@@ -1144,6 +1004,7 @@ export type NpcsOrderBy = {
   avatar_url?: InputMaybe<OrderByDirection>;
   created_at?: InputMaybe<OrderByDirection>;
   description?: InputMaybe<OrderByDirection>;
+  dialog?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   location_id?: InputMaybe<OrderByDirection>;
   modified_at?: InputMaybe<OrderByDirection>;
@@ -1156,6 +1017,7 @@ export type NpcsUpdateInput = {
   avatar_url?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  dialog?: InputMaybe<Scalars['String']['input']>;
   location_id?: InputMaybe<Scalars['BigInt']['input']>;
   modified_at?: InputMaybe<Scalars['Datetime']['input']>;
   npc_name?: InputMaybe<Scalars['String']['input']>;

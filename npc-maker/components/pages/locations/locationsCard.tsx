@@ -1,25 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { DELETE_LOCATION_MUTATION, UPDATE_LOCATION_MUTATION } from "@/app/_apollo/gql/locationsgql";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { FaTrash } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LocationsCardProps } from "@/typings";
+import DeleteLocationWarning from "./deleteLocationWarning";
 
 
-
-export default function LocationsCard({ locations, setLocations }: LocationsCardProps) {
+export default function LocationsCard({ locations, setLocations, }: LocationsCardProps) {
   const [deleteLocation] = useMutation(DELETE_LOCATION_MUTATION);
   const [updateLocation] = useMutation(UPDATE_LOCATION_MUTATION);
   const [locationName, setLocationName] = useState(locations.location_name);
   const [locationDescription, setLocationDescription] = useState(locations.description);
-  // const [npcs, setNumberNPC] = useState(locations.npcs);
+  const [npcs, setNumberNPC] = useState<number>(0);
   const { id } = locations;
 
+
+
+  useEffect(() => {
+    if (locations.npcsCollection && locations.npcsCollection.edges.length) {
+      setNumberNPC(locations.npcsCollection.edges.length);
+    }
+  }, [locations]);
 
 
   const handleDelete = async (id: string) => {
@@ -73,7 +79,7 @@ export default function LocationsCard({ locations, setLocations }: LocationsCard
           <div className="self-stretch text-center text-black text-xl font-normal leading-7">{locationName}</div>
           <div className="self-stretch text-center text-black/50 text-base font-normal leading-normal">{locationDescription}</div>
         </div>
-        <div className="self-stretch text-center text-black text-[28px] font-medium leading-9">20 NPCs</div>
+        <div className="self-stretch text-center text-black text-[28px] font-medium leading-9">{npcs} NPCs</div>
       </div>
 
       <DialogContent className="sm:max-w-[425px]">
@@ -95,7 +101,7 @@ export default function LocationsCard({ locations, setLocations }: LocationsCard
           </div>
         </div>
         <DialogFooter>
-          <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
+          <DeleteLocationWarning id={id} handleDelete={handleDelete} />
           <Button onClick={handleUpdate} type="submit">Save changes</Button>
         </DialogFooter>
       </DialogContent>

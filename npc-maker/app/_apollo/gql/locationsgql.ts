@@ -49,6 +49,15 @@ query GetLocation($id: String!) {
               id
               location_name
               description
+              npcsCollection(orderBy: {id: AscNullsLast}) {
+                edges {
+                  node {
+                    id
+                    npc_name
+                    description
+                  }
+                }
+              }
             }
           }
         }

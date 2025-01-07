@@ -9,6 +9,7 @@ interface Location {
   id: string;
   location_name: string;
   description: string;
+  npcsCollection: { edges: object[] };
 }
 
 interface Culture {

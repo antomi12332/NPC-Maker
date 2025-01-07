@@ -1,16 +1,17 @@
 'use client';
+import { Button } from "@/components/ui/button";
 import { CREATE_LOCATION_MUTATION, GET_LOCATION } from "@/app/_apollo/gql/locationsgql";
+import { CREATE_NPC_MUTATION } from "@/app/_apollo/gql/npcgql";
+import { getLocalStorageItem } from "@/utils/cache";
+import { Input } from "@/components/ui/input";
+import { Location } from "graphql";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
 import LocationsCard from "@/components/pages/locations/locationsCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/hooks/use-toast";
-import { getLocalStorageItem } from "@/utils/cache";
-import { useMutation, useQuery } from "@apollo/client";
-import { Location } from "graphql";
-import { useEffect, useState } from "react";
 
 
 
@@ -21,6 +22,7 @@ export default function Locations() {
   const [locationDescription, setLocationDescription] = useState("");
   const [npcCount, setNpcCount] = useState(0);
   const [createLocation] = useMutation(CREATE_LOCATION_MUTATION);
+  const [npcToLocation] = useMutation(CREATE_NPC_MUTATION);
   const [locations, setLocations] = useState<{ node: Location }[]>([]);
 
 
@@ -52,15 +54,27 @@ export default function Locations() {
           description: locationDescription,
         },
       });
+      // Create NPCs for the location
+      const newLocationID = await data.insertIntolocationCollection.records[0].id;
+      for (let i = 0; i < npcCount; i++) {
+        await npcToLocation({
+          variables: {
+            location_id: newLocationID,
+            npc_name: null,
+            description: null,
+          },
+        });
+      }
+
       const newLocations = data.insertIntolocationCollection.records[0];
       toast({
         title: "Location Created",
         description: locationName,
         duration: 2000,
       });
-      setLocations([...locations, { node: newLocations }]);
-      setLocationName('');
-      setLocationDescription('');
+      setLocations([...locations, { node: { ...newLocations, npcsCollection: { edges: Array(npcCount).fill({}) } } }]);
+      setLocationName("");
+      setLocationDescription("");
       setNpcCount(0);
     } catch (error) {
       console.error('Error creating location:', error);
@@ -85,28 +99,6 @@ export default function Locations() {
                 <LocationsCard key={node.id} locations={node} setLocations={setLocations} />
               ))}
 
-              {/* <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
-                <div className="w-[100px] h-[100px] bg-black/5 rounded-[50px] justify-center items-center inline-flex">
-                  <div className="w-[100px] self-stretch text-center text-black text-[62.50px] font-normal leading-[100px]">🌆</div>
-                </div>
-                <div className="self-stretch h-[60px] flex-col justify-start items-start gap-2 flex">
-                  <div className="self-stretch text-center text-black text-xl font-normal leading-7">City Square</div>
-                  <div className="self-stretch text-center text-black/50 text-base font-normal leading-normal">Modern urban environment</div>
-                </div>
-                <div className="self-stretch text-center text-black text-[28px] font-medium leading-9">15 NPCs</div>
-              </div>
-
-              <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
-                <div className="w-[100px] h-[100px] bg-black/5 rounded-[50px] justify-center items-center inline-flex">
-                  <div className="w-[100px] self-stretch text-center text-black text-[62.50px] font-normal leading-[100px]">🏞️</div>
-                </div>
-                <div className="self-stretch h-[60px] flex-col justify-start items-start gap-2 flex">
-                  <div className="self-stretch text-center text-black text-xl font-normal leading-7">Forest Clearing</div>
-                  <div className="self-stretch text-center text-black/50 text-base font-normal leading-normal">Magical realm</div>
-                </div>
-                <div className="self-stretch text-center text-black text-[28px] font-medium leading-9">10 NPCs</div>
-              </div> */}
-
             </div>
           </div>
         </div>
@@ -121,6 +113,7 @@ export default function Locations() {
 
                 <Input className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                   placeholder={"Enter location name"}
+                  value={locationName}
                   onChange={(e) => setLocationName(e.target.value)}
                 />
 
@@ -130,6 +123,7 @@ export default function Locations() {
 
                 <Textarea className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                   placeholder={"Enter location description"}
+                  value={locationDescription}
                   onChange={(e) => setLocationDescription(e.target.value)}
                 />
 
@@ -141,7 +135,7 @@ export default function Locations() {
                 <Input className="self-stretch px-3 py-2 bg-white rounded-md border border-black/10 justify-start items-center gap-1 inline-flex"
                   type="number"
                   min={0}
-                  placeholder="0"
+                  value={npcCount}
                   onChange={(e) => setNpcCount(Number(e.target.value))}
                 />
 
