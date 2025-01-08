@@ -24,6 +24,7 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
   const [updateHistory] = useMutation(UPDATE_HISTORY_MUTATION);
   const [historyTitle, sethistoryTitle] = useState(histories.title);
   const [historyDescription, sethistoryDescription] = useState(histories.description);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { id } = histories;
 
   const handleDelete = async (id: string) => {
@@ -47,6 +48,7 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
   const handleUpdate = async () => {
     try {
       await updateHistory({ variables: { id, historyTitle, historyDescription } });
+      setIsDialogOpen(false);
       toast({
         title: "History Updated",
         duration: 2000,
@@ -66,32 +68,34 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
 
   return (
     <Dialog key={id}>
-      <DialogTrigger asChild>
+      <DialogTrigger onClick={() => setIsDialogOpen(true)} asChild>
         <Button variant="outline">{historyTitle}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit History</DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Title
-            </Label>
-            <Input id="name" defaultValue={historyTitle!} className="col-span-3" onChange={(e) => sethistoryTitle(e.target.value)} />
+      {isDialogOpen && (
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit History</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Title
+              </Label>
+              <Input id="name" defaultValue={historyTitle!} className="col-span-3" onChange={(e) => sethistoryTitle(e.target.value)} />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className="text-right">
+                Description
+              </Label>
+              <Textarea id="username" className="col-span-3 h-40" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Textarea id="username" className="col-span-3 h-40" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
-          <Button onClick={handleUpdate} type="submit">Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
+          <DialogFooter>
+            <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
+            <Button onClick={handleUpdate} type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      )}
     </Dialog>
   );
 }

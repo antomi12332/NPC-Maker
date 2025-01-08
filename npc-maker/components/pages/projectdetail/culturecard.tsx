@@ -24,6 +24,7 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
   const [updateCulture] = useMutation(UPDATE_CULTURE_MUTATION);
   const [cultureTitle, setCultureTitle] = useState(cultures.title);
   const [cultureDescription, setCultureDescription] = useState(cultures.description);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { id } = cultures;
 
   const handleDelete = async (id: string) => {
@@ -47,6 +48,7 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
   const handleUpdate = async () => {
     try {
       await updateCulture({ variables: { id, cultureTitle, cultureDescription } });
+      setIsDialogOpen(false);
       toast({
         title: "Culture Updated",
         duration: 2000,
@@ -66,32 +68,34 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
 
   return (
     <Dialog key={id}>
-      <DialogTrigger asChild>
+      <DialogTrigger onClick={() => setIsDialogOpen(true)} asChild>
         <Button variant="outline">{cultureTitle}</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit Culture</DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Title
-            </Label>
-            <Input id="name" defaultValue={cultureTitle!} className="col-span-3" onChange={(e) => setCultureTitle(e.target.value)} />
+      </DialogTrigger >
+      {isDialogOpen && (
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit Culture</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Title
+              </Label>
+              <Input id="name" defaultValue={cultureTitle!} className="col-span-3" onChange={(e) => setCultureTitle(e.target.value)} />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className="text-right">
+                Description
+              </Label>
+              <Textarea id="description" className="col-span-3 h-40" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Textarea id="description" className="col-span-3 h-40" defaultValue={cultureDescription!} onChange={(e) => setCultureDescription(e.target.value)} />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
-          <Button onClick={handleUpdate} type="submit">Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
+          <DialogFooter>
+            <Button variant="destructive" onClick={() => handleDelete(id)}><FaTrash /></Button>
+            <Button onClick={handleUpdate} type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      )}
     </Dialog>
   );
 }
