@@ -26,8 +26,7 @@ export default function QuestsPage() {
     if (data && data.projectsCollection.edges.length > 0) {
       setquestData(data.projectsCollection.edges[0].node.questsCollection.edges);
     }
-  }
-    , [data]);
+  }, [data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
