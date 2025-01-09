@@ -1,5 +1,6 @@
 import Banner from "@/components/banner";
 import Header from "@/components/header";
+import { Button } from "@/components/ui/button";
 
 
 
@@ -13,7 +14,7 @@ export default function NpcDialog() {
 
         <div className="self-stretch h-[400px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch h-12 flex-col justify-start items-center gap-6 flex">
-            <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Locations</div>
+            <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Select Location</div>
           </div>
           <div className="self-stretch h-[172px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-10 inline-flex">
@@ -80,10 +81,26 @@ export default function NpcDialog() {
                 </div>
               </div>
             </div>
-            <div className="flex-col justify-start items-start gap-3 flex">
-              <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                <div className="text-white text-base font-medium leading-normal">Generate Dialog</div>
+            <div className="self-stretch justify-start items-start gap-20 inline-flex">
+              <div className="w-[510px] flex-col justify-start items-center gap-1 inline-flex">
+                <div className="self-stretch text-black text-sm font-medium leading-tight">Link to History</div>
+                <div className="self-stretch justify-start items-start gap-2 inline-flex">
+                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
+                    <div className="text-black text-sm font-normal leading-tight">History 1</div>
+                  </div>
+                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
+                    <div className="text-black text-sm font-normal leading-tight">History 2</div>
+                  </div>
+                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
+                    <div className="text-black text-sm font-normal leading-tight">History 3</div>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div className="flex-col justify-start items-start gap-3 flex">
+              <Button className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
+                <div className="text-white text-base font-medium leading-normal">Generate Dialog</div>
+              </Button>
             </div>
           </div>
         </div>
@@ -92,9 +109,9 @@ export default function NpcDialog() {
             <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
               <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Token Balance</div>
               <div className="flex-col justify-start items-start gap-3 flex">
-                <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
+                <Button className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
                   <div className="text-white text-base font-medium leading-normal">Purchase More Tokens</div>
-                </div>
+                </Button>
               </div>
             </div>
           </div>
@@ -119,11 +136,6 @@ export default function NpcDialog() {
             <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
               <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Token Packs</div>
               <div className="self-stretch text-black text-base font-normal leading-normal">Purchase tokens to generate dialog</div>
-              <div className="flex-col justify-start items-start gap-3 flex">
-                <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
-                  <div className="text-white text-base font-medium leading-normal">Buy Tokens</div>
-                </div>
-              </div>
             </div>
           </div>
           <div className="self-stretch h-[420px] flex-col justify-center items-center gap-10 flex">
