@@ -1,4 +1,4 @@
-export default function TokenPacks(props: { pack_name: string, price: number, tokenAmount: number }) {
+export default function TokenPacks(props: { pack_name: string, price: number, tokenAmount: string }) {
   return (
     <div className="grow shrink basis-0 rounded-md border border-black/10 flex-col justify-start items-center inline-flex">
       <div className="self-stretch h-[170] justify-start items-start inline-flex">

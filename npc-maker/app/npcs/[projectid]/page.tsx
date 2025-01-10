@@ -1,5 +1,5 @@
 'use client';
-import { GET_QUESTS } from "@/app/_apollo/gql/questsgql";
+import { GET_ALL } from "@/app/_apollo/gql/npcgql";
 import { GET_TOKEN_PACKS } from "@/app/_apollo/gql/tokenpackgql";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
@@ -8,8 +8,7 @@ import HistoryBindCard from "@/components/pages/npcs/historyBindCard";
 import QuestBindCard from "@/components/pages/npcs/questBindCard";
 import TokenPacks from "@/components/pages/npcs/tokenPacks";
 import { Button } from "@/components/ui/button";
-import { Culture, Quests, Token_Packs } from "@/gql/graphql";
-import { useProjectData } from "@/hooks/useProject";
+import { Culture, History, Quests, Token_Packs } from "@/gql/graphql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
@@ -18,8 +17,7 @@ import { useEffect, useState } from "react";
 
 export default function NpcDialog() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
-  const { projectData, cultureData, historyData } = useProjectData(projectUUID);
-  const { data: questGQL, loading: questLoading, error: questError } = useQuery(GET_QUESTS, { variables: { id: projectUUID } });
+  const { data: allData } = useQuery(GET_ALL, { variables: { id: projectUUID } });
   const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
@@ -29,20 +27,12 @@ export default function NpcDialog() {
 
 
   useEffect(() => {
-    if (cultureData && cultureData.projectsCollection.edges.length > 0) {
-      setCultures(cultureData.projectsCollection.edges[0].node.cultureCollection.edges);
+    if (allData && allData.projectsCollection.edges.length > 0) {
+      setHistories(allData.projectsCollection.edges[0].node.historyCollection.edges);
+      setquestData(allData.projectsCollection.edges[0].node.questsCollection.edges);
+      setCultures(allData.projectsCollection.edges[0].node.cultureCollection.edges);
     }
-  }, [cultureData]);
-  useEffect(() => {
-    if (historyData && historyData.projectsCollection.edges.length > 0) {
-      setHistories(historyData.projectsCollection.edges[0].node.historyCollection.edges);
-    }
-  }, [historyData]);
-  useEffect(() => {
-    if (questGQL && questGQL.projectsCollection.edges.length > 0) {
-      setquestData(questGQL.projectsCollection.edges[0].node.questsCollection.edges);
-    }
-  }, [questGQL]);
+  }, [allData]);
   useEffect(() => {
     if (tokenPacks && tokenPacks.token_packsCollection.edges.length > 0) {
       setTokenData(tokenPacks.token_packsCollection.edges);
@@ -139,7 +129,7 @@ export default function NpcDialog() {
                 <div className="self-stretch text-black text-sm font-medium leading-tight">Link to History</div>
                 <div className="self-stretch justify-start items-start gap-2 inline-flex">
                   {histories.map(({ node }) => (
-                    <HistoryBindCard key={node.id} histories={node} />
+                    <HistoryBindCard key={node.id} histories={{ title: node.title! }} />
                   ))}
                 </div>
               </div>

@@ -45,3 +45,55 @@ mutation CreateNpc($location_id: String!, $npc_name: String!, $description: Stri
 
 
 // queries
+export const GET_ALL = gql`
+query GetAll($id: String!) {
+  projectsCollection(filter: {id: {eq: $id}}) {
+    edges {
+      node {
+        locationCollection {
+          edges {
+            node {
+              id
+              location_name
+              npcsCollection {
+                edges {
+                  node {
+                    id
+                    npc_name
+                    description
+                    dialog
+                  }
+                }
+              }
+            }
+          }
+        }
+        questsCollection {
+          edges {
+            node {
+              id
+              title
+            }
+          }
+        }
+        cultureCollection {
+          edges {
+            node {
+              id
+              title
+            }
+          }
+        }
+        historyCollection {
+          edges {
+            node {
+              id
+              title
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
