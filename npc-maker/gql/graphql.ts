@@ -201,6 +201,8 @@ export type Mutation = {
   deleteFromprojectsCollection: ProjectsDeleteResponse;
   /** Deletes zero or more records from the `quests` collection */
   deleteFromquestsCollection: QuestsDeleteResponse;
+  /** Deletes zero or more records from the `token_packs` collection */
+  deleteFromtoken_packsCollection: Token_PacksDeleteResponse;
   /** Deletes zero or more records from the `user_account` collection */
   deleteFromuser_accountCollection: User_AccountDeleteResponse;
   /** Adds one or more `culture` records to the collection */
@@ -217,6 +219,8 @@ export type Mutation = {
   insertIntoprojectsCollection?: Maybe<ProjectsInsertResponse>;
   /** Adds one or more `quests` records to the collection */
   insertIntoquestsCollection?: Maybe<QuestsInsertResponse>;
+  /** Adds one or more `token_packs` records to the collection */
+  insertIntotoken_packsCollection?: Maybe<Token_PacksInsertResponse>;
   /** Adds one or more `user_account` records to the collection */
   insertIntouser_accountCollection?: Maybe<User_AccountInsertResponse>;
   /** Updates zero or more records in the `culture` collection */
@@ -233,6 +237,8 @@ export type Mutation = {
   updateprojectsCollection: ProjectsUpdateResponse;
   /** Updates zero or more records in the `quests` collection */
   updatequestsCollection: QuestsUpdateResponse;
+  /** Updates zero or more records in the `token_packs` collection */
+  updatetoken_packsCollection: Token_PacksUpdateResponse;
   /** Updates zero or more records in the `user_account` collection */
   updateuser_accountCollection: User_AccountUpdateResponse;
 };
@@ -288,6 +294,13 @@ export type MutationDeleteFromquestsCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromtoken_PacksCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Token_PacksFilter>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFromuser_AccountCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<User_AccountFilter>;
@@ -333,6 +346,12 @@ export type MutationInsertIntoprojectsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntoquestsCollectionArgs = {
   objects: Array<QuestsInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntotoken_PacksCollectionArgs = {
+  objects: Array<Token_PacksInsertInput>;
 };
 
 
@@ -399,6 +418,14 @@ export type MutationUpdatequestsCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationUpdatetoken_PacksCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<Token_PacksFilter>;
+  set: Token_PacksUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationUpdateuser_AccountCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<User_AccountFilter>;
@@ -455,6 +482,8 @@ export type Query = {
   projectsCollection?: Maybe<ProjectsConnection>;
   /** A pagable collection of type `quests` */
   questsCollection?: Maybe<QuestsConnection>;
+  /** A pagable collection of type `token_packs` */
+  token_packsCollection?: Maybe<Token_PacksConnection>;
   /** A pagable collection of type `user_account` */
   user_accountCollection?: Maybe<User_AccountConnection>;
 };
@@ -547,6 +576,18 @@ export type QueryQuestsCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<QuestsOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryToken_PacksCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<Token_PacksFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<Token_PacksOrderBy>>;
 };
 
 
@@ -1381,6 +1422,90 @@ export type QuestsUpdateResponse = {
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
   records: Array<Quests>;
+};
+
+export type Token_Packs = Node & {
+  __typename?: 'token_packs';
+  created_at: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  pack_name: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
+  token_amount: Scalars['BigInt']['output'];
+};
+
+export type Token_PacksConnection = {
+  __typename?: 'token_packsConnection';
+  edges: Array<Token_PacksEdge>;
+  pageInfo: PageInfo;
+};
+
+export type Token_PacksDeleteResponse = {
+  __typename?: 'token_packsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Token_Packs>;
+};
+
+export type Token_PacksEdge = {
+  __typename?: 'token_packsEdge';
+  cursor: Scalars['String']['output'];
+  node: Token_Packs;
+};
+
+export type Token_PacksFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Token_PacksFilter>>;
+  created_at?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<Token_PacksFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Token_PacksFilter>>;
+  pack_name?: InputMaybe<StringFilter>;
+  price?: InputMaybe<FloatFilter>;
+  token_amount?: InputMaybe<BigIntFilter>;
+};
+
+export type Token_PacksInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  pack_name?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  token_amount?: InputMaybe<Scalars['BigInt']['input']>;
+};
+
+export type Token_PacksInsertResponse = {
+  __typename?: 'token_packsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Token_Packs>;
+};
+
+export type Token_PacksOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  pack_name?: InputMaybe<OrderByDirection>;
+  price?: InputMaybe<OrderByDirection>;
+  token_amount?: InputMaybe<OrderByDirection>;
+};
+
+export type Token_PacksUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  pack_name?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  token_amount?: InputMaybe<Scalars['BigInt']['input']>;
+};
+
+export type Token_PacksUpdateResponse = {
+  __typename?: 'token_packsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Token_Packs>;
 };
 
 export type User_Account = Node & {

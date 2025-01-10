@@ -1,12 +1,14 @@
 'use client';
 import { GET_QUESTS } from "@/app/_apollo/gql/questsgql";
+import { GET_TOKEN_PACKS } from "@/app/_apollo/gql/tokenpackgql";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
 import CultureBindCard from "@/components/pages/npcs/cultureBindCard";
 import HistoryBindCard from "@/components/pages/npcs/historyBindCard";
 import QuestBindCard from "@/components/pages/npcs/questBindCard";
+import TokenPacks from "@/components/pages/npcs/tokenPacks";
 import { Button } from "@/components/ui/button";
-import { Culture, Quests } from "@/gql/graphql";
+import { Culture, Quests, Token_Packs } from "@/gql/graphql";
 import { useProjectData } from "@/hooks/useProject";
 import { getLocalStorageItem } from "@/utils/cache";
 import { useQuery } from "@apollo/client";
@@ -18,10 +20,11 @@ export default function NpcDialog() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
   const { projectData, cultureData, historyData } = useProjectData(projectUUID);
   const { data: questGQL, loading: questLoading, error: questError } = useQuery(GET_QUESTS, { variables: { id: projectUUID } });
+  const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
   const [questData, setquestData] = useState<{ node: Quests }[]>([]);
-
+  const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
 
 
 
@@ -40,6 +43,11 @@ export default function NpcDialog() {
       setquestData(questGQL.projectsCollection.edges[0].node.questsCollection.edges);
     }
   }, [questGQL]);
+  useEffect(() => {
+    if (tokenPacks && tokenPacks.token_packsCollection.edges.length > 0) {
+      setTokenData(tokenPacks.token_packsCollection.edges);
+    }
+  }, [tokenPacks]);
 
 
 
@@ -170,41 +178,14 @@ export default function NpcDialog() {
               <div className="self-stretch text-black text-base font-normal leading-normal">Purchase tokens to generate dialog</div>
             </div>
           </div>
+
           <div className="w-fit h-[420px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-10 inline-flex">
-              <div className="grow shrink basis-0 rounded-md border border-black/10 flex-col justify-start items-center inline-flex">
-                <div className="self-stretch h-[340px] justify-start items-start inline-flex">
-                  <div className="h-[340px] px-4 bg-[#d8d8d8]/50 justify-center items-center flex">
-                    <div className="w-[308px] h-4 text-center text-black text-xs font-normal leading-none">150 Tokens</div>
-                  </div>
-                </div>
-                <div className="self-stretch h-20 p-3 flex-col justify-start items-start gap-1 flex">
-                  <div className="self-stretch text-black text-base font-normal leading-normal">Token Pack (small)</div>
-                  <div className="self-stretch text-black text-xl font-medium leading-7">$15</div>
-                </div>
-              </div>
-              <div className="grow shrink basis-0 rounded-md border border-black/10 flex-col justify-start items-center inline-flex">
-                <div className="self-stretch h-[340px] justify-start items-start inline-flex">
-                  <div className="h-[340px] px-4 bg-[#d8d8d8]/50 justify-center items-center flex">
-                    <div className="w-[308px] h-4 text-center text-black text-xs font-normal leading-none">350 Tokens</div>
-                  </div>
-                </div>
-                <div className="self-stretch h-20 p-3 flex-col justify-start items-start gap-1 flex">
-                  <div className="self-stretch text-black text-base font-normal leading-normal">Token Pack (medium)</div>
-                  <div className="self-stretch text-black text-xl font-medium leading-7">$30</div>
-                </div>
-              </div>
-              <div className="grow shrink basis-0 rounded-md border border-black/10 flex-col justify-start items-center inline-flex">
-                <div className="self-stretch h-[340px] justify-start items-start inline-flex">
-                  <div className="h-[340px] px-4 bg-[#d8d8d8]/50 justify-center items-center flex">
-                    <div className="w-[308px] h-4 text-center text-black text-xs font-normal leading-none">800 Tokens</div>
-                  </div>
-                </div>
-                <div className="self-stretch h-20 p-3 flex-col justify-start items-start gap-1 flex">
-                  <div className="self-stretch text-black text-base font-normal leading-normal">Token Pack (large)</div>
-                  <div className="self-stretch text-black text-xl font-medium leading-7">$60</div>
-                </div>
-              </div>
+
+              {tokenData.map(({ node }) => (
+                <TokenPacks key={node.id} pack_name={node.pack_name} price={node.price} tokenAmount={node.token_amount} />
+              ))}
+
             </div>
           </div>
         </div>
