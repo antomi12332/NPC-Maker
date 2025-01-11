@@ -65,7 +65,7 @@ export default function Dashboard() {
       <Header titleText="Dashboard" />
       <Banner bannerText="Your Game Projects" bannerDescription="Manage and create game projects for NPC dialog generation" />
 
-      <div className="w-full h-full pt-20 bg-white flex-col justify-start items-end inline-flex">
+      <div className={"bodyFitment"}>
 
         <div className="self-stretch px-[170px] py-[60px] justify-start items-center gap-[60px] inline-flex">
           <div className="shrink basis-0 flex-col justify-start items-start gap-6 inline-flex pe-96">

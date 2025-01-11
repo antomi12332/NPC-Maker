@@ -186,7 +186,7 @@ export default function Projects() {
 
 
 
-      <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
+      <div className={"bodyFitment"}>
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
           <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Game World Background</div>

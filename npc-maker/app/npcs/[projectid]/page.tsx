@@ -46,7 +46,7 @@ export default function NpcDialog() {
       <Header titleText="NPC Dialog" />
       <Banner bannerText="NPC Dialog" bannerDescription="Generate dialog for NPCs in your game" />
 
-      <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
+      <div className={"bodyFitment"}>
 
         <div className="self-stretch h-[400px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch h-12 flex-col justify-start items-center gap-6 flex">

@@ -31,7 +31,7 @@ export default function Header(props: { titleText: string }) {
 
 
   useEffect(() => {
-    if (currentProject.data && currentProject.data.projectsCollection.edges.length >= 0) {
+    if (currentProject.data && currentProject.data.projectsCollection.edges.length > 0) {
       const project = currentProject.data.projectsCollection.edges[0].node;
       setProjectData(project);
       // Save projectData to local storage

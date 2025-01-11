@@ -86,7 +86,7 @@ export default function Locations() {
       <Header titleText="Locations" />
       <Banner bannerText="Manage Locations" bannerDescription="Create and edit locations to place your NPCs" />
 
-      <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
+      <div className={"bodyFitment"}>
 
         <div className="self-stretch h-[488px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch h-12 flex-col justify-start items-center gap-6 flex">

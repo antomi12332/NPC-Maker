@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { User_Account } from "@/gql/graphql";
 import { toast } from "@/hooks/use-toast";
 import EditDisplayName from "@/components/pages/account/editDisplayName";
+import Banner from "@/components/banner";
 
 
 export default function Account() {
@@ -59,8 +60,9 @@ export default function Account() {
   return (
     <div>
       <Header titleText="Account" />
+      <Banner bannerText={"Account"} bannerDescription={"Manage your account information"} />
 
-      <div className="w-auto h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
+      <div className={"bodyFitment"}>
 
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-10 inline-flex">
           <div className=" h-[100px] relative bg-[#d8d8d8]/50 rounded-[50px]" />

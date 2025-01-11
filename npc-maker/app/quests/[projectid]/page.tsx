@@ -75,7 +75,7 @@ export default function QuestsPage() {
       <Header titleText="Quests" />
       <Banner bannerText="Create and Manage Quests" bannerDescription="Create quests tied to specific projects/locations and link NPCs for quest-related dialog" />
 
-      <div className="w-full h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
+      <div className={"bodyFitment"}>
 
         <div className="grid grid-flow-col grid-rows-1 self-stretch py-[60px] justify-start items-center gap-10 overflow-auto">
 
