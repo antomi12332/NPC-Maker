@@ -7,7 +7,7 @@ export default function TokenPacks(props: { pack_name: string, price: number, to
         </div>
       </div>
       <div className="self-stretch h-20 p-3 flex-col justify-start items-start gap-1 flex">
-        <div className="self-stretch text-black text-base font-normal leading-normal">Token Pack ({props.pack_name})</div>
+        <div className="self-stretch text-black text-sm font-normal leading-normal">Token Pack ({props.pack_name})</div>
         <div className="self-stretch text-black text-xl font-medium leading-7">${props.price}</div>
       </div>
     </div>

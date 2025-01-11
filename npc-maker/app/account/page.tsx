@@ -1,7 +1,61 @@
+'use client';
 import Header from "@/components/header";
+import { CREATE_ACCOUNT, GET_ACCOUNT, UPDATE_ACCOUNT } from "../_apollo/gql/account";
+import { useMutation, useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { User_Account } from "@/gql/graphql";
+import { toast } from "@/hooks/use-toast";
+import EditDisplayName from "@/components/pages/account/editDisplayName";
 
 
 export default function Account() {
+  const { data, loading, error } = useQuery(GET_ACCOUNT);
+  const [createUserAccount] = useMutation(CREATE_ACCOUNT);
+  const [account, setAccount] = useState<User_Account | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [display_name, setDisplayName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [saveDisplayName] = useMutation(UPDATE_ACCOUNT);
+
+  const handleEditDisplayName = () => {
+    setIsEditing(true);
+  };
+  const handleSaveDisplayName = () => {
+    saveDisplayName({
+      variables: {
+        display_name: display_name,
+        email: email,
+      },
+    });
+    setIsEditing(false);
+    toast({
+      title: "Display Name Updated",
+      duration: 2000,
+    });
+  };
+
+
+  useEffect(() => {
+    if (data && data.user_accountCollection.edges.length > 0) {
+      setAccount(data.user_accountCollection.edges[0].node);
+      setDisplayName(data.user_accountCollection.edges[0].node.display_name);
+    } else if (data && data.user_accountCollection.edges.length === 0) {
+      createUserAccount({
+        variables: {
+          display_name: null,
+          email: null,
+        },
+      });
+    }
+  }, [data]);
+
+
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+
+
   return (
     <div>
       <Header titleText="Account" />
@@ -9,9 +63,15 @@ export default function Account() {
       <div className="w-auto h-full pt-20 bg-white flex-col justify-start items-center inline-flex">
 
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-10 inline-flex">
-          <div className="w-[100px] h-[100px] relative bg-[#d8d8d8]/50 rounded-[50px]" />
-          <div className="grow shrink basis-0 flex-col justify-start items-center gap-3 inline-flex">
-            <div className="self-stretch text-black text-2xl font-bold leading-loose">User&apos;s Name</div>
+          <div className=" h-[100px] relative bg-[#d8d8d8]/50 rounded-[50px]" />
+          <div className="grow shrink basis-0 flex-col justify-start items-center gap-3">
+            <EditDisplayName
+              displayName={display_name}
+              isEditing={isEditing}
+              handleEditDisplayName={handleEditDisplayName}
+              handleDisplayNameChange={(e) => setDisplayName(e.target.value)}
+              handleDisplayNameSave={handleSaveDisplayName}
+            />
             <div className="self-stretch justify-start items-center gap-1.5 inline-flex">
               <div className="px-1 py-0.5 bg-[#d8d8d8]/50 rounded-sm border border-black/10 justify-center items-center gap-0.5 flex">
                 <div className="text-black text-xs font-normal leading-none">Indie Game Developer</div>
@@ -31,7 +91,7 @@ export default function Account() {
         <div className="self-stretch h-[396px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch justify-center items-center gap-[60px] inline-flex">
             <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
-              <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Token Balance</div>
+              <div className=" text-center text-black text-[40px] font-bold leading-[48px]">Token Balance</div>
               <div className="flex-col justify-start items-start gap-3 flex">
                 <div className="h-12 p-3 bg-black rounded-lg flex-col justify-center items-center flex">
                   <div className="text-white text-base font-medium leading-normal">Purchase Tokens</div>
@@ -43,7 +103,7 @@ export default function Account() {
             <div className="self-stretch justify-start items-start gap-5 inline-flex">
               <div className="grow shrink basis-0 p-4 rounded-md border border-black/10 flex-col justify-start items-start gap-1 inline-flex">
                 <div className="self-stretch text-black/50 text-base font-normal leading-normal">Tokens</div>
-                <div className="text-black text-[28px] font-medium leading-9">250</div>
+                <div className="text-black text-[28px] font-medium leading-9">{account?.tokens}</div>
               </div>
             </div>
           </div>
@@ -55,7 +115,7 @@ export default function Account() {
           </div>
           <div className="grow shrink basis-0 flex-col justify-center items-start gap-10 inline-flex">
             <div className="self-stretch justify-start items-start gap-20 inline-flex">
-              <div className="w-[520px] flex-col justify-start items-center gap-1 inline-flex">
+              <div className=" flex-col justify-start items-center gap-1 inline-flex">
                 <div className="self-stretch text-black text-sm font-medium leading-tight">Select Token Pack</div>
                 <div className="self-stretch justify-start items-start gap-2 inline-flex">
                   <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
@@ -84,7 +144,7 @@ export default function Account() {
           <div className="grow shrink basis-0 py-5 flex-col justify-center items-center gap-10 inline-flex">
             <div className="self-stretch justify-start items-center gap-10 inline-flex">
               <div className="grow shrink basis-0 h-[132px] p-4 rounded-md border border-black/10 justify-center items-start gap-4 flex">
-                <div className="w-[100px] h-[100px] justify-start items-start flex">
+                <div className=" h-[100px] justify-start items-start flex">
                   <div className="h-[100px] relative bg-[#d8d8d8]/50" />
                 </div>
                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
@@ -100,7 +160,7 @@ export default function Account() {
             </div>
             <div className="self-stretch justify-start items-center gap-10 inline-flex">
               <div className="grow shrink basis-0 h-[132px] p-4 rounded-md border border-black/10 justify-center items-start gap-4 flex">
-                <div className="w-[100px] h-[100px] justify-start items-start flex">
+                <div className=" h-[100px] justify-start items-start flex">
                   <div className="h-[100px] relative bg-[#d8d8d8]/50" />
                 </div>
                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
@@ -119,7 +179,7 @@ export default function Account() {
         <div className="self-stretch px-[170px] py-[60px] justify-center items-center gap-[60px] inline-flex">
           <div className="grow shrink basis-0 h-[300px] py-1 justify-start items-start flex">
             <div className="px-4 pt-[138px] pb-2 bg-[#d8d8d8]/50 rounded-md flex-col justify-end items-center gap-[126px] inline-flex">
-              <div className="w-[1068px] h-4 text-center text-black text-xs font-normal leading-none">Manage your token balance effectively for generating NPC dialog easily.</div>
+              <div className="self-stretch h-4 text-center text-black text-xs font-normal leading-none">Manage your token balance effectively for generating NPC dialog easily.</div>
               <div className="self-stretch justify-center items-center gap-1 inline-flex">
                 <div className="w-5 h-1 bg-white rounded-[100px]" />
                 <div className="w-1 h-1 bg-black/30 rounded-[100px]" />
