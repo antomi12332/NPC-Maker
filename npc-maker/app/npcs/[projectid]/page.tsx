@@ -1,4 +1,5 @@
 'use client';
+import { GET_ACCOUNT } from "@/app/_apollo/gql/account";
 import { GET_ALL } from "@/app/_apollo/gql/npcgql";
 import { GET_TOKEN_PACKS } from "@/app/_apollo/gql/tokenpackgql";
 import Banner from "@/components/banner";
@@ -8,7 +9,7 @@ import HistoryBindCard from "@/components/pages/npcs/historyBindCard";
 import QuestBindCard from "@/components/pages/npcs/questBindCard";
 import TokenPacks from "@/components/pages/npcs/tokenPacks";
 import { Button } from "@/components/ui/button";
-import { Culture, History, Quests, Token_Packs } from "@/gql/graphql";
+import { Account, Culture, History, Quests, Token_Packs } from "@/gql/graphql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
@@ -18,10 +19,13 @@ import { useEffect, useState } from "react";
 export default function NpcDialog() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
   const { data: allData } = useQuery(GET_ALL, { variables: { id: projectUUID } });
+  const { data: account } = useQuery(GET_ACCOUNT);
   const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
+  const [locationAndNPCs, setLocationAndNPCs] = useState(null);
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
   const [questData, setquestData] = useState<{ node: Quests }[]>([]);
+  const [accountData, setAccountData] = useState<{ node: Account }[]>([]);
   const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
 
 
@@ -31,6 +35,7 @@ export default function NpcDialog() {
       setHistories(allData.projectsCollection.edges[0].node.historyCollection.edges);
       setquestData(allData.projectsCollection.edges[0].node.questsCollection.edges);
       setCultures(allData.projectsCollection.edges[0].node.cultureCollection.edges);
+      setLocationAndNPCs(allData.projectsCollection.edges[0].node.locationCollection.edges);
     }
   }, [allData]);
   useEffect(() => {
@@ -38,6 +43,13 @@ export default function NpcDialog() {
       setTokenData(tokenPacks.token_packsCollection.edges);
     }
   }, [tokenPacks]);
+  useEffect(() => {
+    if (account && account.user_accountCollection.edges.length > 0) {
+      setAccountData(account.user_accountCollection.edges[0].node);
+    }
+  }, [account]);
+
+  console.log(locationAndNPCs);
 
 
 
@@ -147,11 +159,11 @@ export default function NpcDialog() {
             <div className="self-stretch justify-start items-start gap-5 inline-flex">
               <div className="grow shrink basis-0 p-4 rounded-md border border-black/10 flex-col justify-start items-start gap-1 inline-flex">
                 <div className="self-stretch text-black/50 text-base font-normal leading-normal">Tokens</div>
-                <div className="text-black text-[28px] font-medium leading-9">325</div>
+                <div className="text-black text-[28px] font-medium leading-9">{accountData.tokens}</div>
               </div>
               <div className="grow shrink basis-0 p-4 rounded-md border border-black/10 flex-col justify-start items-start gap-1 inline-flex">
                 <div className="self-stretch text-black/50 text-base font-normal leading-normal">NPCs to Generate</div>
-                <div className="text-black text-[28px] font-medium leading-9">150</div>
+                <div className="text-black text-[28px] font-medium leading-9">placeholder</div>
               </div>
             </div>
           </div>
@@ -162,20 +174,19 @@ export default function NpcDialog() {
           </div>
         </div>
         <div className="self-stretch h-[780px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
+
           <div className="self-stretch justify-center items-center gap-[60px] inline-flex">
-            <div className="grow shrink basis-0 flex-col justify-start items-start gap-6 inline-flex">
-              <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Token Packs</div>
-              <div className="self-stretch text-black text-base font-normal leading-normal">Purchase tokens to generate dialog</div>
+            <div className="grow shrink basis-0 flex-col justify-start items-center gap-6 inline-flex">
+              <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Token Packs</div>
+              <div className="self-stretch text-black text-center text-base font-normal leading-normal">Purchase tokens to generate dialog</div>
             </div>
           </div>
 
           <div className="w-fit h-[420px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-10 inline-flex">
-
               {tokenData.map(({ node }) => (
                 <TokenPacks key={node.id} pack_name={node.pack_name} price={node.price} tokenAmount={node.token_amount} />
               ))}
-
             </div>
           </div>
         </div>

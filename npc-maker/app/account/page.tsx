@@ -3,20 +3,26 @@ import Header from "@/components/header";
 import { CREATE_ACCOUNT, GET_ACCOUNT, UPDATE_ACCOUNT } from "../_apollo/gql/account";
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { User_Account } from "@/gql/graphql";
 import { toast } from "@/hooks/use-toast";
 import EditDisplayName from "@/components/pages/account/editDisplayName";
 import Banner from "@/components/banner";
+import TokenPackAccountCard from "@/components/pages/account/tokenPackAccountCard";
+import { Token_Packs } from "@/gql/graphql";
+import { GET_TOKEN_PACKS } from "../_apollo/gql/tokenpackgql";
 
 
 export default function Account() {
   const { data, loading, error } = useQuery(GET_ACCOUNT);
+  const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
   const [createUserAccount] = useMutation(CREATE_ACCOUNT);
-  const [account, setAccount] = useState<User_Account | null>(null);
+  const [account, setAccount] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [display_name, setDisplayName] = useState(null);
+  const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
   const [email, setEmail] = useState(null);
   const [saveDisplayName] = useMutation(UPDATE_ACCOUNT);
+
+
 
   const handleEditDisplayName = () => {
     setIsEditing(true);
@@ -35,7 +41,6 @@ export default function Account() {
     });
   };
 
-
   useEffect(() => {
     if (data && data.user_accountCollection.edges.length > 0) {
       setAccount(data.user_accountCollection.edges[0].node);
@@ -49,6 +54,12 @@ export default function Account() {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (tokenPacks && tokenPacks.token_packsCollection.edges.length > 0) {
+      setTokenData(tokenPacks.token_packsCollection.edges);
+    }
+  }, [tokenPacks]);
 
 
 
@@ -78,6 +89,9 @@ export default function Account() {
               <div className="px-1 py-0.5 bg-[#d8d8d8]/50 rounded-sm border border-black/10 justify-center items-center gap-0.5 flex">
                 <div className="text-black text-xs font-normal leading-none">Indie Game Developer</div>
               </div>
+            </div>
+            <div>
+              email
             </div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Manage your account details and token balance here</div>
           </div>
@@ -120,15 +134,14 @@ export default function Account() {
               <div className=" flex-col justify-start items-center gap-1 inline-flex">
                 <div className="self-stretch text-black text-sm font-medium leading-tight">Select Token Pack</div>
                 <div className="self-stretch justify-start items-start gap-2 inline-flex">
-                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
-                    <div className="text-black text-sm font-normal leading-tight">Token Pack (small) $15</div>
-                  </div>
-                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
-                    <div className="text-black text-sm font-normal leading-tight">Token Pack (medium) $30</div>
-                  </div>
-                  <div className="p-2 bg-black/5 rounded-md flex-col justify-center items-center inline-flex">
-                    <div className="text-black text-sm font-normal leading-tight">Token Pack (large) $60</div>
-                  </div>
+
+                  {tokenData.map(({ node }) => (
+                    <TokenPackAccountCard
+                      key={node.id}
+                      pack_name={node.pack_name}
+                      price={node.price}
+                    />))}
+
                 </div>
               </div>
             </div>

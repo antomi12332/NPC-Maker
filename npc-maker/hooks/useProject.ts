@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
 import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
 import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION, SAVE_NAME_MUTATION } from "@/app/_apollo/gql/projectsgql";
-import { Culture } from "@/gql/graphql";
+import { Culture, History } from "@/gql/graphql";
 
 export const useProjectData = (projectUUID: string) => {
   const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
