@@ -4,12 +4,12 @@ import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDe
 import { DELETE_PROJECT_MUTATION } from "@/app/_apollo/gql/projectsgql";
 import { FaTrash } from "react-icons/fa";
 import { ProjectCardProps } from "@/typings";
+import { setLocalStorageItem } from "@/utils/cache";
 import { setProject } from '@/store/projectSlice';
 import { toast } from "@/hooks/use-toast";
 import { useDispatch } from 'react-redux';
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
-import { setLocalStorageItem } from "@/utils/cache";
 
 
 
@@ -41,11 +41,11 @@ export default function ProjectCard({ project, setProjects }: ProjectCardProps) 
       project_name: project.project_name,
       project_id: ""
     }));
-    // setLocalStorageItem('projectData', JSON.stringify({
-    //   id: project.id,
-    //   project_name: project.project_name,
-    //   project_id: ""
-    // }));
+    setLocalStorageItem('projectData', JSON.stringify({
+      id: project.id,
+      project_name: project.project_name,
+      project_id: ""
+    }));
   };
 
   const { id, project_name } = project;
