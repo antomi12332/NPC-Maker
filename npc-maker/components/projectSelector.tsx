@@ -4,6 +4,7 @@ import { DropdownMenuRadioItem } from "./ui/dropdown-menu";
 import { ProjectState, setProject } from "@/store/projectSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { OperationVariables } from "@apollo/client";
+import { setLocalStorageItem } from "@/utils/cache";
 
 export default function ProjectSelector(props: { projectData: OperationVariables }) {
   const dispatch = useDispatch();
@@ -14,9 +15,7 @@ export default function ProjectSelector(props: { projectData: OperationVariables
 
 
   const handleClick = (node: ProjectState) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('projectData', JSON.stringify(node));
-    }
+    setLocalStorageItem('projectData', JSON.stringify(node));
     dispatch(setProject(node));
     const path = currentPath.split('/');
     path.pop();

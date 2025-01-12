@@ -8,6 +8,7 @@ import ProjectCard from "@/components/pages/dashboard/projectcard";
 import { Input } from "@/components/ui/input";
 import { useQuery, useMutation } from "@apollo/client";
 import { useEffect } from "react";
+import { Projects } from "@/gql/graphql";
 
 
 
@@ -15,14 +16,14 @@ import { useEffect } from "react";
 
 export default function Dashboard() {
   const { toast } = useToast();
+  const [createProject] = useMutation(CREATE_PROJECT_MUTATION);
+  const { data, loading, error, } = useQuery(ALL_PROJECTS_QUERY);
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const [createProject] = useMutation(CREATE_PROJECT_MUTATION);
-  const { loading, error, data } = useQuery(ALL_PROJECTS_QUERY);
-  const [projects, setProjects] = useState<{ node: { id: string; name: string; description: string } }[]>([]);
+  const [projects, setProjects] = useState<Projects[]>([]);
 
   useEffect(() => {
-    if (data && data.projectsCollection) {
+    if (data && data.projectsCollection.edges.length > 0) {
       setProjects(data.projectsCollection.edges);
     }
   }, [data]);

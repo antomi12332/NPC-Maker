@@ -10,13 +10,14 @@ import { useQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import ProjectSelector from "./projectSelector";
+import { getLocalStorageItem } from "@/utils/cache";
 
 export default function Header(props: { titleText: string }) {
   const dispatch = useDispatch();
   const currentPath = usePathname();
   const router = useRouter();
   const supabase = createClient();
-  const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
+  const projectUUID = getLocalStorageItem('projectUUID');
   const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const allProjects = useQuery(CURRENT_PROJECT);
   const [projectData, setProjectData] = useState(() => {
