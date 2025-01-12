@@ -3,11 +3,12 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { CURRENT_PROJECT } from "@/app/_apollo/gql/projectsgql";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/cache";
 import { setProject } from "@/store/projectSlice";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
-import { useDispatch } from "react-redux";
 import Link from "next/link";
 import ProjectSelector from "./projectSelector";
 
@@ -16,28 +17,20 @@ export default function Header(props: { titleText: string }) {
   const currentPath = usePathname();
   const router = useRouter();
   const supabase = createClient();
-  const projectUUID = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('projectData')!).id : null;
-  const currentProject = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
-  const allProjects = useQuery(CURRENT_PROJECT);
-  const [projectData, setProjectData] = useState(() => {
-    const savedProjectData = localStorage.getItem('projectData');
-    if (savedProjectData) {
-      dispatch(setProject(JSON.parse(savedProjectData)));
-      return savedProjectData ? JSON.parse(savedProjectData) : null;
-    }
-  });
-
+  const projectUUID = JSON.parse(getLocalStorageItem('projectData')!).id;
+  const { data: currentProject } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
+  const { data: allProjects } = useQuery(CURRENT_PROJECT);
+  const [projectData, setProjectData] = useState(null);
 
 
 
   useEffect(() => {
-    if (currentProject.data && currentProject.data.projectsCollection.edges.length > 0) {
-      const project = currentProject.data.projectsCollection.edges[0].node;
+    if (currentProject && currentProject.projectsCollection.edges.length > 0) {
+      const project = currentProject.projectsCollection.edges[0].node;
       setProjectData(project);
+      dispatch(setProject(project));
       // Save projectData to local storage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('projectData', JSON.stringify(project));
-      }
+      setLocalStorageItem('projectData', JSON.stringify(project));
     }
   }, [currentProject]);
 

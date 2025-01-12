@@ -3,11 +3,9 @@ import { useDispatch } from "react-redux";
 import { DropdownMenuRadioItem } from "./ui/dropdown-menu";
 import { ProjectState, setProject } from "@/store/projectSlice";
 import { usePathname, useRouter } from "next/navigation";
-import { OperationVariables } from "@apollo/client";
 
-export default function ProjectSelector(props: { projectData: OperationVariables }) {
+export default function ProjectSelector(props: { projectData }) {
   const dispatch = useDispatch();
-  const { data } = props.projectData;
   const currentPath = usePathname();
   const router = useRouter();
 
@@ -25,7 +23,7 @@ export default function ProjectSelector(props: { projectData: OperationVariables
   };
 
 
-  return data.projectsCollection.edges.map(({ node }: { node: { id: string; project_id: string; project_name: string } }) => {
+  return props.projectData.projectsCollection.edges.map(({ node }: { node: { id: string; project_id: string; project_name: string } }) => {
     const { id, project_id, project_name } = node;
     return (
       <DropdownMenuRadioItem
