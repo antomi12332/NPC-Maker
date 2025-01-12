@@ -1,18 +1,21 @@
 'use client';
+import { Account, Culture, History, Quests, Location, Token_Packs } from "@/gql/graphql";
+import { Button } from "@/components/ui/button";
 import { GET_ACCOUNT } from "@/app/_apollo/gql/account";
 import { GET_ALL } from "@/app/_apollo/gql/npcgql";
 import { GET_TOKEN_PACKS } from "@/app/_apollo/gql/tokenpackgql";
+import { getLocalStorageItem } from "@/utils/cache";
+import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
-import Header from "@/components/header";
 import CultureBindCard from "@/components/pages/npcs/cultureBindCard";
+import Header from "@/components/header";
 import HistoryBindCard from "@/components/pages/npcs/historyBindCard";
+import LocationSelector from "@/components/pages/npcs/locationSelector";
+import NpcDialogTable from "@/components/pages/npcs/npcDialogTable";
 import QuestBindCard from "@/components/pages/npcs/questBindCard";
 import TokenPacks from "@/components/pages/npcs/tokenPacks";
-import { Button } from "@/components/ui/button";
-import { Account, Culture, History, Quests, Token_Packs } from "@/gql/graphql";
-import { getLocalStorageItem } from "@/utils/cache";
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 
 
@@ -21,7 +24,8 @@ export default function NpcDialog() {
   const { data: allData } = useQuery(GET_ALL, { variables: { id: projectUUID } });
   const { data: account } = useQuery(GET_ACCOUNT);
   const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
-  const [locationAndNPCs, setLocationAndNPCs] = useState(null);
+  const [locationAndNPCs, setLocationAndNPCs] = useState<{ node: Location }[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<{ node: Location }[]>([]);
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
   const [questData, setquestData] = useState<{ node: Quests }[]>([]);
@@ -49,7 +53,8 @@ export default function NpcDialog() {
     }
   }, [account]);
 
-  console.log(locationAndNPCs);
+
+
 
 
 
@@ -65,31 +70,16 @@ export default function NpcDialog() {
             <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Select Location</div>
           </div>
           <div className="self-stretch h-[172px] flex-col justify-center items-center gap-10 flex">
-            <div className="self-stretch justify-start items-start gap-10 inline-flex">
-              <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
-                <div className="w-[100px] h-[100px] bg-black/5 rounded-[50px] justify-center items-center inline-flex">
-                  <div className="w-[100px] self-stretch text-center text-black text-[62.50px] font-normal leading-[100px]">🌎</div>
-                </div>
-                <div className="self-stretch h-7 flex-col justify-start items-start gap-2 flex">
-                  <div className="self-stretch text-center text-black text-xl font-normal leading-7">City 1</div>
-                </div>
-              </div>
-              <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
-                <div className="w-[100px] h-[100px] bg-black/5 rounded-[50px] justify-center items-center inline-flex">
-                  <div className="w-[100px] self-stretch text-center text-black text-[62.50px] font-normal leading-[100px]">🏰</div>
-                </div>
-                <div className="self-stretch h-7 flex-col justify-start items-start gap-2 flex">
-                  <div className="self-stretch text-center text-black text-xl font-normal leading-7">Castle of Mystics</div>
-                </div>
-              </div>
-              <div className="grow shrink basis-0 py-3 flex-col justify-center items-center gap-5 inline-flex">
-                <div className="w-[100px] h-[100px] bg-black/5 rounded-[50px] justify-center items-center inline-flex">
-                  <div className="w-[100px] self-stretch text-center text-black text-[62.50px] font-normal leading-[100px]">🌳</div>
-                </div>
-                <div className="self-stretch h-7 flex-col justify-start items-start gap-2 flex">
-                  <div className="self-stretch text-center text-black text-xl font-normal leading-7">Enchanted Forest</div>
-                </div>
-              </div>
+            <div className="self-stretch justify-start items-start gap-10">
+
+              <ToggleGroup className="w-auto" type="single">
+                {locationAndNPCs.map(({ node }) => (
+                  // <ToggleGroupItem key={node.id} value={node.id}>
+                  <LocationSelector key={node.id} locationNode={node} setSelectedLocation={setSelectedLocation} />
+                  // </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+
             </div>
           </div>
         </div>
@@ -99,7 +89,13 @@ export default function NpcDialog() {
         </div>
         <div className="self-stretch h-[524px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
 
-          <div className="self-stretch h-[248px] flex-col justify-center items-center gap-10 flex">
+
+
+          <NpcDialogTable locationNode={selectedLocation} />
+
+
+
+          {/* <div className="self-stretch h-[248px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-20 inline-flex">
               <div className="w-[510px] flex-col justify-center items-start gap-1 inline-flex">
                 <div className="self-stretch text-black text-sm font-medium leading-tight">NPC Name</div>
@@ -146,8 +142,10 @@ export default function NpcDialog() {
                 </div>
               </div>
             </div>
+          </div> */}
 
-          </div>
+
+
         </div>
         <div className="self-stretch h-[396px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
           <div className="self-stretch justify-center items-center gap-[60px] inline-flex">

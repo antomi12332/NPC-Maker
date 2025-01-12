@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { useDispatch } from 'react-redux';
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
+import { setLocalStorageItem } from "@/utils/cache";
 
 
 
@@ -34,16 +35,26 @@ export default function ProjectCard({ project, setProjects }: ProjectCardProps) 
     }
   };
 
+  const projectLink = () => {
+    dispatch(setProject({
+      id: project.id,
+      project_name: project.project_name,
+      project_id: ""
+    }));
+    // setLocalStorageItem('projectData', JSON.stringify({
+    //   id: project.id,
+    //   project_name: project.project_name,
+    //   project_id: ""
+    // }));
+  };
+
   const { id, project_name } = project;
   return (
     <div key={id} className="flex flex-row justify-between">
       <Link
         href={`/projectdetail/${id}`}
         className="self-stretch justify-start items-start gap-10 inline-flex"
-        onClick={() => dispatch(setProject({
-          id, project_name,
-          project_id: ""
-        }))}
+        onClick={() => projectLink()}
       >
         <div className="grow shrink basis-0 self-stretch py-5 justify-center items-center gap-4 flex">
           <div className="w-[60px] h-[60px] bg-black/5 rounded-[30px] justify-center items-center flex">

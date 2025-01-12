@@ -22,7 +22,7 @@ export default function Dashboard() {
   const [projects, setProjects] = useState<{ node: { id: string; name: string; description: string } }[]>([]);
 
   useEffect(() => {
-    if (data) {
+    if (data && data.projectsCollection) {
       setProjects(data.projectsCollection.edges);
     }
   }, [data]);
