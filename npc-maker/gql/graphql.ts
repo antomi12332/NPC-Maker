@@ -714,10 +714,22 @@ export type Culture = Node & {
   id: Scalars['BigInt']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  npcsCollection?: Maybe<NpcsConnection>;
   project_id: Scalars['UUID']['output'];
   projects?: Maybe<Projects>;
   title: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
+};
+
+
+export type CultureNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
 };
 
 export type CultureConnection = {
@@ -804,10 +816,22 @@ export type History = Node & {
   id: Scalars['BigInt']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  npcsCollection?: Maybe<NpcsConnection>;
   project_id: Scalars['UUID']['output'];
   projects?: Maybe<Projects>;
   title: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
+};
+
+
+export type HistoryNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
 };
 
 export type HistoryConnection = {
@@ -992,14 +1016,20 @@ export type LocationUpdateResponse = {
 export type Npcs = Node & {
   __typename?: 'npcs';
   created_at: Scalars['Datetime']['output'];
+  culture?: Maybe<Culture>;
+  culture_id?: Maybe<Scalars['BigInt']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   dialog?: Maybe<Scalars['String']['output']>;
+  history?: Maybe<History>;
+  history_id?: Maybe<Scalars['BigInt']['output']>;
   id: Scalars['BigInt']['output'];
   location?: Maybe<Location>;
   location_id: Scalars['BigInt']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   npc_name?: Maybe<Scalars['String']['output']>;
+  quest_id?: Maybe<Scalars['BigInt']['output']>;
+  quests?: Maybe<Quests>;
   user_id: Scalars['UUID']['output'];
 };
 
@@ -1027,8 +1057,10 @@ export type NpcsFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<NpcsFilter>>;
   created_at?: InputMaybe<DatetimeFilter>;
+  culture_id?: InputMaybe<BigIntFilter>;
   description?: InputMaybe<StringFilter>;
   dialog?: InputMaybe<StringFilter>;
+  history_id?: InputMaybe<BigIntFilter>;
   id?: InputMaybe<BigIntFilter>;
   location_id?: InputMaybe<BigIntFilter>;
   nodeId?: InputMaybe<IdFilter>;
@@ -1037,15 +1069,19 @@ export type NpcsFilter = {
   npc_name?: InputMaybe<StringFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<NpcsFilter>>;
+  quest_id?: InputMaybe<BigIntFilter>;
   user_id?: InputMaybe<UuidFilter>;
 };
 
 export type NpcsInsertInput = {
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  culture_id?: InputMaybe<Scalars['BigInt']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   dialog?: InputMaybe<Scalars['String']['input']>;
+  history_id?: InputMaybe<Scalars['BigInt']['input']>;
   location_id?: InputMaybe<Scalars['BigInt']['input']>;
   npc_name?: InputMaybe<Scalars['String']['input']>;
+  quest_id?: InputMaybe<Scalars['BigInt']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
@@ -1059,20 +1095,26 @@ export type NpcsInsertResponse = {
 
 export type NpcsOrderBy = {
   created_at?: InputMaybe<OrderByDirection>;
+  culture_id?: InputMaybe<OrderByDirection>;
   description?: InputMaybe<OrderByDirection>;
   dialog?: InputMaybe<OrderByDirection>;
+  history_id?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   location_id?: InputMaybe<OrderByDirection>;
   npc_name?: InputMaybe<OrderByDirection>;
+  quest_id?: InputMaybe<OrderByDirection>;
   user_id?: InputMaybe<OrderByDirection>;
 };
 
 export type NpcsUpdateInput = {
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  culture_id?: InputMaybe<Scalars['BigInt']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   dialog?: InputMaybe<Scalars['String']['input']>;
+  history_id?: InputMaybe<Scalars['BigInt']['input']>;
   location_id?: InputMaybe<Scalars['BigInt']['input']>;
   npc_name?: InputMaybe<Scalars['String']['input']>;
+  quest_id?: InputMaybe<Scalars['BigInt']['input']>;
   user_id?: InputMaybe<Scalars['UUID']['input']>;
 };
 
@@ -1399,12 +1441,24 @@ export type Quests = Node & {
   id: Scalars['BigInt']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  npcsCollection?: Maybe<NpcsConnection>;
   objective: Scalars['String']['output'];
   project_id: Scalars['UUID']['output'];
   projects?: Maybe<Projects>;
   reward: Scalars['String']['output'];
   title: Scalars['String']['output'];
   user_id: Scalars['UUID']['output'];
+};
+
+
+export type QuestsNpcsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<NpcsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpcsOrderBy>>;
 };
 
 export type QuestsConnection = {

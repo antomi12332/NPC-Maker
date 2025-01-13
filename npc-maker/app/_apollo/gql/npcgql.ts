@@ -3,14 +3,18 @@ import { gql } from "@apollo/client";
 // mutations
 export const UPDATE_NPC_MUTATION = gql`
 mutation UpdateNpc($id: String!, $npc_name: String!, $description: String!) {
-  updatenpcsCollection(filter: {id: {eq: $id}}, set: {npc_name: $npc_name, description: $description, quest_id: $quest_id, location_id: $location_id, dialog: $dialog}) {
+  updatenpcsCollection(filter: {id: {eq: $id}}, set: {npc_name: $npc_name, description: $description, quest_id: $quest_id, location_id: $location_id, dialog: $dialog, culture_id: $culture_id, history_id: $history_id}) {
     records {
       id
+      location_id {
+        location_name
+      }
       npc_name
       description
-      quest_id
-      location_id
       dialog
+      quest_id
+      culture_id
+      history_id
     }
   }
 }
@@ -62,6 +66,9 @@ query GetAll($id: String!) {
                     npc_name
                     description
                     dialog
+                    quest_id
+                    culture_id
+                    history_id
                   }
                 }
               }

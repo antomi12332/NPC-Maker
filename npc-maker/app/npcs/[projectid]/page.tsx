@@ -1,5 +1,5 @@
 'use client';
-import { Account, Culture, History, Quests, Location, Token_Packs } from "@/gql/graphql";
+import { Culture, History, Quests, Location, Token_Packs, User_Account } from "@/gql/graphql";
 import { Button } from "@/components/ui/button";
 import { GET_ACCOUNT } from "@/app/_apollo/gql/account";
 import { GET_ALL } from "@/app/_apollo/gql/npcgql";
@@ -8,14 +8,11 @@ import { getLocalStorageItem } from "@/utils/cache";
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
-import CultureBindCard from "@/components/pages/npcs/cultureBindCard";
 import Header from "@/components/header";
-import HistoryBindCard from "@/components/pages/npcs/historyBindCard";
 import LocationSelector from "@/components/pages/npcs/locationSelector";
 import NpcDialogTable from "@/components/pages/npcs/npcDialogTable";
-import QuestBindCard from "@/components/pages/npcs/questBindCard";
 import TokenPacks from "@/components/pages/npcs/tokenPacks";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ToggleGroup } from "@/components/ui/toggle-group";
 
 
 
@@ -26,19 +23,19 @@ export default function NpcDialog() {
   const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
   const [locationAndNPCs, setLocationAndNPCs] = useState<{ node: Location }[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<{ node: Location }[]>([]);
+  const [accountData, setAccountData] = useState<{ node: User_Account }[]>([]);
+  const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
+  const [questData, setquestData] = useState<{ node: Quests }[]>([]);
   const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
   const [histories, setHistories] = useState<{ node: History }[]>([]);
-  const [questData, setquestData] = useState<{ node: Quests }[]>([]);
-  const [accountData, setAccountData] = useState<{ node: Account }[]>([]);
-  const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
 
 
 
   useEffect(() => {
     if (allData && allData.projectsCollection.edges.length > 0) {
-      setHistories(allData.projectsCollection.edges[0].node.historyCollection.edges);
       setquestData(allData.projectsCollection.edges[0].node.questsCollection.edges);
       setCultures(allData.projectsCollection.edges[0].node.cultureCollection.edges);
+      setHistories(allData.projectsCollection.edges[0].node.historyCollection.edges);
       setLocationAndNPCs(allData.projectsCollection.edges[0].node.locationCollection.edges);
     }
   }, [allData]);
@@ -87,12 +84,22 @@ export default function NpcDialog() {
           <div className="w-[520px] text-center text-black text-[40px] font-bold leading-[48px]">Generate NPC Dialog</div>
           <div className="w-[520px] text-center text-black text-base font-normal leading-normal">Specify NPCs and dialog</div>
         </div>
-        <div className="self-stretch h-[524px] px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
+        <div className="self-stretch h-auto px-[170px] py-[60px] flex-col justify-center items-center gap-[60px] flex">
 
 
 
-          <NpcDialogTable locationNode={selectedLocation} />
-
+          <NpcDialogTable
+            locationNode={selectedLocation}
+            questData={questData}
+            cultures={cultures}
+            histories={histories}
+          />
+          <div className="self-stretch flex-row justify-between items-center p-4 flex">
+            <div>{selectedLocation.npcsCollection?.edges.length === undefined ? 0
+              : selectedLocation.npcsCollection?.edges.length} NPCs
+            </div>
+            <Button>Delete</Button>
+          </div>
 
 
           {/* <div className="self-stretch h-[248px] flex-col justify-center items-center gap-10 flex">
