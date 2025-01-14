@@ -1,4 +1,4 @@
-import { Culture, History, ProjectsEdge } from "./gql/graphql";
+import { Culture, History, Location, ProjectsEdge } from "./gql/graphql";
 
 export interface ProjectCardProps {
   project: ProjectsEdge['node'];
@@ -22,4 +22,9 @@ export interface EditTitleProps {
   handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleTitleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleTitleSave: () => void;
+}
+
+export interface LocationsCardProps {
+  locations: Location;
+  setLocations: React.Dispatch<React.SetStateAction<Location[]>>;
 }
