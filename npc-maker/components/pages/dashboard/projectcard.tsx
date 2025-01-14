@@ -3,13 +3,14 @@ import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog";
 import { DELETE_PROJECT_MUTATION } from "@/app/_apollo/gql/projectsgql";
 import { FaTrash } from "react-icons/fa";
-import { ProjectCardProps } from "@/typings";
 import { setLocalStorageItem } from "@/utils/cache";
 import { setProject } from '@/store/projectSlice';
 import { toast } from "@/hooks/use-toast";
 import { useDispatch } from 'react-redux';
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
+import { ProjectsEdge } from "@/gql/graphql";
+import { ProjectCardProps } from "@/typings";
 
 
 
@@ -24,7 +25,11 @@ export default function ProjectCard({ project, setProjects }: ProjectCardProps) 
         title: "Project Deleted",
         duration: 2000,
       });
-      setProjects(prevProjects => prevProjects.filter(p => p.node.id !== id));
+      setProjects((prevProjects) => ({
+        projectsCollection: {
+          edges: prevProjects.projectsCollection.edges.filter((p: ProjectsEdge) => p.node.id !== id)
+        }
+      }));
     }
     catch (error) {
       console.error('Error deleting project:', error);

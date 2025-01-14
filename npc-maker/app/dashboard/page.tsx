@@ -8,7 +8,7 @@ import ProjectCard from "@/components/pages/dashboard/projectcard";
 import { Input } from "@/components/ui/input";
 import { useQuery, useMutation } from "@apollo/client";
 import { useEffect } from "react";
-import { Projects } from "@/gql/graphql";
+import { ProjectsEdge } from "@/gql/graphql";
 
 
 
@@ -17,14 +17,14 @@ import { Projects } from "@/gql/graphql";
 export default function Dashboard() {
   const { toast } = useToast();
   const [createProject] = useMutation(CREATE_PROJECT_MUTATION);
-  const { data, loading, error, } = useQuery(ALL_PROJECTS_QUERY);
+  const { data, loading, error } = useQuery<{ projectsCollection: { edges: ProjectsEdge[] } }>(ALL_PROJECTS_QUERY);
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const [projects, setProjects] = useState<Projects[]>([]);
+  const [projects, setProjects] = useState<{ projectsCollection: { edges: ProjectsEdge[] } }>({ projectsCollection: { edges: [] } });
 
   useEffect(() => {
     if (data && data.projectsCollection.edges.length > 0) {
-      setProjects(data.projectsCollection.edges);
+      setProjects({ projectsCollection: { edges: data.projectsCollection.edges } });
     }
   }, [data]);
 
@@ -50,7 +50,11 @@ export default function Dashboard() {
         description: projectName,
         duration: 2000,
       });
-      setProjects([...projects, { node: newProject }]);
+      setProjects({
+        projectsCollection: {
+          edges: [...projects.projectsCollection.edges, { node: newProject, cursor: newProject.id }]
+        }
+      });
       setProjectName('');
       setProjectDescription('');
     } catch (error) {
@@ -73,7 +77,7 @@ export default function Dashboard() {
             <div className="shrink w-1 text-black text-[40px] font-bold leading-[48px]">Your Projects</div>
           </div>
           <div className="grid grid-flow-col grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
-            {projects.map(({ node }) => (
+            {projects.projectsCollection.edges.map(({ node }) => (
               <ProjectCard key={node.id} project={node} setProjects={setProjects} />
             ))}
           </div>

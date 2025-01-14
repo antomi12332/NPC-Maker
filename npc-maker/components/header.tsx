@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import ProjectSelector from "./projectSelector";
+import { Projects, Query } from "@/gql/graphql";
 
 export default function Header(props: { titleText: string }) {
   const dispatch = useDispatch();
@@ -18,21 +19,21 @@ export default function Header(props: { titleText: string }) {
   const router = useRouter();
   const supabase = createClient();
   const projectUUID = JSON.parse(getLocalStorageItem('projectData')!).id;
-  const { data: currentProject } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
-  const { data: allProjects } = useQuery(CURRENT_PROJECT);
-  const [projectData, setProjectData] = useState(null);
+  const { data: currentProject } = useQuery<Query>(CURRENT_PROJECT, { variables: { id: projectUUID } });
+  const { data: allProjects } = useQuery<Query>(CURRENT_PROJECT);
+  const [projectData, setProjectData] = useState<Projects | null>(null);
 
 
 
   useEffect(() => {
-    if (currentProject && currentProject.projectsCollection.edges.length > 0) {
+    if (currentProject?.projectsCollection?.edges && currentProject.projectsCollection.edges.length > 0) {
       const project = currentProject.projectsCollection.edges[0].node;
       setProjectData(project);
       dispatch(setProject(project));
       // Save projectData to local storage
       setLocalStorageItem('projectData', JSON.stringify(project));
     }
-  }, [currentProject]);
+  }, [currentProject, dispatch]);
 
   async function signOut() {
     await supabase.auth.signOut();
