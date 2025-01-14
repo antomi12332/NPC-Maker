@@ -4,7 +4,7 @@ import { CREATE_LOCATION_MUTATION, GET_LOCATION } from "@/app/_apollo/gql/locati
 import { CREATE_NPC_MUTATION } from "@/app/_apollo/gql/npcgql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { Input } from "@/components/ui/input";
-import { Query, Location } from "@/gql/graphql";
+import { Query, Location, Mutation } from "@/gql/graphql";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -21,8 +21,8 @@ export default function Locations() {
   const [locationName, setLocationName] = useState<string>("");
   const [locationDescription, setLocationDescription] = useState<string>("");
   const [npcCount, setNpcCount] = useState<number>(0);
-  const [createLocation] = useMutation(CREATE_LOCATION_MUTATION);
-  const [npcToLocation] = useMutation(CREATE_NPC_MUTATION);
+  const [createLocation] = useMutation<Mutation>(CREATE_LOCATION_MUTATION);
+  const [npcToLocation] = useMutation<Mutation>(CREATE_NPC_MUTATION);
   const [locations, setLocations] = useState<Location[]>([]);
 
 
@@ -52,7 +52,7 @@ export default function Locations() {
         },
       });
       // Create NPCs for the location
-      const newLocationID = await data.insertIntolocationCollection.records[0].id;
+      const newLocationID = data?.insertIntolocationCollection?.records[0].id;
       for (let i = 0; i < npcCount; i++) {
         await npcToLocation({
           variables: {
@@ -63,13 +63,13 @@ export default function Locations() {
         });
       }
 
-      const newLocations = data.insertIntolocationCollection.records[0];
+      const newLocations = data?.insertIntolocationCollection?.records[0];
       toast({
         title: "Location Created",
         description: locationName,
         duration: 2000,
       });
-      setLocations([...locations, { ...newLocations, npcsCollection: { edges: Array(npcCount).fill({}) } }]);
+      setLocations([...locations, { ...newLocations, nodeId: newLocationID, npcsCollection: { edges: Array(npcCount).fill({}) } } as Location]);
       setLocationName("");
       setLocationDescription("");
       setNpcCount(0);

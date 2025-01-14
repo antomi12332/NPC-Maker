@@ -1,25 +1,25 @@
 'use client';
+import { Button } from "@/components/ui/button";
+import { CREATE_QUESTS_MUTATION, GET_QUESTS } from "@/app/_apollo/gql/questsgql";
+import { getLocalStorageItem } from "@/utils/cache";
+import { Input } from "@/components/ui/input";
+import { Mutation, Query, Quests } from "@/gql/graphql";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
-import { CREATE_QUESTS_MUTATION, GET_QUESTS } from "@/app/_apollo/gql/questsgql";
-import { useMutation, useQuery } from "@apollo/client";
-import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
 import QuestCard from "@/components/pages/quests/questsCard";
-import { Quests } from "@/gql/graphql";
-import { getLocalStorageItem } from "@/utils/cache";
 
 
 
 export default function QuestsPage() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
-  const { data, loading, error } = useQuery(GET_QUESTS, { variables: { id: projectUUID } });
-  const [createQuest] = useMutation(CREATE_QUESTS_MUTATION);
-  const [questName, setQuestName] = useState('');
-  const [questObjective, setQuestObjective] = useState('');
-  const [questReward, setQuestReward] = useState('');
+  const { data, loading, error } = useQuery<Query>(GET_QUESTS, { variables: { id: projectUUID } });
+  const [createQuest] = useMutation<Mutation>(CREATE_QUESTS_MUTATION);
+  const [questName, setQuestName] = useState<string>('');
+  const [questObjective, setQuestObjective] = useState<string>('');
+  const [questReward, setQuestReward] = useState<string>('');
   const [questData, setquestData] = useState<{ node: Quests }[]>([]);
 
   useEffect(() => {

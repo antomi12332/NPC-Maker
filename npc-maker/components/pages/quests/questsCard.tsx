@@ -9,6 +9,8 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
+
+
 export default function QuestCard({ questData, setquestData }: QuestCardProps) {
   const [deleteQuest] = useMutation(DELETE_QUESTS_MUTATION);
   const [updateQuest] = useMutation(UPDATE_QUESTS_MUTATION);
@@ -27,7 +29,7 @@ export default function QuestCard({ questData, setquestData }: QuestCardProps) {
         title: "Quest Deleted",
         duration: 2000,
       });
-      setquestData(prevQuest => prevQuest.filter(p => p.node.id !== id));
+      setquestData(prevQuest => prevQuest.filter(p => p.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);

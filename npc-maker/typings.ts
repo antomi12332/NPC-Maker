@@ -1,4 +1,4 @@
-import { Culture, History, Location, ProjectsEdge } from "./gql/graphql";
+import { Culture, History, Location, ProjectsEdge, Quests } from "./gql/graphql";
 
 export interface ProjectCardProps {
   project: ProjectsEdge['node'];
@@ -27,4 +27,9 @@ export interface EditTitleProps {
 export interface LocationsCardProps {
   locations: Location;
   setLocations: React.Dispatch<React.SetStateAction<Location[]>>;
+}
+
+export interface QuestCardProps {
+  questData: Quests;
+  setquestData: React.Dispatch<React.SetStateAction<Quests[] | undefined>>;
 }
