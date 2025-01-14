@@ -7,6 +7,7 @@ import Providers from "./_apollo/provider";
 import { Toaster } from "@/components/ui/toaster";
 
 const roboto: NextFont = Roboto({
+  subsets: ["latin"],
   weight: "500",
 });
 
