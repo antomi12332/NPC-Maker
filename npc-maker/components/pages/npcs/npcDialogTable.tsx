@@ -30,8 +30,7 @@ export default function NpcDialogTable(props: NpcDialogTableProps) {
   useEffect(() => {
     const matchedQuest = props.questData.filter((quest) => quest.id === props.locationNode?.npcsCollection?.edges[0].node.quest_id);
     setQuest(matchedQuest[0]);
-    console.log(quest); // temp lint fix
-  }, [props.locationNode, props.questData, quest]);
+  }, [props.locationNode, props.questData]);
 
 
 

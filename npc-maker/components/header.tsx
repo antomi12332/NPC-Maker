@@ -13,12 +13,15 @@ import Link from "next/link";
 import ProjectSelector from "./projectSelector";
 import { Projects, Query } from "@/gql/graphql";
 
+const projectDataString = getLocalStorageItem('projectData');
+const projectUUID = projectDataString ? JSON.parse(projectDataString).id : null;
+
 export default function Header(props: { titleText: string }) {
   const dispatch = useDispatch();
   const currentPath = usePathname();
   const router = useRouter();
   const supabase = createClient();
-  const projectUUID = JSON.parse(getLocalStorageItem('projectData')!).id;
+
   const { data: currentProject } = useQuery<Query>(CURRENT_PROJECT, { variables: { id: projectUUID } });
   const { data: allProjects } = useQuery<Query>(CURRENT_PROJECT);
   const [projectData, setProjectData] = useState<Projects | null>(null);
@@ -71,7 +74,7 @@ export default function Header(props: { titleText: string }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuSeparator />
-                  <ProjectSelector projectData={allProjects} />
+                  {allProjects && <ProjectSelector projectData={allProjects.projectsCollection?.edges.map(edge => edge.node) || []} />}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
