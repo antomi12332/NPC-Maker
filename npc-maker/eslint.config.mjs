@@ -13,9 +13,9 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
-      "@/semi": ["error", "always"],
-    }
+      "@typescript-eslint/no-unused-vars": "warn"
+    },
   }
 ];
 
-export default eslintConfig;
+export default eslintConfig

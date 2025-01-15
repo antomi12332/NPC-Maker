@@ -34,7 +34,7 @@ export default function CultureCard({ cultures, setCultures }: CultureCardProps)
         title: "Culture Deleted",
         duration: 2000,
       });
-      setCultures(prevCulture => prevCulture.filter(p => p.node.id !== id));
+      setCultures(prevCulture => prevCulture?.filter(p => p.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);

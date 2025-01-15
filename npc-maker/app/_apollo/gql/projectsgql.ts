@@ -5,9 +5,14 @@ export const CREATE_PROJECT_MUTATION = gql`
   mutation CreateProject($name: String!, $description: String!) {
     insertIntoprojectsCollection(objects: [{ project_name: $name, short_description: $description }]) {
       records { 
+        background
+        created_at
         id
+        modified_at
+        project_id
         project_name
         short_description
+        user_id
         }
     }
   }
@@ -20,8 +25,14 @@ export const DELETE_PROJECT_MUTATION = gql`
       atMost: 1
       ) {
       records {
+        background
+        created_at
         id
+        modified_at
+        project_id
         project_name
+        short_description
+        user_id
       }
     }
   }
@@ -35,7 +46,14 @@ mutation UpdateBackground($id: ID!, $background: String!) {
     atMost: 1
   ) {
     records {
-      background
+        background
+        created_at
+        id
+        modified_at
+        project_id
+        project_name
+        short_description
+        user_id
     }
   }
 }
@@ -49,7 +67,14 @@ mutation UpdateProjectName($id: ID!, $project_name: String!) {
     atMost: 1
   ) {
     records {
-      project_name
+        background
+        created_at
+        id
+        modified_at
+        project_id
+        project_name
+        short_description
+        user_id
     }
   }
 }
@@ -63,11 +88,14 @@ export const ALL_PROJECTS_QUERY = gql`
       projectsCollection(orderBy: {project_id: AscNullsLast}) {
       edges {
         node {
-          id,
-          project_id,
-          project_name,
-          short_description,
           background
+          created_at
+          id
+          modified_at
+          project_id
+          project_name
+          short_description
+          user_id
         }
       }
     }
@@ -79,14 +107,14 @@ export const CURRENT_PROJECT = gql`
     projectsCollection (filter: {id: {eq: $id}}) {
     edges {
       node {
+        background
+        created_at
         id
+        modified_at
         project_id
         project_name
-        created_at
         short_description
         user_id
-        modified_at
-        background
       }
     }
   }

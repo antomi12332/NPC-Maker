@@ -1,12 +1,9 @@
+import { EditTitleProps } from "@/typings";
 import { MdEdit } from "react-icons/md";
 
-export default function EditTitle({
-  projectTitle,
-  isEditing,
-  handleEditProjectName,
-  handleTitleChange,
-  handleTitleKeyDown,
-  handleTitleSave }) {
+
+
+export default function EditTitle({ projectTitle, isEditing, handleEditProjectName, handleTitleChange, handleTitleKeyDown, handleTitleSave }: EditTitleProps) {
   return (
     <div className="w-full h-full pt-20 bg-white flex-row justify-center items-center place-items-center inline-flex">
       <div className="self-stretch text-black text-[40px] font-bold leading-[48px] px-2">

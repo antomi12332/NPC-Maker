@@ -23,7 +23,7 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
   const [deleteHistory] = useMutation(DELETE_HISTORY_MUTATION);
   const [updateHistory] = useMutation(UPDATE_HISTORY_MUTATION);
   const [historyTitle, sethistoryTitle] = useState(histories.title);
-  const [historyDescription, sethistoryDescription] = useState(histories.description);
+  const [historyDescription, setHistoryDescription] = useState<string>(histories.description);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { id } = histories;
 
@@ -34,7 +34,7 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
         title: "History Deleted",
         duration: 2000,
       });
-      setHistories(prevHistory => prevHistory.filter(p => p.node.id !== id));
+      setHistories(prevHistory => prevHistory?.filter(p => p.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);
@@ -87,7 +87,7 @@ export default function HistoryCard({ histories, setHistories }: HistoryCardProp
               <Label htmlFor="username" className="text-right">
                 Description
               </Label>
-              <Textarea id="username" className="col-span-3 h-40" defaultValue={historyDescription!} onChange={(e) => sethistoryDescription(e.target.value)} />
+              <Textarea id="username" className="col-span-3 h-40" defaultValue={historyDescription!} onChange={(e) => setHistoryDescription(e.target.value)} />
             </div>
           </div>
           <DialogFooter>

@@ -4,7 +4,7 @@ import { CREATE_LOCATION_MUTATION, GET_LOCATION } from "@/app/_apollo/gql/locati
 import { CREATE_NPC_MUTATION } from "@/app/_apollo/gql/npcgql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { Input } from "@/components/ui/input";
-import { Location } from "graphql";
+import { Query, Location, Mutation } from "@/gql/graphql";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -17,23 +17,20 @@ import LocationsCard from "@/components/pages/locations/locationsCard";
 
 export default function Locations() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
-  const { data, loading, error } = useQuery(GET_LOCATION, { variables: { id: projectUUID }, });
-  const [locationName, setLocationName] = useState("");
-  const [locationDescription, setLocationDescription] = useState("");
-  const [npcCount, setNpcCount] = useState(0);
-  const [createLocation] = useMutation(CREATE_LOCATION_MUTATION);
-  const [npcToLocation] = useMutation(CREATE_NPC_MUTATION);
-  const [locations, setLocations] = useState<{ node: Location }[]>([]);
+  const { data } = useQuery<Query>(GET_LOCATION, { variables: { id: projectUUID }, });
+  const [locationName, setLocationName] = useState<string>("");
+  const [locationDescription, setLocationDescription] = useState<string>("");
+  const [npcCount, setNpcCount] = useState<number>(0);
+  const [createLocation] = useMutation<Mutation>(CREATE_LOCATION_MUTATION);
+  const [npcToLocation] = useMutation<Mutation>(CREATE_NPC_MUTATION);
+  const [locations, setLocations] = useState<Location[]>([]);
 
 
   useEffect(() => {
-    if (data && data.projectsCollection.edges.length > 0) {
-      setLocations(data.projectsCollection.edges[0].node.locationCollection.edges);
+    if (data && data.projectsCollection && data.projectsCollection.edges.length > 0 && data.projectsCollection.edges[0].node.locationCollection) {
+      setLocations(data.projectsCollection.edges[0].node.locationCollection.edges.map(edge => edge.node));
     }
   }, [data]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
 
 
 
@@ -55,7 +52,7 @@ export default function Locations() {
         },
       });
       // Create NPCs for the location
-      const newLocationID = await data.insertIntolocationCollection.records[0].id;
+      const newLocationID = data?.insertIntolocationCollection?.records[0].id;
       for (let i = 0; i < npcCount; i++) {
         await npcToLocation({
           variables: {
@@ -66,13 +63,13 @@ export default function Locations() {
         });
       }
 
-      const newLocations = data.insertIntolocationCollection.records[0];
+      const newLocations = data?.insertIntolocationCollection?.records[0];
       toast({
         title: "Location Created",
         description: locationName,
         duration: 2000,
       });
-      setLocations([...locations, { node: { ...newLocations, npcsCollection: { edges: Array(npcCount).fill({}) } } }]);
+      setLocations([...locations, { ...newLocations, nodeId: newLocationID, npcsCollection: { edges: Array(npcCount).fill({}) } } as Location]);
       setLocationName("");
       setLocationDescription("");
       setNpcCount(0);
@@ -95,7 +92,7 @@ export default function Locations() {
           <div className="self-stretch h-[260px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-10 inline-flex">
 
-              {locations.map(({ node }) => (
+              {locations.map((node) => (
                 <LocationsCard key={node.id} locations={node} setLocations={setLocations} />
               ))}
 

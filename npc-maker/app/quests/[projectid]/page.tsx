@@ -1,35 +1,34 @@
 'use client';
+import { Button } from "@/components/ui/button";
+import { CREATE_QUESTS_MUTATION, GET_QUESTS } from "@/app/_apollo/gql/questsgql";
+import { getLocalStorageItem } from "@/utils/cache";
+import { Input } from "@/components/ui/input";
+import { Mutation, Query, Quests } from "@/gql/graphql";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
 import Header from "@/components/header";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
-import { CREATE_QUESTS_MUTATION, GET_QUESTS } from "@/app/_apollo/gql/questsgql";
-import { useMutation, useQuery } from "@apollo/client";
-import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
 import QuestCard from "@/components/pages/quests/questsCard";
-import { Quests } from "@/gql/graphql";
-import { getLocalStorageItem } from "@/utils/cache";
 
 
 
 export default function QuestsPage() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
-  const { data, loading, error } = useQuery(GET_QUESTS, { variables: { id: projectUUID } });
-  const [createQuest] = useMutation(CREATE_QUESTS_MUTATION);
-  const [questName, setQuestName] = useState('');
-  const [questObjective, setQuestObjective] = useState('');
-  const [questReward, setQuestReward] = useState('');
-  const [questData, setquestData] = useState<{ node: Quests }[]>([]);
+  const { data } = useQuery<Query>(GET_QUESTS, { variables: { id: projectUUID } });
+  const [createQuest] = useMutation<Mutation>(CREATE_QUESTS_MUTATION);
+  const [questName, setQuestName] = useState<string>('');
+  const [questObjective, setQuestObjective] = useState<string>('');
+  const [questReward, setQuestReward] = useState<string>('');
+  const [questData, setquestData] = useState<Quests[]>([]);
 
   useEffect(() => {
-    if (data && data.projectsCollection.edges.length > 0) {
-      setquestData(data.projectsCollection.edges[0].node.questsCollection.edges);
+    if (data?.projectsCollection?.edges?.[0]?.node?.questsCollection?.edges) {
+      setquestData(data.projectsCollection.edges[0].node.questsCollection.edges.map(edge => edge.node));
     }
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+
 
   const handleCreateQuest = async () => {
     if (!questName.trim() || !questObjective.trim() || !questReward.trim()) {
@@ -54,7 +53,7 @@ export default function QuestsPage() {
         description: questName,
         duration: 2000,
       });
-      setquestData([...questData, { node: data.insertIntoquestsCollection.records[0] }]);
+      setquestData([...questData, data?.insertIntoquestsCollection?.records[0] as Quests]);
       setQuestName('');
       setQuestObjective('');
       setQuestReward('');
@@ -79,8 +78,8 @@ export default function QuestsPage() {
 
         <div className="grid grid-flow-col grid-rows-1 self-stretch py-[60px] justify-start items-center gap-10 overflow-auto">
 
-          {questData.map(({ node }) => (
-            <QuestCard key={node.id} questData={node} setquestData={setquestData} />
+          {questData.map((quest) => (
+            <QuestCard key={quest.id} questData={quest} setquestData={setquestData} />
           ))}
 
         </div>
