@@ -1,10 +1,11 @@
 'use client';
-import { Culture, History, Quests, Location, Token_Packs, User_Account } from "@/gql/graphql";
 import { Button } from "@/components/ui/button";
+import { Culture, History, Quests, Location, Token_Packs, User_Account, Query } from "@/gql/graphql";
 import { GET_ACCOUNT } from "@/app/_apollo/gql/account";
 import { GET_ALL } from "@/app/_apollo/gql/npcgql";
 import { GET_TOKEN_PACKS } from "@/app/_apollo/gql/tokenpackgql";
 import { getLocalStorageItem } from "@/utils/cache";
+import { ToggleGroup } from "@/components/ui/toggle-group";
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Banner from "@/components/banner";
@@ -12,40 +13,39 @@ import Header from "@/components/header";
 import LocationSelector from "@/components/pages/npcs/locationSelector";
 import NpcDialogTable from "@/components/pages/npcs/npcDialogTable";
 import TokenPacks from "@/components/pages/npcs/tokenPacks";
-import { ToggleGroup } from "@/components/ui/toggle-group";
 
 
 
 export default function NpcDialog() {
   const projectUUID = JSON.parse(getLocalStorageItem('projectData') || '{}').id || null;
-  const { data: allData } = useQuery(GET_ALL, { variables: { id: projectUUID } });
-  const { data: account } = useQuery(GET_ACCOUNT);
-  const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
-  const [locationAndNPCs, setLocationAndNPCs] = useState<{ node: Location }[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<{ node: Location }[]>([]);
-  const [accountData, setAccountData] = useState<{ node: User_Account }[]>([]);
-  const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
-  const [questData, setquestData] = useState<{ node: Quests }[]>([]);
-  const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
-  const [histories, setHistories] = useState<{ node: History }[]>([]);
+  const { data: allData } = useQuery<Query>(GET_ALL, { variables: { id: projectUUID } });
+  const { data: account } = useQuery<Query>(GET_ACCOUNT);
+  const { data: tokenPacks } = useQuery<Query>(GET_TOKEN_PACKS);
+  const [locationAndNPCs, setLocationAndNPCs] = useState<Location[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [accountData, setAccountData] = useState<User_Account | null>(null);
+  const [tokenData, setTokenData] = useState<Token_Packs[]>([]);
+  const [questData, setquestData] = useState<Quests[]>([]);
+  const [cultures, setCultures] = useState<Culture[]>([]);
+  const [histories, setHistories] = useState<History[]>([]);
 
 
 
   useEffect(() => {
-    if (allData && allData.projectsCollection.edges.length > 0) {
-      setquestData(allData.projectsCollection.edges[0].node.questsCollection.edges);
-      setCultures(allData.projectsCollection.edges[0].node.cultureCollection.edges);
-      setHistories(allData.projectsCollection.edges[0].node.historyCollection.edges);
-      setLocationAndNPCs(allData.projectsCollection.edges[0].node.locationCollection.edges);
+    if (allData && allData.projectsCollection && allData.projectsCollection.edges.length > 0) {
+      setquestData(allData?.projectsCollection?.edges[0]?.node?.questsCollection?.edges.map(edge => edge.node) || []);
+      setCultures(allData?.projectsCollection?.edges[0]?.node?.cultureCollection?.edges.map(edge => edge.node) || []);
+      setHistories(allData?.projectsCollection?.edges[0]?.node?.historyCollection?.edges.map(edge => edge.node) || []);
+      setLocationAndNPCs(allData?.projectsCollection?.edges?.[0]?.node?.locationCollection?.edges?.map(edge => edge.node) || []);
     }
   }, [allData]);
   useEffect(() => {
-    if (tokenPacks && tokenPacks.token_packsCollection.edges.length > 0) {
-      setTokenData(tokenPacks.token_packsCollection.edges);
+    if (tokenPacks && tokenPacks.token_packsCollection && tokenPacks.token_packsCollection.edges.length > 0) {
+      setTokenData(tokenPacks.token_packsCollection.edges.map(edge => edge.node));
     }
   }, [tokenPacks]);
   useEffect(() => {
-    if (account && account.user_accountCollection.edges.length > 0) {
+    if (account && account.user_accountCollection && account.user_accountCollection.edges.length > 0) {
       setAccountData(account.user_accountCollection.edges[0].node);
     }
   }, [account]);
@@ -70,9 +70,9 @@ export default function NpcDialog() {
             <div className="self-stretch justify-start items-start gap-10">
 
               <ToggleGroup className="w-auto" type="single">
-                {locationAndNPCs.map(({ node }) => (
-                  // <ToggleGroupItem key={node.id} value={node.id}>
-                  <LocationSelector key={node.id} locationNode={node} setSelectedLocation={setSelectedLocation} />
+                {locationAndNPCs.map((location) => (
+                  // <ToggleGroupItem key={location.id} value={location.id}>
+                  <LocationSelector key={location.id} locationNode={location} setSelectedLocation={setSelectedLocation} />
                   // </ToggleGroupItem>
                 ))}
               </ToggleGroup>
@@ -88,18 +88,20 @@ export default function NpcDialog() {
 
 
 
-          <NpcDialogTable
-            locationNode={selectedLocation}
-            questData={questData}
-            cultures={cultures}
-            histories={histories}
-          />
+          {selectedLocation && (
+            <NpcDialogTable
+              locationNode={selectedLocation}
+              questData={questData}
+              cultures={cultures}
+              histories={histories}
+            />
+          )}
+
           <div className="self-stretch flex-row justify-between items-center p-4 flex">
-            <div>{selectedLocation.npcsCollection?.edges.length === undefined ? 0
-              : selectedLocation.npcsCollection?.edges.length} NPCs
-            </div>
+            <div>{Array.isArray(selectedLocation) ? selectedLocation.reduce((acc, loc) => acc + (loc.npcsCollection?.edges.length || 0), 0) : 0} NPCs</div>
             <Button>Delete</Button>
           </div>
+
 
 
           {/* <div className="self-stretch h-[248px] flex-col justify-center items-center gap-10 flex">
@@ -164,7 +166,7 @@ export default function NpcDialog() {
             <div className="self-stretch justify-start items-start gap-5 inline-flex">
               <div className="grow shrink basis-0 p-4 rounded-md border border-black/10 flex-col justify-start items-start gap-1 inline-flex">
                 <div className="self-stretch text-black/50 text-base font-normal leading-normal">Tokens</div>
-                <div className="text-black text-[28px] font-medium leading-9">{accountData.tokens}</div>
+                <div className="text-black text-[28px] font-medium leading-9">{accountData?.tokens}</div>
               </div>
               <div className="grow shrink basis-0 p-4 rounded-md border border-black/10 flex-col justify-start items-start gap-1 inline-flex">
                 <div className="self-stretch text-black/50 text-base font-normal leading-normal">NPCs to Generate</div>
@@ -189,8 +191,8 @@ export default function NpcDialog() {
 
           <div className="w-fit h-[420px] flex-col justify-center items-center gap-10 flex">
             <div className="self-stretch justify-start items-start gap-10 inline-flex">
-              {tokenData.map(({ node }) => (
-                <TokenPacks key={node.id} pack_name={node.pack_name} price={node.price} tokenAmount={node.token_amount} />
+              {tokenData.map((tokenPack) => (
+                <TokenPacks key={tokenPack.id} pack_name={tokenPack.pack_name} price={tokenPack.price} tokenAmount={tokenPack.token_amount} />
               ))}
             </div>
           </div>

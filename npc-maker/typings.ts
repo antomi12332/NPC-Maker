@@ -41,3 +41,15 @@ export interface EditDisplayNameProps {
   handleDisplayNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDisplayNameSave: () => void;
 }
+
+export interface LocationSelectorProps {
+  locationNode: Location;
+  setSelectedLocation: (node: Location) => void;
+}
+
+export interface NpcDialogTableProps {
+  locationNode: Location;
+  questData: Quests[];
+  cultures: Culture[];
+  histories: History[];
+}
