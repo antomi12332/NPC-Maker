@@ -1,26 +1,26 @@
 'use client';
-import Header from "@/components/header";
 import { CREATE_ACCOUNT, GET_ACCOUNT, UPDATE_ACCOUNT } from "../_apollo/gql/account";
-import { useMutation, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { toast } from "@/hooks/use-toast";
-import EditDisplayName from "@/components/pages/account/editDisplayName";
-import Banner from "@/components/banner";
-import TokenPackAccountCard from "@/components/pages/account/tokenPackAccountCard";
-import { Token_Packs } from "@/gql/graphql";
 import { GET_TOKEN_PACKS } from "../_apollo/gql/tokenpackgql";
+import { Mutation, Query, Token_Packs, User_Account } from "@/gql/graphql";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import Banner from "@/components/banner";
+import EditDisplayName from "@/components/pages/account/editDisplayName";
+import Header from "@/components/header";
+import TokenPackAccountCard from "@/components/pages/account/tokenPackAccountCard";
 
 
 export default function Account() {
-  const { data, loading, error } = useQuery(GET_ACCOUNT);
-  const { data: tokenPacks } = useQuery(GET_TOKEN_PACKS);
-  const [createUserAccount] = useMutation(CREATE_ACCOUNT);
-  const [account, setAccount] = useState(null);
+  const { data, loading, error } = useQuery<Query>(GET_ACCOUNT);
+  const { data: tokenPacks } = useQuery<Query>(GET_TOKEN_PACKS);
+  const [createUserAccount] = useMutation<Mutation>(CREATE_ACCOUNT);
+  const [account, setAccount] = useState<User_Account | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [display_name, setDisplayName] = useState(null);
+  const [display_name, setDisplayName] = useState<string>("");
   const [tokenData, setTokenData] = useState<{ node: Token_Packs }[]>([]);
-  const [email, setEmail] = useState(null);
-  const [saveDisplayName] = useMutation(UPDATE_ACCOUNT);
+  // const [email, setEmail] = useState(null);
+  const [saveDisplayName] = useMutation<Mutation>(UPDATE_ACCOUNT);
 
 
 
@@ -31,7 +31,7 @@ export default function Account() {
     saveDisplayName({
       variables: {
         display_name: display_name,
-        email: email,
+        email: null, // email
       },
     });
     setIsEditing(false);
@@ -42,21 +42,21 @@ export default function Account() {
   };
 
   useEffect(() => {
-    if (data && data.user_accountCollection.edges.length > 0) {
+    if (data && data.user_accountCollection && data.user_accountCollection.edges.length > 0) {
       setAccount(data.user_accountCollection.edges[0].node);
-      setDisplayName(data.user_accountCollection.edges[0].node.display_name);
-    } else if (data && data.user_accountCollection.edges.length === 0) {
+      setDisplayName(data.user_accountCollection.edges[0].node.display_name || "");
+    } else if (data && data.user_accountCollection && data.user_accountCollection.edges.length === 0) {
       createUserAccount({
         variables: {
-          display_name: null,
+          display_name: "",
           email: null,
         },
       });
     }
-  }, [data]);
+  }, [createUserAccount, data]);
 
   useEffect(() => {
-    if (tokenPacks && tokenPacks.token_packsCollection.edges.length > 0) {
+    if (tokenPacks && tokenPacks.token_packsCollection && tokenPacks.token_packsCollection.edges.length > 0) {
       setTokenData(tokenPacks.token_packsCollection.edges);
     }
   }, [tokenPacks]);
@@ -82,7 +82,7 @@ export default function Account() {
               displayName={display_name}
               isEditing={isEditing}
               handleEditDisplayName={handleEditDisplayName}
-              handleDisplayNameChange={(e) => setDisplayName(e.target.value)}
+              handleDisplayNameChange={(e: React.ChangeEvent<HTMLInputElement>) => setDisplayName(e.target.value)}
               handleDisplayNameSave={handleSaveDisplayName}
             />
             <div className="self-stretch justify-start items-center gap-1.5 inline-flex">

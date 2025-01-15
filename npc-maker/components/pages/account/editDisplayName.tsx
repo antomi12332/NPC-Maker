@@ -1,12 +1,9 @@
+import { EditDisplayNameProps } from "@/typings";
 import { MdEdit } from "react-icons/md";
 
-export default function EditDisplayName({
-  displayName,
-  isEditing,
-  handleEditDisplayName,
-  handleDisplayNameChange,
-  handleDisplayNameSave
-}) {
+
+
+export default function EditDisplayName({ displayName, isEditing, handleEditDisplayName, handleDisplayNameChange, handleDisplayNameSave }: EditDisplayNameProps) {
   return (
     <div className="inline-flex">
       {isEditing ? (

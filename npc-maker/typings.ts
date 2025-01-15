@@ -33,3 +33,11 @@ export interface QuestCardProps {
   questData: Quests;
   setquestData: React.Dispatch<React.SetStateAction<Quests[]>>;
 }
+
+export interface EditDisplayNameProps {
+  displayName: string;
+  isEditing: boolean;
+  handleEditDisplayName: () => void;
+  handleDisplayNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDisplayNameSave: () => void;
+}
