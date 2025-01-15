@@ -4,8 +4,9 @@ import { DropdownMenuRadioItem } from "./ui/dropdown-menu";
 import { ProjectState, setProject } from "@/store/projectSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { setLocalStorageItem } from "@/utils/cache";
+import { Projects } from "@/gql/graphql";
 
-export default function ProjectSelector(props: { projectData }) {
+export default function ProjectSelector(props: { projectData: Projects[] }) {
   const dispatch = useDispatch();
   const currentPath = usePathname();
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function ProjectSelector(props: { projectData }) {
   };
 
 
-  return props.projectData.projectsCollection.edges.map(({ node }: { node: { id: string; project_id: string; project_name: string } }) => {
+  return props.projectData.map((node: { id: string; project_id: string; project_name: string }) => {
     const { id, project_id, project_name } = node;
     return (
       <DropdownMenuRadioItem

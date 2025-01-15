@@ -1,47 +1,27 @@
-interface Project {
-  node: { id: string };
-  id: string;
-  project_name: string;
-}
-
-interface Location {
-  node: { id: string };
-  id: string;
-  location_name: string;
-  description: string;
-  npcsCollection: { edges: object[] };
-}
-
-interface Culture {
-  node: { id: string };
-  id: string;
-  title: string;
-  description: string;
-}
-
-interface Quest {
-  node: { id: string };
-  id: string;
-  title: string;
-  objective: string;
-  reward: string;
-}
-
-interface History {
-  node: { id: string };
-  id: string;
-  title: string;
-  description: string;
-}
-
-
-
-
-
+import { Culture, History, Location, ProjectsEdge, Quests } from "./gql/graphql";
 
 export interface ProjectCardProps {
-  project: Project;
-  setProjects: React.Dispatch<React.SetStateAction<{ node: { id: string } }[]>>;
+  project: ProjectsEdge['node'];
+  setProjects: React.Dispatch<React.SetStateAction<{ projectsCollection: { edges: ProjectsEdge[] } }>>;
+}
+
+export interface CultureCardProps {
+  cultures: Culture;
+  setCultures: React.Dispatch<React.SetStateAction<Culture[] | undefined>>;
+}
+
+export interface HistoryCardProps {
+  histories: History;
+  setHistories: React.Dispatch<React.SetStateAction<History[] | undefined>>;
+}
+
+export interface EditTitleProps {
+  projectTitle: string;
+  isEditing: boolean;
+  handleEditProjectName: () => void;
+  handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTitleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleTitleSave: () => void;
 }
 
 export interface LocationsCardProps {
@@ -50,16 +30,26 @@ export interface LocationsCardProps {
 }
 
 export interface QuestCardProps {
-  questData: Quest;
-  setquestData: React.Dispatch<React.SetStateAction<Quest[]>>;
+  questData: Quests;
+  setquestData: React.Dispatch<React.SetStateAction<Quests[]>>;
 }
 
-export interface CultureCardProps {
-  cultures: Culture;
-  setCultures: React.Dispatch<React.SetStateAction<Culture[]>>;
+export interface EditDisplayNameProps {
+  displayName: string;
+  isEditing: boolean;
+  handleEditDisplayName: () => void;
+  handleDisplayNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDisplayNameSave: () => void;
 }
 
-export interface HistoryCardProps {
-  histories: History;
-  setHistories: React.Dispatch<React.SetStateAction<History[]>>;
+export interface LocationSelectorProps {
+  locationNode: Location;
+  setSelectedLocation: (node: Location) => void;
+}
+
+export interface NpcDialogTableProps {
+  locationNode: Location;
+  questData: Quests[];
+  cultures: Culture[];
+  histories: History[];
 }

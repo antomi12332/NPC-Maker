@@ -1,27 +1,23 @@
 'use client';
 import { Button } from "@/components/ui/button";
-import { CREATE_CULTURE_MUTATION, GET_CULTURES } from "@/app/_apollo/gql/culturegql";
-import { CREATE_HISTORY_MUTATION, GET_HISTORIES } from "@/app/_apollo/gql/historygql";
-import { Culture } from "@/gql/graphql";
-import { CURRENT_PROJECT, SAVE_BACKGROUND_MUTATION, SAVE_NAME_MUTATION } from "@/app/_apollo/gql/projectsgql";
+import { CREATE_CULTURE_MUTATION } from "@/app/_apollo/gql/culturegql";
+import { CREATE_HISTORY_MUTATION } from "@/app/_apollo/gql/historygql";
+import { Culture, History } from "@/gql/graphql";
+import { SAVE_BACKGROUND_MUTATION, SAVE_NAME_MUTATION } from "@/app/_apollo/gql/projectsgql";
 import { getLocalStorageItem } from "@/utils/cache";
 import { Input } from "@/components/ui/input";
 import { SetStateAction, useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useToast } from "@/hooks/use-toast";
 import Banner from "@/components/banner";
 import CultureCard from "@/components/pages/projectdetail/culturecard";
 import EditTitle from "@/components/pages/dashboard/editTitle";
 import Header from "@/components/header";
 import HistoryCard from "@/components/pages/projectdetail/historycard";
+import { useProjectData } from "@/hooks/useProject";
 
-const useProjectData = (projectUUID: string) => {
-  const { data: projectData, loading: projectLoading, error: projectError } = useQuery(CURRENT_PROJECT, { variables: { id: projectUUID } });
-  const { data: cultureData, loading: cultureLoading, error: cultureError } = useQuery(GET_CULTURES, { variables: { id: projectUUID } });
-  const { data: historyData, loading: historyLoading, error: historyError } = useQuery(GET_HISTORIES, { variables: { id: projectUUID } });
-  return { projectData, projectLoading, projectError, cultureData, cultureLoading, cultureError, historyData, historyLoading, historyError };
-};
+
 
 export default function Projects() {
   const { toast } = useToast();
@@ -31,31 +27,31 @@ export default function Projects() {
   const [saveBackground] = useMutation(SAVE_BACKGROUND_MUTATION);
   const [createCulture] = useMutation(CREATE_CULTURE_MUTATION);
   const [createHistory] = useMutation(CREATE_HISTORY_MUTATION);
-  const [cultureName, setCultureName] = useState('');
-  const [cultureDescription, setCultureDescription] = useState('');
-  const [historyName, setHistoryName] = useState('');
-  const [historyDescription, setHistoryDescription] = useState('');
-  const [projectBackground, setProjectBackground] = useState('');
-  const [cultures, setCultures] = useState<{ node: Culture }[]>([]);
-  const [histories, setHistories] = useState<{ node: History }[]>([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [projectTitle, setProjectTitle] = useState('');
+  const [cultureName, setCultureName] = useState<string>('');
+  const [cultureDescription, setCultureDescription] = useState<string>('');
+  const [historyName, setHistoryName] = useState<string>('');
+  const [historyDescription, setHistoryDescription] = useState<string>('');
+  const [projectBackground, setProjectBackground] = useState<string>('');
+  const [cultures, setCultures] = useState<Culture[] | undefined>(undefined);
+  const [histories, setHistories] = useState<History[] | undefined>(undefined);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [projectTitle, setProjectTitle] = useState<string>('');
 
   // preload project data
   useEffect(() => {
-    if (projectData && projectData.projectsCollection.edges.length > 0) {
-      setProjectBackground(projectData.projectsCollection.edges[0].node.background);
+    if (projectData?.projectsCollection?.edges && projectData.projectsCollection.edges.length > 0) {
+      setProjectBackground(projectData.projectsCollection.edges[0].node.background || '');
       setProjectTitle(projectData.projectsCollection.edges[0].node.project_name);
     }
   }, [projectData]);
   useEffect(() => {
-    if (cultureData && cultureData.projectsCollection.edges.length > 0) {
-      setCultures(cultureData.projectsCollection.edges[0].node.cultureCollection.edges);
+    if (cultureData?.projectsCollection?.edges && cultureData.projectsCollection.edges.length > 0) {
+      setCultures(cultureData?.projectsCollection?.edges?.[0]?.node?.cultureCollection?.edges?.map(edge => edge.node) || []);
     }
   }, [cultureData]);
   useEffect(() => {
-    if (historyData && historyData.projectsCollection.edges.length > 0) {
-      setHistories(historyData.projectsCollection.edges[0].node.historyCollection.edges);
+    if (historyData?.projectsCollection?.edges && historyData.projectsCollection.edges.length > 0) {
+      setHistories(historyData?.projectsCollection?.edges?.[0]?.node?.historyCollection?.edges?.map(edge => edge.node) || []);
     }
   }, [historyData]);
 
@@ -129,7 +125,7 @@ export default function Projects() {
         description: cultureName,
         duration: 2000,
       });
-      setCultures([...cultures, { node: newCulture }]);
+      setCultures([...(cultures || []), newCulture]);
       setCultureName('');
       setCultureDescription('');
     } catch (error) {
@@ -160,7 +156,7 @@ export default function Projects() {
         description: historyName,
         duration: 2000,
       });
-      setHistories([...histories, { node: newHistory }]);
+      setHistories([...(histories || []), newHistory]);
       setHistoryName('');
       setHistoryDescription('');
     } catch (error) {
@@ -224,8 +220,8 @@ export default function Projects() {
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">Cultures</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe a culture to add to your game world</div>
             <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
-              {cultures.map(({ node }) => (
-                <CultureCard key={node.id} cultures={node} setCultures={setCultures} />
+              {cultures && cultures.map((culture) => (
+                <CultureCard key={culture.id} cultures={culture} setCultures={setCultures} />
               ))}
             </div>
 
@@ -273,8 +269,8 @@ export default function Projects() {
             <div className="self-stretch text-black text-[40px] font-bold leading-[48px]">History</div>
             <div className="self-stretch text-black text-base font-normal leading-normal">Describe history to add to your game world</div>
             <div className="grid grid-flow-col w-96 grid-rows-3 gap-4 justify-start items-start overflow-x-auto">
-              {histories.map(({ node }) => (
-                <HistoryCard key={node.id} histories={node} setHistories={setHistories} />
+              {histories && histories.map((history) => (
+                <HistoryCard key={history.id} histories={history} setHistories={setHistories} />
               ))}
             </div>
 

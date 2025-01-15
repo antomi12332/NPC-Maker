@@ -7,12 +7,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { LocationsCardProps } from "@/typings";
 import DeleteLocationWarning from "./deleteLocationWarning";
 import { CREATE_NPC_MUTATION } from "@/app/_apollo/gql/npcgql";
+import { LocationsCardProps } from "@/typings";
 
 
-export default function LocationsCard({ locations, setLocations, }: LocationsCardProps) {
+
+
+
+
+export default function LocationsCard({ locations, setLocations }: LocationsCardProps) {
   const [deleteLocation] = useMutation(DELETE_LOCATION_MUTATION);
   const [updateLocation] = useMutation(UPDATE_LOCATION_MUTATION);
   const [npcToLocation] = useMutation(CREATE_NPC_MUTATION);
@@ -40,7 +44,7 @@ export default function LocationsCard({ locations, setLocations, }: LocationsCar
         title: "Location Deleted",
         duration: 2000,
       });
-      setLocations(prevLocation => prevLocation.filter(p => p.node.id !== id));
+      setLocations(prevLocation => prevLocation?.filter(p => p.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);
