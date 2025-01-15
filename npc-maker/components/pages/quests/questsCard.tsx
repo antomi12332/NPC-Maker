@@ -29,7 +29,7 @@ export default function QuestCard({ questData, setquestData }: QuestCardProps) {
         title: "Quest Deleted",
         duration: 2000,
       });
-      setquestData(prevQuest => prevQuest.filter(p => p.id !== id));
+      setquestData(prevQuest => (prevQuest || []).filter(p => p.id !== id));
     }
     catch (error) {
       console.error('Error deleting project:', error);

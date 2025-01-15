@@ -31,5 +31,5 @@ export interface LocationsCardProps {
 
 export interface QuestCardProps {
   questData: Quests;
-  setquestData: React.Dispatch<React.SetStateAction<Quests[] | undefined>>;
+  setquestData: React.Dispatch<React.SetStateAction<Quests[]>>;
 }
