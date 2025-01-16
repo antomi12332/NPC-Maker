@@ -23,5 +23,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: npc-maker/Dockerfile
           push: true
           tags: antomi12332/npc-maker:latest
