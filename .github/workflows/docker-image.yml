@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -23,6 +23,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: npc-maker/Dockerfile
+          build-args: |
+            ENVIRONMENT=${{ secrets.ENVIRONMENT }}
+            NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+            NEXT_PUBLIC_SUPABASE_GRAPHQL_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_GRAPHQL_URL }}
+          file: Dockerfile
           push: true
           tags: antomi12332/npc-maker:latest
