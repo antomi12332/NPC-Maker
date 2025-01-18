@@ -22,14 +22,5 @@ service:
               skipResourceVersioning: false
               enableDeclarativeRollback: false
       artifacts:
-        primary:
-          primaryArtifactRef: <+input>
-          sources:
-            - spec:
-                connectorRef: antcontainer
-                imagePath: antomi12332/npc-maker
-                tag: latest
-                digest: ""
-              identifier: antartifact
-              type: DockerRegistry
+        primary: {}
     type: Kubernetes
