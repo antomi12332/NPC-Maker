@@ -8,10 +8,6 @@ spec:
   selector:
     matchLabels:
       app: npc-maker
-  template:
-    metadata:
-      labels:
-        app: npc-maker
     spec:
       containers:
       - image: antomi12332/npc-maker
