@@ -6,15 +6,15 @@ service:
     spec:
       artifacts:
         primary:
-          primaryArtifactRef: <+input>
           sources:
             - spec:
-                connectorRef: account.harnessImage
+                connectorRef: Ant_Docker
                 imagePath: antomi12332/npc-maker
                 tag: <+input>
                 digest: ""
               identifier: npcMaker
               type: DockerRegistry
+          primaryArtifactRef: <+input>
   gitOpsEnabled: false
   orgIdentifier: default
   projectIdentifier: NPCMaker
