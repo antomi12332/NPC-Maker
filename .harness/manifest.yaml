@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: npc-maker
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: npc-maker
+  template:
+    metadata:
+      labels:
+        app: npc-maker
+    spec:
+      containers:
+      - image: antomi12332/npc-maker:latest
+        name: npc-maker
+        ports:
+        - containerPort: 3000
