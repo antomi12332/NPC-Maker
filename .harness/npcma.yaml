@@ -15,6 +15,21 @@ service:
               identifier: npcMaker
               type: DockerRegistry
           primaryArtifactRef: <+input>
+      manifests:
+        - manifest:
+            identifier: harnessmanifest
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: gh
+                  gitFetchType: Branch
+                  paths:
+                    - .harness/harness.yaml
+                  branch: main
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
   gitOpsEnabled: false
   orgIdentifier: default
   projectIdentifier: NPCMaker
