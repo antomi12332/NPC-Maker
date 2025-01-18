@@ -1,10 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: npc-maker
+  name: npc-maker-deployment
+  labels:
+    app: npc-maker
 spec:
   replicas: 3
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: npc-maker
@@ -14,7 +15,28 @@ spec:
         app: npc-maker
     spec:
       containers:
-      - image: antomi12332/npc-maker:latest
-        name: npc-maker
-        ports:
-        - containerPort: 3000
+        - name: npc-maker-container
+          image: antomi12332/npc-maker:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: dev
+              valueFrom:
+                secretKeyRef:
+                  name: npc-maker-secrets
+                  key: dev
+            - name: NEXT_PUBLIC_SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: npc-maker-secrets
+                  key: NEXT_PUBLIC_SUPABASE_URL
+            - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: npc-maker-secrets
+                  key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+            - name: NEXT_PUBLIC_SUPABASE_GRAPHQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: npc-maker-secrets
+                  key: NEXT_PUBLIC_SUPABASE_GRAPHQL_URL
