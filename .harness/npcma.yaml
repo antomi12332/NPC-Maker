@@ -15,18 +15,6 @@ service:
               identifier: npcMaker
               type: DockerRegistry
           primaryArtifactRef: <+input>
-      manifests:
-        - manifest:
-            identifier: antmanifest
-            type: K8sManifest
-            spec:
-              store:
-                type: Harness
-                spec:
-                  files:
-                    - account:/Sample K8s Manifests/templates/service.yaml
-              skipResourceVersioning: false
-              enableDeclarativeRollback: false
   gitOpsEnabled: false
   orgIdentifier: default
   projectIdentifier: NPCMaker
