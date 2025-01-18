@@ -17,4 +17,4 @@ spec:
       - image: antomi12332/npc-maker:latest
         name: npc-maker
         ports:
-        - containerPort: 80
+        - containerPort: 3000
