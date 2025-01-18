@@ -20,11 +20,11 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: dev
+            - name: ENVIRONMENT
               valueFrom:
                 secretKeyRef:
                   name: npc-maker-secrets
-                  key: dev
+                  key: ENVIRONMENT
             - name: NEXT_PUBLIC_SUPABASE_URL
               valueFrom:
                 secretKeyRef:
