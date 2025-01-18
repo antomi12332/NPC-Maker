@@ -17,14 +17,14 @@ service:
           primaryArtifactRef: <+input>
       manifests:
         - manifest:
-            identifier: antManifest
+            identifier: antmanifest
             type: K8sManifest
             spec:
               store:
                 type: Harness
                 spec:
                   files:
-                    - account:/Sample K8s Manifests/templates/deployment.yaml
+                    - account:/Sample K8s Manifests/templates/service.yaml
               skipResourceVersioning: false
               enableDeclarativeRollback: false
   gitOpsEnabled: false
