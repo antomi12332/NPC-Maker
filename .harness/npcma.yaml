@@ -1,0 +1,20 @@
+service:
+  name: npc-maker-service
+  identifier: npcmakerservice
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      artifacts:
+        primary:
+          primaryArtifactRef: <+input>
+          sources:
+            - spec:
+                connectorRef: account.harnessImage
+                imagePath: antomi12332/npc-maker
+                tag: <+input>
+                digest: ""
+              identifier: npcMakerContainer
+              type: DockerRegistry
+  gitOpsEnabled: false
+  orgIdentifier: default
+  projectIdentifier: NPCMaker
