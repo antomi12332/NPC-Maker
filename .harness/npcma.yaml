@@ -13,7 +13,7 @@ service:
                 imagePath: antomi12332/npc-maker
                 tag: <+input>
                 digest: ""
-              identifier: npcMakerContainer
+              identifier: npcMaker
               type: DockerRegistry
   gitOpsEnabled: false
   orgIdentifier: default
