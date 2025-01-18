@@ -14,7 +14,7 @@ spec:
         app: npc-maker
     spec:
       containers:
-      - image: https://hub.docker.com/repository/docker/antomi12332/npc-maker:latest
+      - image: antomi12332/npc-maker:latest
         name: npc-maker
         ports:
         - containerPort: 3000
