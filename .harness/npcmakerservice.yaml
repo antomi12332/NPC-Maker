@@ -17,7 +17,7 @@ service:
                   gitFetchType: Branch
                   paths:
                     - .harness/npc-maker-deployment.yaml
-                    - .harness\npc-maker-svc.yaml
+                    - .harness/npc-maker-svc.yaml
                   branch: main
               skipResourceVersioning: false
               enableDeclarativeRollback: false
