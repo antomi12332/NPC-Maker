@@ -1,6 +1,0 @@
-environment:
-  name: dev
-  identifier: dev
-  orgIdentifier: default
-  projectIdentifier: NPCMaker
-  type: PreProduction
