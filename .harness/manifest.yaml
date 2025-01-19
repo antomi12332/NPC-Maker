@@ -14,7 +14,7 @@ spec:
         app: npc-maker
     spec:
       containers:
-      - image: <+artifacts.primary.image>
+      - image: <+artifacts.image>
         name: npc-maker
         ports:
         - containerPort: 3000
