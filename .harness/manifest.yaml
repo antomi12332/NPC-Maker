@@ -18,3 +18,5 @@ spec:
         name: npc-maker
         ports:
         - containerPort: 3000
+      imagePullSecrets:
+          - name: docker-registry-secret1
