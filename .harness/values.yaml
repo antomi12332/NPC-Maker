@@ -1,6 +1,7 @@
 # name: <+stage.variables.name>  
 replicas: 2  
-  
+
+name: npc-maker
 image: <+artifacts.primary.image>  
 dockercfg: <+artifacts.primary.imagePullSecret>
   
