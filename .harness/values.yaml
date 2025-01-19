@@ -2,7 +2,7 @@
 replicas: 2  
   
 image: <+artifacts.primary.image>  
-dockercfg: <+artifacts.primary.imagePullSecret>  
+dockercfg: <+artifacts.primary.imagePullSecret>
   
 createNamespace: true  
 namespace: <+infra.namespace>  
@@ -21,8 +21,8 @@ serviceTargetPort: 3000
 # The following two maps, config and secrets, are put into a ConfigMap  
 # and a Secret, respectively.  
 # Both are added to the container environment in podSpec as envFrom source.  
-env:  
-  config:  
-    key1: value10  
-  secrets:  
-    key2: value2
+# env:  
+#   config:  
+#     key1: value10  
+#   secrets:  
+#     key2: value2
