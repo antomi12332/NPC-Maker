@@ -31,3 +31,13 @@ jobs:
           file: Dockerfile
           push: true
           tags: antomi12332/npc-maker:latest
+
+      - name: Log out of Docker Hub
+        run: docker logout
+
+      - name: Clean up
+        run: |
+          docker system prune -f
+          docker volume prune -f
+          docker image prune -f
+          docker container prune -f
